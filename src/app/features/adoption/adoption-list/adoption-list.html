@@ -1,0 +1,887 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #FDF6EE;
+    --warm-white: #FEFCF8;
+    --sand: #E8D5B7;
+    --sand-dark: #D4BC96;
+    --terracotta: #C4704F;
+    --terracotta-dark: #A85A3A;
+    --terracotta-soft: rgba(196,112,79,0.1);
+    --sage: #7A9E7E;
+    --sage-soft: rgba(122,158,126,0.12);
+    --charcoal: #2C2416;
+    --brown-mid: #6B4F35;
+    --brown-light: #9C7A5A;
+    --paw-gold: #D4A853;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .adoption-page {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    background: linear-gradient(160deg, #2C2416 0%, #4A3525 60%, #6B4F35 100%);
+    padding: 2.8rem 2rem 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 90% 0%, rgba(212,168,83,0.1) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 100%, rgba(196,112,79,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .page-header::after {
+    content: '🐾';
+    position: absolute;
+    right: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(-12deg);
+    font-size: 120px;
+    opacity: 0.04;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 0.7rem;
+    font-size: 0.75rem;
+    color: rgba(253,246,238,0.4);
+  }
+  .breadcrumb a { color: rgba(253,246,238,0.4); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--paw-gold); }
+  .breadcrumb .sep { opacity: 0.5; }
+  .breadcrumb .current { color: rgba(253,246,238,0.7); }
+
+  .page-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 300;
+    color: #FDF6EE;
+    line-height: 1.15;
+  }
+  .page-title em { font-style: italic; color: var(--paw-gold); font-weight: 400; }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+    padding-bottom: 0.2rem;
+  }
+
+  /* ── Saved link in header ── */
+  .btn-saved {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    color: rgba(253,246,238,0.85);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .btn-saved:hover {
+    background: rgba(255,255,255,0.18);
+    color: white;
+  }
+  .saved-count {
+    background: var(--terracotta);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 100px;
+    min-width: 18px;
+    text-align: center;
+  }
+
+  .hstat-num {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--paw-gold);
+    line-height: 1;
+  }
+  .hstat-label {
+    display: block;
+    font-size: 0.68rem;
+    color: rgba(253,246,238,0.4);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .header-stats { display: flex; gap: 2rem; }
+  .hstat { display: flex; flex-direction: column; align-items: flex-end; }
+
+  /* ── STICKY FILTER BAR ── */
+  .filter-section {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--sand);
+    position: sticky;
+    top: 64px;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(44,36,22,0.07);
+  }
+
+  .filter-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.9rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 180px;
+    max-width: 280px;
+    position: relative;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--brown-light);
+    pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 9px 12px 9px 38px;
+    border: 1.5px solid var(--sand);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    background: var(--cream);
+    color: var(--charcoal);
+    transition: all 0.2s;
+    outline: none;
+  }
+  .search-wrap input:focus {
+    border-color: var(--terracotta);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(196,112,79,0.1);
+  }
+  .search-wrap input::placeholder { color: var(--brown-light); opacity: 0.6; }
+
+  .fdivider { width: 1px; height: 24px; background: var(--sand-dark); flex-shrink: 0; }
+
+  .filter-select {
+    padding: 9px 30px 9px 11px;
+    border: 1.5px solid var(--sand);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    background: var(--cream);
+    color: var(--charcoal);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%236B4F35' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: all 0.2s;
+    outline: none;
+  }
+  .filter-select:focus {
+    border-color: var(--terracotta);
+    box-shadow: 0 0 0 3px rgba(196,112,79,0.1);
+  }
+  .filter-select.has-value {
+    border-color: var(--terracotta);
+    background-color: var(--terracotta-soft);
+    color: var(--terracotta-dark);
+    font-weight: 600;
+  }
+
+  .filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .btn-reset {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 14px;
+    border: 1.5px solid var(--sand);
+    background: none;
+    color: var(--brown-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-reset:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta-dark);
+    background: var(--terracotta-soft);
+  }
+
+  /* ── "Post a pet" button in filter bar ── */
+  .btn-post {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-post:hover {
+    background: var(--terracotta-dark);
+    box-shadow: 0 4px 14px rgba(196,112,79,0.28);
+  }
+
+  /* ── CONTENT ── */
+  .content-area {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.8rem 2rem 4rem;
+  }
+
+  .active-filters {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: var(--terracotta-soft);
+    border: 1px solid rgba(196,112,79,0.25);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--terracotta-dark);
+    font-weight: 600;
+  }
+  .filter-chip button {
+    border: none; background: none;
+    color: var(--terracotta); cursor: pointer;
+    font-size: 0.95rem; line-height: 1; padding: 0;
+  }
+
+  .results-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+  }
+  .results-count {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--charcoal);
+  }
+  .results-count strong { color: var(--terracotta); }
+  .results-sub { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--brown-light); }
+
+  .sort-wrap { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+  .sort-label { font-size: 0.78rem; color: var(--brown-light); font-weight: 500; }
+  .sort-select {
+    padding: 6px 26px 6px 9px;
+    border: 1.5px solid var(--sand);
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    background: var(--cream);
+    color: var(--charcoal);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 12 12'%3E%3Cpath fill='%236B4F35' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    outline: none;
+  }
+  .sort-select:focus { border-color: var(--terracotta); }
+
+  /* ── PET GRID ── */
+  .pet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.4rem;
+  }
+
+  /* ── PET CARD — fully clickable ── */
+  .pet-card {
+    background: var(--warm-white);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 12px rgba(44,36,22,0.07);
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    animation: cardIn 0.4s ease both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .pet-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(44,36,22,0.14);
+    border-color: var(--sand);
+  }
+
+  .card-img {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: var(--sand);
+    flex-shrink: 0;
+  }
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+  }
+  .pet-card:hover .card-img img { transform: scale(1.05); }
+
+  .img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(44,36,22,0.5) 0%, transparent 52%);
+  }
+
+  .img-badges {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    display: flex;
+    gap: 5px;
+  }
+  .badge {
+    padding: 3px 9px;
+    border-radius: 100px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    backdrop-filter: blur(8px);
+  }
+  .badge-dog    { background: rgba(212,168,83,0.92);  color: #2C2416; }
+  .badge-cat    { background: rgba(122,158,126,0.92); color: white; }
+  .badge-other  { background: rgba(255,255,255,0.88); color: #2C2416; }
+  .badge-male   { background: rgba(90,140,220,0.85);  color: white; }
+  .badge-female { background: rgba(210,100,140,0.85); color: white; }
+
+  /* ── Favorite button on card ── */
+  .btn-fav {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    color: var(--brown-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 2;
+  }
+  .btn-fav:hover { background: var(--terracotta); color: white; transform: scale(1.1); }
+  .btn-fav.saved { background: var(--terracotta); color: white; }
+  .btn-fav.saved svg { fill: white; stroke: white; }
+
+  .health-pill {
+    position: absolute;
+    bottom: 10px;
+    left: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    border-radius: 100px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    backdrop-filter: blur(6px);
+  }
+  .pill-healthy { background: rgba(122,158,126,0.9); color: white; }
+  .pill-checkup { background: rgba(212,168,83,0.9);  color: #2C2416; }
+
+  .age-tag {
+    position: absolute;
+    bottom: 10px;
+    right: 11px;
+    background: rgba(255,255,255,0.9);
+    color: var(--charcoal);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 100px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* Card body */
+  .card-body {
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .pet-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 1px;
+  }
+  .pet-breed { font-size: 0.78rem; color: var(--brown-light); margin-bottom: 0.65rem; }
+
+  .pet-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 0.7rem;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    color: var(--brown-mid);
+    font-weight: 500;
+  }
+
+  .pet-desc {
+    font-size: 0.81rem;
+    color: var(--brown-light);
+    line-height: 1.6;
+    margin-bottom: 0.85rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .tags-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 0.9rem; }
+  .tag {
+    padding: 3px 8px;
+    border-radius: 100px;
+    font-size: 0.69rem;
+    font-weight: 500;
+    border: 1px solid;
+  }
+  .tag-vacc   { background: var(--sage-soft); border-color: rgba(122,158,126,0.3); color: #4a7a4e; }
+  .tag-novacc { background: var(--terracotta-soft); border-color: rgba(196,112,79,0.25); color: var(--terracotta-dark); }
+
+  .card-sep { height: 1px; background: var(--sand); margin-bottom: 0.9rem; }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  /* ── "Meet pet" → goes to details ── */
+  .btn-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-details:hover {
+    background: var(--terracotta-dark);
+    box-shadow: 0 5px 14px rgba(196,112,79,0.28);
+  }
+  .btn-details svg { transition: transform 0.18s; }
+  .btn-details:hover svg { transform: translateX(3px); }
+
+  /* ── "Apply" quick link ── */
+  .btn-apply-quick {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 13px;
+    background: none;
+    color: var(--brown-mid);
+    border: 1.5px solid var(--sand);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-apply-quick:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta-dark);
+    background: var(--terracotta-soft);
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  .empty-icon { font-size: 3rem; opacity: 0.3; display: block; margin-bottom: 1rem; }
+  .empty-state h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--brown-mid);
+    margin-bottom: 0.4rem;
+  }
+  .empty-state p { color: var(--brown-light); font-size: 0.9rem; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .page-header { padding: 2rem 1.25rem 2.8rem; }
+    .header-inner { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+    .header-stats { flex-direction: row; gap: 1.5rem; }
+    .hstat { align-items: flex-start; }
+    .filter-section { top: 56px; }
+    .filter-inner { padding: 0.75rem 1.25rem; gap: 0.6rem; }
+    .search-wrap { max-width: 100%; flex: 1 1 100%; }
+    .fdivider { display: none; }
+    .filter-select { flex: 1; }
+    .filter-actions { width: 100%; justify-content: flex-end; }
+    .content-area { padding: 1.4rem 1.25rem 3rem; }
+    .results-bar { flex-wrap: wrap; }
+    .pet-grid { grid-template-columns: 1fr; }
+    .header-right { flex-direction: row; flex-wrap: wrap; }
+  }
+</style>
+
+<div class="adoption-page">
+
+  <!-- ══ PAGE HEADER ══ -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <nav class="breadcrumb">
+          <a routerLink="/">Home</a>
+          <span class="sep">›</span>
+          <span class="current">Adoption</span>
+        </nav>
+        <h1 class="page-title">
+          Pets looking for a <em>loving home</em>
+        </h1>
+      </div>
+
+      <div class="header-right">
+        <!-- Link to favorites -->
+        <a class="btn-saved" routerLink="/favorites">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          Saved
+          <span class="saved-count" *ngIf="favorites.length > 0">{{ favorites.length }}</span>
+        </a>
+
+        <div class="header-stats">
+          <div class="hstat">
+            <span class="hstat-num">{{ pets.length }}</span>
+            <span class="hstat-label">Available</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STICKY FILTER BAR ══ -->
+  <div class="filter-section">
+    <div class="filter-inner">
+
+      <div class="search-wrap">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          type="text"
+          placeholder="Search by name…"
+          [(ngModel)]="searchTerm"
+          (input)="filterPets()"
+        />
+      </div>
+
+      <div class="fdivider"></div>
+
+      <select class="filter-select"
+              [class.has-value]="selectedType !== ''"
+              [(ngModel)]="selectedType"
+              (change)="filterPets()">
+        <option value="">All types</option>
+        <option value="Dog">🐶 Dog</option>
+        <option value="Cat">🐱 Cat</option>
+      </select>
+
+      <select class="filter-select"
+              [class.has-value]="selectedGender !== ''"
+              [(ngModel)]="selectedGender"
+              (change)="filterPets()">
+        <option value="">Any gender</option>
+        <option value="Male">♂ Male</option>
+        <option value="Female">♀ Female</option>
+      </select>
+
+      <select class="filter-select"
+              [class.has-value]="selectedCity !== ''"
+              [(ngModel)]="selectedCity"
+              (change)="filterPets()">
+        <option value="">All cities</option>
+        <option value="Skopje">Skopje</option>
+        <option value="Bitola">Bitola</option>
+        <option value="Ohrid">Ohrid</option>
+        <option value="Tetovo">Tetovo</option>
+        <option value="Kumanovo">Kumanovo</option>
+      </select>
+
+      <div class="filter-actions">
+        <button class="btn-reset"
+                *ngIf="searchTerm || selectedType || selectedGender || selectedCity"
+                (click)="resetFilters()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 .49-3.51"/>
+          </svg>
+          Reset
+        </button>
+
+        <!-- ── POST A PET → /adoption/add ── -->
+        <a class="btn-post" routerLink="/adoption/add">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Post a pet
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ CONTENT ══ -->
+  <div class="content-area">
+
+    <!-- Active filter chips -->
+    <div class="active-filters"
+         *ngIf="searchTerm || selectedType || selectedGender || selectedCity">
+      <span class="filter-chip" *ngIf="searchTerm">
+        "{{ searchTerm }}"
+        <button (click)="searchTerm=''; filterPets()">×</button>
+      </span>
+      <span class="filter-chip" *ngIf="selectedType">
+        {{ selectedType }}
+        <button (click)="selectedType=''; filterPets()">×</button>
+      </span>
+      <span class="filter-chip" *ngIf="selectedGender">
+        {{ selectedGender }}
+        <button (click)="selectedGender=''; filterPets()">×</button>
+      </span>
+      <span class="filter-chip" *ngIf="selectedCity">
+        {{ selectedCity }}
+        <button (click)="selectedCity=''; filterPets()">×</button>
+      </span>
+    </div>
+
+    <!-- Results + Sort -->
+    <div class="results-bar">
+      <p class="results-count">
+        <strong>{{ filteredPets.length }}</strong> pets found
+        <span class="results-sub" *ngIf="filteredPets.length !== pets.length">
+          · {{ pets.length }} total
+        </span>
+      </p>
+      <div class="sort-wrap">
+        <span class="sort-label">Sort</span>
+        <select class="sort-select" [(ngModel)]="sortBy" (change)="filterPets()">
+          <option value="name">Name A–Z</option>
+          <option value="age_asc">Youngest first</option>
+          <option value="age_desc">Oldest first</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ══ PET GRID ══ -->
+    <div class="pet-grid">
+
+      <div class="empty-state" *ngIf="filteredPets.length === 0">
+        <span class="empty-icon">🐾</span>
+        <h3>No pets match your search</h3>
+        <p>Try adjusting filters or resetting your search.</p>
+      </div>
+
+      <!-- ── PET CARD ── -->
+      <div class="pet-card"
+           *ngFor="let pet of filteredPets; let i = index"
+           [style.animation-delay]="(i * 0.06) + 's'">
+
+        <!-- Image zone -->
+        <div class="card-img">
+          <img
+            [src]="pet.image"
+            [alt]="pet.name"
+            loading="lazy"
+            onerror="this.src='https://placehold.co/400x200/E8D5B7/6B4F35?text=🐾'"
+          />
+          <div class="img-overlay"></div>
+
+          <div class="img-badges">
+            <span class="badge"
+              [ngClass]="{
+                'badge-dog':   pet.type === 'Dog',
+                'badge-cat':   pet.type === 'Cat',
+                'badge-other': pet.type !== 'Dog' && pet.type !== 'Cat'
+              }">
+              {{ pet.type === 'Dog' ? '🐶' : pet.type === 'Cat' ? '🐱' : '🐾' }} {{ pet.type }}
+            </span>
+            <span class="badge"
+              [ngClass]="{
+                'badge-male':   pet.gender === 'Male',
+                'badge-female': pet.gender === 'Female'
+              }">
+              {{ pet.gender === 'Male' ? '♂' : '♀' }}
+            </span>
+          </div>
+
+          <!-- Fav button → saves to favorites -->
+          <button class="btn-fav"
+                  [class.saved]="isFavorite(pet)"
+                  (click)="toggleFavorite($event, pet)"
+                  [title]="isFavorite(pet) ? 'Unsave' : 'Save'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+
+          <span class="health-pill"
+            [ngClass]="{
+              'pill-healthy': pet.healthStatus === 'Healthy',
+              'pill-checkup': pet.healthStatus !== 'Healthy'
+            }">
+            {{ pet.healthStatus === 'Healthy' ? '✓' : '⚠' }} {{ pet.healthStatus }}
+          </span>
+
+          <span class="age-tag">{{ pet.age }}{{ pet.age === 1 ? ' yr' : ' yrs' }}</span>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+          <div class="pet-name">{{ pet.name }}</div>
+          <div class="pet-breed">{{ pet.breed }}</div>
+
+          <div class="pet-meta">
+            <span class="meta-item">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{ pet.city }}
+            </span>
+          </div>
+
+          <p class="pet-desc">{{ pet.description }}</p>
+
+          <div class="tags-row">
+            <span class="tag tag-vacc"   *ngIf="pet.vaccinated">💉 Vaccinated</span>
+            <span class="tag tag-novacc" *ngIf="!pet.vaccinated">⚠ Not vaccinated</span>
+          </div>
+
+          <div class="card-sep"></div>
+
+          <div class="card-footer">
+            <!-- → adoption-details -->
+            <a class="btn-details"
+               [routerLink]="['/adoption', pet.id]">
+              Meet {{ pet.name }}
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+
+            <!-- → adoption-apply (quick shortcut) -->
+            <a class="btn-apply-quick"
+               [routerLink]="['/adoption', pet.id, 'apply']"
+               (click)="$event.stopPropagation()"
+               title="Apply to adopt">
+              Apply
+            </a>
+          </div>
+        </div>
+
+      </div>
+      <!-- END *ngFor -->
+
+    </div>
+    <!-- END pet-grid -->
+
+  </div>
+</div>

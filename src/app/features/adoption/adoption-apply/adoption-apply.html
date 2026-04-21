@@ -1,0 +1,827 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #FDF6EE;
+    --warm-white: #FEFCF8;
+    --sand: #E8D5B7;
+    --sand-dark: #D4BC96;
+    --terracotta: #C4704F;
+    --terracotta-dark: #A85A3A;
+    --terracotta-soft: rgba(196,112,79,0.1);
+    --sage: #7A9E7E;
+    --sage-soft: rgba(122,158,126,0.12);
+    --charcoal: #2C2416;
+    --brown-mid: #6B4F35;
+    --brown-light: #9C7A5A;
+    --paw-gold: #D4A853;
+    --error: #c0392b;
+    --error-soft: rgba(192,57,43,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .apply-page {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* ── BACK BAR ── */
+  .back-bar {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--sand);
+    padding: 0.75rem 2rem;
+  }
+  .back-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--brown-light);
+  }
+  .breadcrumb a { color: var(--brown-light); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--terracotta); }
+  .breadcrumb .sep { opacity: 0.4; }
+  .breadcrumb .current { color: var(--charcoal); font-weight: 600; }
+
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1.5px solid var(--sand);
+    border-radius: 9px;
+    background: none;
+    color: var(--brown-mid);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-back:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+    background: var(--terracotta-soft);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .apply-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* ══════════════════════
+     LEFT — FORM
+  ══════════════════════ */
+
+  /* Form header */
+  .form-header {
+    margin-bottom: 2rem;
+  }
+  .form-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 0.5rem;
+  }
+  .form-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 300;
+    color: var(--charcoal);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  .form-title em { font-style: italic; color: var(--terracotta); font-weight: 400; }
+  .form-sub {
+    font-size: 0.88rem;
+    color: var(--brown-light);
+    line-height: 1.6;
+  }
+
+  /* Progress steps */
+  .steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2rem;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--brown-light);
+  }
+  .step.active { color: var(--terracotta); }
+  .step.done   { color: var(--sage); }
+  .step-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--sand-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: var(--cream);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .step.active .step-dot {
+    border-color: var(--terracotta);
+    background: var(--terracotta);
+    color: white;
+  }
+  .step.done .step-dot {
+    border-color: var(--sage);
+    background: var(--sage);
+    color: white;
+  }
+  .step-line {
+    flex: 1;
+    height: 2px;
+    background: var(--sand);
+    margin: 0 6px;
+    min-width: 24px;
+  }
+
+  /* Form card */
+  .form-card {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .form-section {
+    padding: 1.5rem 1.8rem;
+    border-bottom: 1px solid var(--sand);
+  }
+  .form-section:last-child { border-bottom: none; }
+
+  .section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-light);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--terracotta-soft);
+    color: var(--terracotta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  /* Row with 2 columns */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* Field */
+  .field { display: flex; flex-direction: column; margin-bottom: 1rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  .field-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--brown-mid);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .required-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .field-input,
+  .field-textarea {
+    padding: 11px 14px;
+    border: 1.5px solid var(--sand);
+    border-radius: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: var(--cream);
+    color: var(--charcoal);
+    transition: all 0.2s;
+    outline: none;
+    width: 100%;
+  }
+  .field-input::placeholder,
+  .field-textarea::placeholder {
+    color: var(--brown-light);
+    opacity: 0.55;
+  }
+  .field-input:focus,
+  .field-textarea:focus {
+    border-color: var(--terracotta);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(196,112,79,0.1);
+  }
+
+  /* Valid state */
+  .field-input.ng-valid.ng-touched:not(:placeholder-shown),
+  .field-textarea.ng-valid.ng-touched:not(:placeholder-shown) {
+    border-color: var(--sage);
+    background: var(--sage-soft);
+  }
+
+  /* Error state */
+  .field-input.ng-invalid.ng-touched,
+  .field-textarea.ng-invalid.ng-touched {
+    border-color: var(--error);
+    background: var(--error-soft);
+    box-shadow: 0 0 0 3px rgba(192,57,43,0.08);
+  }
+
+  .field-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+  .field-error {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.75rem;
+    color: var(--error);
+    font-weight: 500;
+    margin-top: 5px;
+    animation: errIn 0.2s ease;
+  }
+  @keyframes errIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Form footer */
+  .form-footer {
+    padding: 1.4rem 1.8rem;
+    background: rgba(232,213,183,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .privacy-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--brown-light);
+    font-weight: 400;
+  }
+
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.22s;
+    white-space: nowrap;
+  }
+  .btn-submit:hover {
+    background: var(--terracotta-dark);
+    box-shadow: 0 8px 24px rgba(196,112,79,0.32);
+    transform: translateY(-1px);
+  }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn-submit svg { transition: transform 0.2s; }
+  .btn-submit:hover:not(:disabled) svg { transform: translateX(3px); }
+
+  /* ── SUCCESS STATE ── */
+  .success-wrap {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-radius: 20px;
+    padding: 3.5rem 2rem;
+    text-align: center;
+    animation: cardIn 0.4s ease;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--sage-soft);
+    border: 2px solid rgba(122,158,126,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin: 0 auto 1.4rem;
+  }
+  .success-wrap h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+  }
+  .success-wrap p {
+    color: var(--brown-light);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    max-width: 360px;
+    margin: 0 auto 1.8rem;
+  }
+  .btn-done {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 24px;
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-done:hover { background: var(--terracotta-dark); }
+
+  /* ══════════════════════
+     RIGHT — SIDEBAR
+  ══════════════════════ */
+  .sidebar {
+    position: sticky;
+    top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Pet mini card */
+  .pet-card {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .pet-card-img {
+    height: 160px;
+    overflow: hidden;
+    background: var(--sand);
+    position: relative;
+  }
+  .pet-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .pet-card-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(44,36,22,0.4) 0%, transparent 55%);
+  }
+  .pet-card-body { padding: 1rem 1.1rem 1.1rem; }
+  .pet-card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 2px;
+  }
+  .pet-card-breed { font-size: 0.78rem; color: var(--brown-light); margin-bottom: 0.7rem; }
+  .pet-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .pet-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+  }
+  .meta-label { color: var(--brown-light); }
+  .meta-val   { color: var(--charcoal); font-weight: 600; }
+  .meta-val.vacc   { color: #4a7a4e; }
+  .meta-val.novacc { color: var(--terracotta-dark); }
+
+  /* Info box */
+  .info-box {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+  }
+  .info-box-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-light);
+    margin-bottom: 0.9rem;
+  }
+  .info-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 0.85rem;
+    font-size: 0.82rem;
+  }
+  .info-item:last-child { margin-bottom: 0; }
+  .info-item-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--terracotta-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .info-item-text { color: var(--brown-mid); line-height: 1.5; }
+  .info-item-text strong { color: var(--charcoal); display: block; font-weight: 600; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 760px) {
+    .apply-inner {
+      grid-template-columns: 1fr;
+      padding: 1.8rem 1.25rem 4rem;
+      gap: 1.5rem;
+    }
+    /* Show sidebar above form on mobile */
+    .sidebar { position: static; order: -1; }
+    .back-bar { padding: 0.7rem 1.25rem; }
+    .field-row { grid-template-columns: 1fr; }
+    .form-section { padding: 1.2rem 1.3rem; }
+    .form-footer { flex-direction: column; align-items: stretch; }
+    .btn-submit { justify-content: center; }
+    .steps { display: none; }
+  }
+</style>
+
+<div class="apply-page">
+
+  <!-- ── BACK BAR ── -->
+  <div class="back-bar">
+    <div class="back-inner">
+      <nav class="breadcrumb">
+        <a routerLink="/">Home</a>
+        <span class="sep">›</span>
+        <a routerLink="/adoption">Adoption</a>
+        <span class="sep">›</span>
+        <a [routerLink]="['/adoption', petId]">Pet #{{ petId }}</a>
+        <span class="sep">›</span>
+        <span class="current">Apply</span>
+      </nav>
+      <a class="btn-back" [routerLink]="['/adoption', petId]">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to pet
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MAIN ── -->
+  <div class="apply-inner">
+
+    <!-- ════ LEFT: FORM COLUMN ════ -->
+    <div class="form-col">
+
+      <!-- Header -->
+      <div class="form-header">
+        <div class="form-eyebrow">🐾 Adoption application</div>
+        <h1 class="form-title">Apply to <em>adopt</em></h1>
+        <p class="form-sub">Fill in your details and we'll connect you with the owner. Takes less than 2 minutes.</p>
+      </div>
+
+      <!-- Steps indicator -->
+      <div class="steps">
+        <div class="step done">
+          <div class="step-dot">✓</div>
+          <span>Browse</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step done">
+          <div class="step-dot">✓</div>
+          <span>Choose pet</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step active">
+          <div class="step-dot">3</div>
+          <span>Apply</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <div class="step-dot">4</div>
+          <span>Connect</span>
+        </div>
+      </div>
+
+      <!-- ── SUCCESS STATE ── -->
+      <div class="success-wrap" *ngIf="submitted">
+        <div class="success-icon">✅</div>
+        <h3>Application sent!</h3>
+        <p>Your adoption request has been received. The owner will reach out to you soon via email or phone.</p>
+        <a class="btn-done" routerLink="/adoption">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Back to listings
+        </a>
+      </div>
+
+      <!-- ── FORM ── -->
+      <form class="form-card"
+            [formGroup]="applicationForm"
+            (ngSubmit)="onSubmit()"
+            *ngIf="!submitted"
+            novalidate>
+
+        <!-- Section 1: Personal info -->
+        <div class="form-section">
+          <div class="section-title">
+            <span class="section-title-icon">👤</span>
+            Personal information
+          </div>
+
+          <div class="field-row">
+            <!-- Full name -->
+            <div class="field">
+              <label class="field-label" for="fullName">
+                Full name <span class="required-dot"></span>
+              </label>
+              <input
+                id="fullName"
+                type="text"
+                class="field-input"
+                formControlName="fullName"
+                placeholder="e.g. Ana Petrovska"
+              />
+              <div class="field-error"
+                   *ngIf="applicationForm.get('fullName')?.invalid && applicationForm.get('fullName')?.touched">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                Full name is required
+              </div>
+            </div>
+
+            <!-- City -->
+            <div class="field">
+              <label class="field-label" for="city">
+                City <span class="required-dot"></span>
+              </label>
+              <input
+                id="city"
+                type="text"
+                class="field-input"
+                formControlName="city"
+                placeholder="e.g. Skopje"
+              />
+              <div class="field-error"
+                   *ngIf="applicationForm.get('city')?.invalid && applicationForm.get('city')?.touched">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                City is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Contact -->
+        <div class="form-section">
+          <div class="section-title">
+            <span class="section-title-icon">📬</span>
+            Contact details
+          </div>
+
+          <div class="field-row">
+            <!-- Email -->
+            <div class="field">
+              <label class="field-label" for="email">
+                Email <span class="required-dot"></span>
+              </label>
+              <input
+                id="email"
+                type="email"
+                class="field-input"
+                formControlName="email"
+                placeholder="your@email.com"
+              />
+              <div class="field-error"
+                   *ngIf="applicationForm.get('email')?.hasError('required') && applicationForm.get('email')?.touched">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                Email is required
+              </div>
+              <div class="field-error"
+                   *ngIf="applicationForm.get('email')?.hasError('email') && applicationForm.get('email')?.touched">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                Please enter a valid email
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="field">
+              <label class="field-label" for="phone">
+                Phone <span class="required-dot"></span>
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                class="field-input"
+                formControlName="phone"
+                placeholder="e.g. +389 70 123 456"
+              />
+              <div class="field-error"
+                   *ngIf="applicationForm.get('phone')?.invalid && applicationForm.get('phone')?.touched">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                Phone number is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Message -->
+        <div class="form-section">
+          <div class="section-title">
+            <span class="section-title-icon">💬</span>
+            Your message
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="message">
+              Tell us about yourself <span class="required-dot"></span>
+            </label>
+            <textarea
+              id="message"
+              class="field-textarea"
+              formControlName="message"
+              placeholder="Why do you want to adopt this pet? Tell us about your home, lifestyle, and experience with animals…"
+            ></textarea>
+            <div class="field-error"
+                 *ngIf="applicationForm.get('message')?.invalid && applicationForm.get('message')?.touched">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              Please write a short message
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="form-footer">
+          <div class="privacy-note">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Your info is kept private
+          </div>
+          <button type="submit" class="btn-submit">
+            Submit application
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+
+      </form>
+    </div>
+    <!-- END form-col -->
+
+    <!-- ════ RIGHT: SIDEBAR ════ -->
+    <div class="sidebar">
+
+      <!-- Pet mini card (shown if pet is loaded) -->
+      <div class="pet-card" *ngIf="pet">
+        <div class="pet-card-img">
+          <img
+            [src]="pet.image"
+            [alt]="pet.name"
+            onerror="this.src='https://placehold.co/300x160/E8D5B7/6B4F35?text=🐾'"
+          />
+          <div class="pet-card-img-overlay"></div>
+        </div>
+        <div class="pet-card-body">
+          <div class="pet-card-name">{{ pet.name }}</div>
+          <div class="pet-card-breed">{{ pet.breed }}</div>
+          <div class="pet-card-meta">
+            <div class="pet-meta-row">
+              <span class="meta-label">Type</span>
+              <span class="meta-val">{{ pet.type }}</span>
+            </div>
+            <div class="pet-meta-row">
+              <span class="meta-label">Age</span>
+              <span class="meta-val">{{ pet.age }} {{ pet.age === 1 ? 'year' : 'years' }}</span>
+            </div>
+            <div class="pet-meta-row">
+              <span class="meta-label">City</span>
+              <span class="meta-val">{{ pet.city }}</span>
+            </div>
+            <div class="pet-meta-row">
+              <span class="meta-label">Vaccinated</span>
+              <span class="meta-val" [ngClass]="pet.vaccinated ? 'vacc' : 'novacc'">
+                {{ pet.vaccinated ? '✓ Yes' : '✗ No' }}
+              </span>
+            </div>
+            <div class="pet-meta-row">
+              <span class="meta-label">Health</span>
+              <span class="meta-val">{{ pet.healthStatus }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What happens next -->
+      <div class="info-box">
+        <div class="info-box-title">What happens next?</div>
+        <div class="info-item">
+          <div class="info-item-icon">📬</div>
+          <div class="info-item-text">
+            <strong>Application received</strong>
+            We forward your details to the owner.
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-icon">📞</div>
+          <div class="info-item-text">
+            <strong>Owner contacts you</strong>
+            Usually within 1–2 days by phone or email.
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-icon">🐾</div>
+          <div class="info-item-text">
+            <strong>Meet the pet</strong>
+            Arrange a meeting and welcome your new friend home.
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- END sidebar -->
+
+  </div>
+  <!-- END apply-inner -->
+
+</div>
