@@ -1,0 +1,179 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="form-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <nav class="breadcrumb">
+          <a routerLink="/">Дома</a>
+          <span class="sep">›</span>
+          <a routerLink="/lost-found">Изгубено и Најдено</a>
+          <span class="sep">›</span>
+          <span class="current">Нов оглас</span>
+        </nav>
+        <h1 class="page-title">
+          <ng-container *ngIf="listing.status === 'Изгубено'">Пријави <em>изгубено</em> милениче</ng-container>
+          <ng-container *ngIf="listing.status === 'Најдено'">Пријави <em>најдено</em> милениче</ng-container>
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="content-area">
+    <div class="form-card">
+
+      <!-- Status izbor -->
+      <div class="status-toggle">
+        <button class="status-btn"
+                [class.active-lost]="listing.status === 'Изгубено'"
+                (click)="listing.status = 'Изгубено'">
+          💔 Изгубено
+        </button>
+        <button class="status-btn"
+                [class.active-found]="listing.status === 'Најдено'"
+                (click)="listing.status = 'Најдено'">
+          🔍 Најдено
+        </button>
+      </div>
+
+      <!-- Vid i Ime -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Вид на милениче *</label>
+          <select class="form-select" [(ngModel)]="listing.petType">
+            <option value="">-- Изберете --</option>
+            <option value="Куче">🐶 Куче</option>
+            <option value="Мачка">🐱 Мачка</option>
+            <option value="Птица">🐦 Птица</option>
+            <option value="Друго">🐾 Друго</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Име на милениченото</label>
+          <input class="form-input"
+                 type="text"
+                 placeholder="пр. Макс, Мица... (ако е познато)"
+                 [(ngModel)]="listing.name"/>
+        </div>
+      </div>
+
+      <!-- Rasa i Boja -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Раса</label>
+          <input class="form-input"
+                 type="text"
+                 placeholder="пр. Лабрадор, Персиска..."
+                 [(ngModel)]="listing.breed"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Боја / Опис на изглед *</label>
+          <input class="form-input"
+                 type="text"
+                 placeholder="пр. Кафеав со бела дамка..."
+                 [(ngModel)]="listing.color"/>
+        </div>
+      </div>
+
+      <!-- Opis -->
+      <div class="form-group">
+        <label class="form-label">Опис *</label>
+        <textarea class="form-textarea"
+                  placeholder="Детален опис: карактеристики, однесување, особени знаци..."
+                  [(ngModel)]="listing.description"
+                  rows="4"></textarea>
+      </div>
+
+      <!-- Slika URL -->
+      <div class="form-group">
+        <label class="form-label">URL на слика</label>
+        <input class="form-input"
+               type="text"
+               placeholder="https://..."
+               [(ngModel)]="listing.image"/>
+        <div class="img-preview" *ngIf="listing.image">
+          <img [src]="listing.image" alt="Preview"
+               onerror="this.src='https://placehold.co/400x200/E8D5B7/6B4F35?text=🐾'"/>
+        </div>
+      </div>
+
+      <!-- Lokacija i Grad -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Локација *</label>
+          <input class="form-input"
+                 type="text"
+                 placeholder="пр. Скопје — Центар, кај пазарот..."
+                 [(ngModel)]="listing.location"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Град *</label>
+          <select class="form-select" [(ngModel)]="listing.city">
+            <option value="">-- Изберете --</option>
+            <option value="Скопје">Скопје</option>
+            <option value="Битола">Битола</option>
+            <option value="Охрид">Охрид</option>
+            <option value="Тетово">Тетово</option>
+            <option value="Куманово">Куманово</option>
+            <option value="Струмица">Струмица</option>
+            <option value="Друго">Друго</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Datum -->
+      <div class="form-group">
+        <label class="form-label">Датум *</label>
+        <input class="form-input"
+               type="date"
+               [(ngModel)]="listing.date"/>
+      </div>
+
+      <!-- Kontakt sekcija -->
+      <div class="section-divider">
+        <span>Контакт информации</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ваше Име *</label>
+          <input class="form-input"
+                 type="text"
+                 placeholder="Вашето име и презиме"
+                 [(ngModel)]="listing.contactName"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Телефон *</label>
+          <input class="form-input"
+                 type="text"
+                 placeholder="07x xxx xxx"
+                 [(ngModel)]="listing.contactPhone"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">E-пошта (опционално)</label>
+        <input class="form-input"
+               type="email"
+               placeholder="vasa@email.com"
+               [(ngModel)]="listing.contactEmail"/>
+      </div>
+
+      <!-- Akcii -->
+      <div class="form-actions">
+        <button class="btn-cancel" (click)="cancel()">Откажи</button>
+        <button class="btn-reset-form" (click)="resetForm()">↺ Ресетирај</button>
+        <button class="btn-submit"
+                [class.btn-lost]="listing.status === 'Изгубено'"
+                [class.btn-found]="listing.status === 'Најдено'"
+                (click)="submitListing()">
+          {{ listing.status === 'Изгубено' ? '💔 Пријави Изгубено' : '🔍 Пријави Најдено' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

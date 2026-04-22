@@ -1,0 +1,232 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="lf-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <nav class="breadcrumb">
+          <a routerLink="/">Дома</a>
+          <span class="sep">›</span>
+          <span class="current">Изгубено и Најдено</span>
+        </nav>
+        <h1 class="page-title">
+          Изгубено & <em>Најдено</em>
+        </h1>
+      </div>
+
+      <div class="header-right">
+        <!-- Statistika -->
+        <div class="header-stats">
+          <div class="hstat">
+            <span class="hstat-num lost">{{ lostCount }}</span>
+            <span class="hstat-label">Изгубени</span>
+          </div>
+          <div class="hstat">
+            <span class="hstat-num found">{{ foundCount }}</span>
+            <span class="hstat-label">Најдени</span>
+          </div>
+          <div class="hstat">
+            <span class="hstat-num reunited">{{ reunitedCount }}</span>
+            <span class="hstat-label">Воссоединети</span>
+          </div>
+        </div>
+        <!-- Dodadi oglas -->
+        <a class="btn-add" routerLink="/lost-found/add">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Додај оглас
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-section">
+    <div class="filter-inner">
+
+      <!-- Prebaruvanje -->
+      <div class="search-wrap">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text"
+               placeholder="Локација, боја, опис..."
+               [(ngModel)]="searchTerm"
+               (input)="filterListings()"/>
+      </div>
+
+      <div class="fdivider"></div>
+
+      <!-- Status -->
+      <select class="filter-select"
+              [class.has-value]="selectedStatus !== ''"
+              [(ngModel)]="selectedStatus"
+              (change)="filterListings()">
+        <option value="">Сите статуси</option>
+        <option value="Изгубено">💔 Изгубено</option>
+        <option value="Најдено">🔍 Најдено</option>
+        <option value="Воссоединето">🎉 Воссоединето</option>
+      </select>
+
+      <!-- Vid -->
+      <select class="filter-select"
+              [class.has-value]="selectedPetType !== ''"
+              [(ngModel)]="selectedPetType"
+              (change)="filterListings()">
+        <option value="">Сите видови</option>
+        <option value="Куче">🐶 Куче</option>
+        <option value="Мачка">🐱 Мачка</option>
+        <option value="Птица">🐦 Птица</option>
+        <option value="Друго">🐾 Друго</option>
+      </select>
+
+      <!-- Grad -->
+      <select class="filter-select"
+              [class.has-value]="selectedCity !== ''"
+              [(ngModel)]="selectedCity"
+              (change)="filterListings()">
+        <option value="">Сите градови</option>
+        <option value="Скопје">Скопје</option>
+        <option value="Битола">Битола</option>
+        <option value="Охрид">Охрид</option>
+        <option value="Тетово">Тетово</option>
+        <option value="Куманово">Куманово</option>
+      </select>
+
+      <div class="filter-actions">
+        <button class="btn-reset"
+                *ngIf="searchTerm || selectedStatus || selectedPetType || selectedCity"
+                (click)="resetFilters()">
+          ↺ Ресетирај
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- Results bar -->
+    <div class="results-bar">
+      <p class="results-count">
+        <strong>{{ filteredListings.length }}</strong> огласи
+        <span class="results-sub" *ngIf="filteredListings.length !== allListings.length">
+          · {{ allListings.length }} вкупно
+        </span>
+      </p>
+    </div>
+
+    <!-- GRID -->
+    <div class="listings-grid">
+
+      <div class="empty-state" *ngIf="filteredListings.length === 0">
+        <span class="empty-icon">🐾</span>
+        <h3>Нема пронајдени огласи</h3>
+        <p>Обидете се со различни филтри.</p>
+      </div>
+
+      <!-- CARD -->
+      <div class="listing-card"
+           *ngFor="let listing of filteredListings; let i = index"
+           [class.status-lost]="listing.status === 'Изгубено'"
+           [class.status-found]="listing.status === 'Најдено'"
+           [class.status-reunited]="listing.status === 'Воссоединето'"
+           [style.animation-delay]="(i * 0.06) + 's'">
+
+        <!-- Slika -->
+        <div class="card-img">
+          <img [src]="listing.image" [alt]="listing.name || listing.petType"
+               onerror="this.src='https://placehold.co/400x300/E8D5B7/6B4F35?text=🐾'"/>
+          <div class="img-overlay"></div>
+
+          <!-- Status badge -->
+          <span class="status-badge"
+                [class.badge-lost]="listing.status === 'Изгубено'"
+                [class.badge-found]="listing.status === 'Најдено'"
+                [class.badge-reunited]="listing.status === 'Воссоединето'">
+            {{ getStatusIcon(listing.status) }} {{ listing.status }}
+          </span>
+
+          <!-- Urgent badge -->
+          <span class="urgent-badge" *ngIf="listing.urgent">
+            ⚡ Ургентно
+          </span>
+
+          <!-- New badge -->
+          <span class="new-badge" *ngIf="isNew(listing.date)">
+            ✨ Ново
+          </span>
+
+          <!-- Pet type badge -->
+          <span class="pet-type-badge">
+            {{ getPetIcon(listing.petType) }} {{ listing.petType }}
+          </span>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+          <div class="pet-name">
+            {{ listing.name || 'Непознато ' + listing.petType }}
+          </div>
+
+          <div class="pet-details">
+            <span class="detail-tag" *ngIf="listing.breed">{{ listing.breed }}</span>
+            <span class="detail-tag">{{ listing.color }}</span>
+          </div>
+
+          <p class="pet-desc">{{ listing.description }}</p>
+
+          <div class="pet-meta">
+            <span class="meta-item">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{ listing.city }} — {{ listing.location }}
+            </span>
+            <span class="meta-item">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              {{ listing.date | date:'dd.MM.yyyy' }}
+            </span>
+          </div>
+
+          <div class="card-sep"></div>
+
+          <!-- Kontakt -->
+          <div class="contact-row">
+            <div class="contact-info">
+              <span class="contact-name">👤 {{ listing.contactName }}</span>
+              <span class="contact-phone">📞 {{ listing.contactPhone }}</span>
+            </div>
+
+            <!-- Sподели копче -->
+            <button class="btn-share"
+                    (click)="shareListing($event, listing)"
+                    title="Сподели оглас">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+              {{ listing.shareCount }}
+            </button>
+          </div>
+
+        </div>
+      </div>
+      <!-- END *ngFor -->
+
+    </div>
+  </div>
+</div>

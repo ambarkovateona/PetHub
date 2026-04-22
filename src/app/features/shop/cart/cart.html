@@ -1,0 +1,135 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="cart-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <nav class="breadcrumb">
+          <a routerLink="/">Дома</a>
+          <span class="sep">›</span>
+          <a routerLink="/shop">Продавница</a>
+          <span class="sep">›</span>
+          <span class="current">Кошничка</span>
+        </nav>
+        <h1 class="page-title">
+          Вашата <em>кошничка</em>
+        </h1>
+      </div>
+      <div class="pawpoints-badge">
+        <span class="pawpoints-icon">🐾</span>
+        <div>
+          <span class="pawpoints-num">{{ pawPoints.total }}</span>
+          <span class="pawpoints-label">PawPoints</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- Potvrda za naracka -->
+    <div class="order-success" *ngIf="orderPlaced">
+      <div class="success-icon">🎉</div>
+      <h2 class="success-title">Нарачката е поставена!</h2>
+      <p class="success-sub">Заработивте <strong>+{{ earnedPoints }} PawPoints</strong> од оваа нарачка!</p>
+      <a class="btn-continue" routerLink="/shop">← Продолжи со купување</a>
+    </div>
+
+    <!-- Prazna koshnicka -->
+    <div class="empty-cart" *ngIf="cartItems.length === 0 && !orderPlaced">
+      <span class="empty-icon">🛒</span>
+      <h3>Кошничката е празна</h3>
+      <p>Додајте производи за да продолжите</p>
+      <a class="btn-continue" routerLink="/shop">← Кон продавница</a>
+    </div>
+
+    <!-- Koshnicka so proizvodi -->
+    <div class="cart-layout" *ngIf="cartItems.length > 0 && !orderPlaced">
+
+      <!-- Lista na proizvodi -->
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let item of cartItems">
+
+          <div class="item-img">
+            <img [src]="item.product.image" [alt]="item.product.name"
+                 onerror="this.src='https://placehold.co/100x100/E8D5B7/6B4F35?text=🐾'"/>
+          </div>
+
+          <div class="item-info">
+            <div class="item-brand">{{ item.product.brand }}</div>
+            <div class="item-name">{{ item.product.name }}</div>
+            <div class="item-weight" *ngIf="item.product.weight">{{ item.product.weight }}</div>
+            <div class="item-points">🐾 +{{ item.product.pawPoints * item.quantity }} PawPoints</div>
+          </div>
+
+          <!-- Kolicina -->
+          <div class="item-quantity">
+            <button class="qty-btn" (click)="updateQuantity(item.product.id, item.quantity - 1)">−</button>
+            <span class="qty-num">{{ item.quantity }}</span>
+            <button class="qty-btn" (click)="updateQuantity(item.product.id, item.quantity + 1)">+</button>
+          </div>
+
+          <div class="item-price">{{ formatPrice(item.product.price * item.quantity) }}</div>
+
+          <button class="btn-remove" (click)="removeItem(item.product.id)" title="Отстрани">
+            🗑️
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="cart-summary">
+        <h3 class="summary-title">Резиме</h3>
+
+        <div class="summary-row">
+          <span>Вкупно производи</span>
+          <span>{{ formatPrice(getSubtotal()) }}</span>
+        </div>
+
+        <!-- PawPoints opcija -->
+        <div class="points-section">
+          <label class="points-toggle" [class.active]="usePoints">
+            <input type="checkbox" [(ngModel)]="usePoints"/>
+            <div class="points-toggle-inner">
+              <span class="points-toggle-icon">🐾</span>
+              <div>
+                <div class="points-toggle-title">Искористи PawPoints</div>
+                <div class="points-toggle-sub">{{ pawPoints.total }} достапни поени</div>
+              </div>
+            </div>
+          </label>
+
+          <div class="points-discount-row" *ngIf="usePoints && getPointsDiscount() > 0">
+            <span>Попуст ({{ getPointsToUse() }} поени)</span>
+            <span class="discount-val">− {{ formatPrice(getPointsDiscount()) }}</span>
+          </div>
+        </div>
+
+        <div class="summary-sep"></div>
+
+        <div class="summary-total-row">
+          <span>Вкупно</span>
+          <span class="total-price">{{ formatPrice(getTotal()) }}</span>
+        </div>
+
+        <div class="earn-row">
+          🐾 Ќе заработите <strong>+{{ getTotalEarnPoints() }} PawPoints</strong>
+        </div>
+
+        <button class="btn-order" (click)="placeOrder()">
+          Нарачај сега →
+        </button>
+
+        <a class="btn-back-shop" routerLink="/shop">
+          ← Продолжи со купување
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</div>

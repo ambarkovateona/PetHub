@@ -1,0 +1,130 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="details-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <nav class="breadcrumb">
+          <a routerLink="/">Дома</a>
+          <span class="sep">›</span>
+          <a routerLink="/shop">Продавница</a>
+          <span class="sep">›</span>
+          <span class="current">{{ product?.name }}</span>
+        </nav>
+      </div>
+      <a class="btn-cart" routerLink="/shop/cart">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        Кошничка
+        <span class="cart-count" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-area" *ngIf="product">
+    <div class="details-grid">
+
+      <!-- Leva strana - slika -->
+      <div class="product-img-wrap">
+        <img [src]="product.image" [alt]="product.name"
+             onerror="this.src='https://placehold.co/600x400/E8D5B7/6B4F35?text=🐾'"/>
+        <span class="vet-badge" *ngIf="product.vetApproved">✓ Vet Approved</span>
+        <span class="out-badge" *ngIf="!product.inStock">Нема залиха</span>
+      </div>
+
+      <!-- Desna strana - detalji -->
+      <div class="product-info">
+
+        <div class="product-brand">{{ product.brand }}</div>
+        <h1 class="product-name">{{ product.name }}</h1>
+
+        <div class="product-meta-row">
+          <span class="category-tag">{{ product.category }}</span>
+          <span class="weight-tag" *ngIf="product.weight">{{ product.weight }}</span>
+        </div>
+
+        <!-- Rating -->
+        <div class="rating-row">
+          <span class="stars">{{ getStars(product.rating) }}</span>
+          <span class="rating-num">{{ product.rating }}</span>
+          <span class="review-count">({{ product.reviewCount }} рецензии)</span>
+        </div>
+
+        <!-- Opis -->
+        <p class="product-desc">{{ product.description }}</p>
+
+        <!-- Info tags -->
+        <div class="info-tags">
+          <div class="info-tag">
+            <span class="tag-label">За</span>
+            <span class="tag-value">{{ product.petType.join(', ') }}</span>
+          </div>
+          <div class="info-tag">
+            <span class="tag-label">Возраст</span>
+            <span class="tag-value">{{ product.ageGroup.join(', ') }}</span>
+          </div>
+          <div class="info-tag">
+            <span class="tag-label">Раса</span>
+            <span class="tag-value">{{ product.breedSize.join(', ') }}</span>
+          </div>
+        </div>
+
+        <!-- Vet approved info -->
+        <div class="vet-info" *ngIf="product.vetApproved">
+          <span class="vet-icon">🏥</span>
+          <div>
+            <div class="vet-title">Препорачано од ветеринар</div>
+            <div class="vet-sub">Овој производ е одобрен и препорачан од ветеринари</div>
+          </div>
+        </div>
+
+        <!-- PawPoints -->
+        <div class="pawpoints-info">
+          <span>🐾</span>
+          <span>Заработете <strong>+{{ product.pawPoints }} PawPoints</strong> со овој производ</span>
+        </div>
+
+        <div class="price-row">
+          <span class="product-price">{{ formatPrice(product.price) }}</span>
+        </div>
+
+        <!-- Akcii -->
+        <div class="action-row">
+          <button class="btn-add-cart"
+                  [class.added]="added"
+                  [disabled]="!product.inStock"
+                  (click)="addToCart()">
+            <span *ngIf="!added">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+              {{ product.inStock ? 'Додај во кошничка' : 'Нема залиха' }}
+            </span>
+            <span *ngIf="added">✓ Додадено!</span>
+          </button>
+
+          <button class="btn-back" (click)="goBack()">
+            ← Назад
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Ako ne e najden proizvodot -->
+  <div class="not-found" *ngIf="!product">
+    <span>🔍</span>
+    <h3>Производот не е пронајден</h3>
+    <a routerLink="/shop">← Назад во продавница</a>
+  </div>
+
+</div>
