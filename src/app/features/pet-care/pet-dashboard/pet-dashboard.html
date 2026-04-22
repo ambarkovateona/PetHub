@@ -1,0 +1,92 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="dashboard-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <nav class="breadcrumb">
+          <a routerLink="/">Дома</a>
+          <span class="sep">›</span>
+          <span class="current">Грижа за милениче</span>
+        </nav>
+        <h1 class="page-title">
+          Моите <em>милениња</em>
+        </h1>
+      </div>
+      <div class="header-right">
+        <div class="hstat">
+          <span class="hstat-num">{{ pets.length }}</span>
+          <span class="hstat-label">Милениња</span>
+        </div>
+        <a class="btn-add" routerLink="/pet-care/profile/add">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Додај милениче
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- Prazna sostojba koga nema mileniinja -->
+    <div class="empty-state" *ngIf="pets.length === 0">
+      <span class="empty-icon">🐾</span>
+      <h3>Сеуште немате додадено милениче</h3>
+      <p>Додајте го вашето прво милениче за да започнете.</p>
+      <a class="btn-add" routerLink="/pet-care/profile/add">
+        + Додај милениче
+      </a>
+    </div>
+
+    <!-- Grid so mileniinja -->
+    <div class="pet-grid" *ngIf="pets.length > 0">
+      <div class="pet-card" *ngFor="let pet of pets">
+
+        <!-- Slika -->
+        <div class="card-img">
+          <img [src]="pet.image" [alt]="pet.name"
+               onerror="this.src='https://placehold.co/400x200/E8D5B7/6B4F35?text=🐾'"/>
+          <div class="img-overlay"></div>
+          <span class="type-badge">{{ pet.type }}</span>
+          <span class="gender-badge">{{ pet.gender }}</span>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+          <div class="pet-name">{{ pet.name }}</div>
+          <div class="pet-breed">{{ pet.breed }}</div>
+
+          <div class="pet-meta">
+            <span class="meta-item">🎂 {{ getAge(pet.birthDate) }}</span>
+            <span class="meta-item">⚖️ {{ pet.weight }} kg</span>
+          </div>
+
+          <div class="card-sep"></div>
+
+          <!-- Akcii -->
+          <div class="card-footer">
+            <a class="btn-details" [routerLink]="['/pet-care/activities', pet.id]">
+              Активности
+            </a>
+            <a class="btn-outline" [routerLink]="['/pet-care/reminders', pet.id]">
+              Потсетници
+            </a>
+            <a class="btn-icon" [routerLink]="['/pet-care/profile', pet.id]" title="Уреди">
+              ✏️
+            </a>
+            <button class="btn-icon btn-delete" (click)="deletePet(pet.id)" title="Избриши">
+              🗑️
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

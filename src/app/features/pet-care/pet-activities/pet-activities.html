@@ -1,0 +1,121 @@
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="activities-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <nav class="breadcrumb">
+          <a routerLink="/">Дома</a>
+          <span class="sep">›</span>
+          <a routerLink="/pet-care">Грижа за милениче</a>
+          <span class="sep">›</span>
+          <span class="current">Активности</span>
+        </nav>
+        <h1 class="page-title">
+          Активности на <em>{{ pet?.name }}</em>
+        </h1>
+      </div>
+      <div class="header-right">
+        <div class="hstat">
+          <span class="hstat-num">{{ activities.length }}</span>
+          <span class="hstat-label">Активности</span>
+        </div>
+        <button class="btn-add" (click)="showForm = !showForm">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Додај активност
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMA ZA NOVA AKTIVNOST -->
+  <div class="form-section" *ngIf="showForm">
+    <div class="form-card">
+      <h3 class="form-title">Нова активност</h3>
+
+      <div class="form-row">
+        <!-- Tip -->
+        <div class="form-group">
+          <label class="form-label">Тип</label>
+          <select class="form-select" [(ngModel)]="newActivity.type">
+            <option value="Прошетка">🦮 Прошетка</option>
+            <option value="Игра">🎾 Игра</option>
+            <option value="Храненје">🍖 Храненје</option>
+          </select>
+        </div>
+
+        <!-- Datum i vreme -->
+        <div class="form-group">
+          <label class="form-label">Датум и време</label>
+          <input class="form-input"
+                 type="datetime-local"
+                 [(ngModel)]="newActivity.date"/>
+        </div>
+
+        <!-- Traenje -->
+        <div class="form-group">
+          <label class="form-label">Траење (мин)</label>
+          <input class="form-input"
+                 type="number"
+                 [(ngModel)]="newActivity.duration"
+                 min="0"/>
+        </div>
+      </div>
+
+      <!-- Beleshki -->
+      <div class="form-group">
+        <label class="form-label">Белешки</label>
+        <input class="form-input"
+               type="text"
+               placeholder="пр. Прошетка во паркот..."
+               [(ngModel)]="newActivity.notes"/>
+      </div>
+
+      <!-- Akcii -->
+      <div class="form-actions">
+        <button class="btn-cancel" (click)="showForm = false">Откажи</button>
+        <button class="btn-save" (click)="addActivity()">+ Додај</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTA NA AKTIVNOSTI -->
+  <div class="content-area">
+
+    <!-- Prazna sostojba -->
+    <div class="empty-state" *ngIf="activities.length === 0">
+      <span class="empty-icon">🐾</span>
+      <h3>Сеуште нема евидентирани активности</h3>
+      <p>Додајте ја првата активност за {{ pet?.name }}.</p>
+    </div>
+
+    <!-- Aktivnosti lista -->
+    <div class="activities-list" *ngIf="activities.length > 0">
+      <div class="activity-card" *ngFor="let activity of activities">
+
+        <div class="activity-icon">{{ getActivityIcon(activity.type) }}</div>
+
+        <div class="activity-body">
+          <div class="activity-type">{{ activity.type }}</div>
+          <div class="activity-meta">
+            <span>📅 {{ activity.date | date:'dd.MM.yyyy HH:mm' }}</span>
+            <span *ngIf="activity.duration > 0">⏱ {{ activity.duration }} мин</span>
+          </div>
+          <div class="activity-notes" *ngIf="activity.notes">
+            {{ activity.notes }}
+          </div>
+        </div>
+
+        <button class="btn-delete" (click)="deleteActivity(activity.id)" title="Избриши">
+          🗑️
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
