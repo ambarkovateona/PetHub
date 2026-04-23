@@ -21,6 +21,7 @@
 
   <!-- CONTENT -->
   <main class="lff-content" role="main">
+    
     <form class="lff-form surface-raised" #f="ngForm" (ngSubmit)="submitListing()">
       <!-- Status toggle -->
       <div class="lff-status" role="group" aria-label="Изберете статус на огласот">
@@ -195,5 +196,8 @@
       </div>
 
     </form>
+    <div *ngIf="submitted" class="success-box">
+        ✔ Успешно пријавен оглас!
+    </div>
   </main>
 </div>

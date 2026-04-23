@@ -15,7 +15,7 @@ import { LostFound } from '../../../core/models/lost-found.model';
   styleUrl: './lost-found-form.css'
 })
 export class LostFoundFormComponent {
-
+  submitted=false
   // Podatoci od formata
   listing: LostFound = {
     id: 0,
@@ -45,7 +45,13 @@ export class LostFoundFormComponent {
   submitListing(): void {
     this.listing.id = Date.now();
     this.lostFoundService.addListing({ ...this.listing });
-    this.router.navigate(['/lost-found']);
+
+    this.submitted=true;
+    setTimeout(()=>{
+          this.router.navigate(['/lost-found']);
+
+    },1500);
+    
   }
 
   // Resetira formata
@@ -71,6 +77,9 @@ export class LostFoundFormComponent {
   }
   setStatus(val : string):void{
     this.listing.status = val === 'izgubeno' ? 'Изгубено' : 'Најдено';
+  }
+  ngOnInit() {
+  this.submitted = false;
   }
 
   cancel(): void {
