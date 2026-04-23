@@ -16,7 +16,7 @@ export class AdoptionService {
       gender: 'Female',
       city: 'Skopje',
       description: 'Friendly and calm cat, good with children.',
-      image: 'https://placekitten.com/300/200',
+      image: 'adoption-pets/mila-persian.jpg',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -29,7 +29,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Bitola',
       description: 'Energetic dog that loves long walks.',
-      image: 'https://placedog.net/400/300',
+      image: 'adoption-pets/rex-labrador.jpg',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -42,7 +42,7 @@ export class AdoptionService {
       gender: 'Female',
       city: 'Skopje',
       description: 'Playful young cat looking for a loving home.',
-      image: 'https://placekitten.com/301/200',
+      image: 'adoption-pets/luna-mixed.webp',
       healthStatus: 'Needs checkup',
       vaccinated: false
     },
@@ -55,7 +55,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Skopje',
       description: 'Loyal and intelligent dog, great for active families. Loves to play fetch and go on long hikes.',
-      image: 'https://placedog.net/401/300',
+      image: 'adoption-pets/bruno-sheperd.jpg',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -68,7 +68,7 @@ export class AdoptionService {
       gender: 'Female',
       city: 'Ohrid',
       description: 'Sweet and gentle Golden Retriever who loves cuddles and playing with kids.',
-      image: 'https://placedog.net/402/300',
+      image: 'adoption-pets/bella-retriever.webp',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -81,7 +81,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Bitola',
       description: 'Calm and independent cat. Prefers a quiet home. Gets along well with other cats.',
-      image: 'https://placekitten.com/302/200',
+      image: 'adoption-pets/oliver-shorthair.webp',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -94,7 +94,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Tetovo',
       description: 'Curious and cheerful puppy, full of energy. Needs a yard and lots of attention.',
-      image: 'https://placedog.net/403/300',
+      image: 'adoption-pets/max-beagle.webp',
       healthStatus: 'Healthy',
       vaccinated: false
     },
@@ -107,7 +107,7 @@ export class AdoptionService {
       gender: 'Female',
       city: 'Skopje',
       description: 'Elegant and talkative Siamese cat. Very affectionate with her owner, loves being the center of attention.',
-      image: 'https://placekitten.com/303/200',
+      image: 'adoption-pets/cleo-siamese.jpg',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -120,7 +120,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Kumanovo',
       description: 'Big but gentle Rottweiler. Well trained, calm around children. Needs experienced owners.',
-      image: 'https://placedog.net/404/300',
+      image: 'adoption-pets/rocky-rotweiler.webp',
       healthStatus: 'Needs checkup',
       vaccinated: true
     },
@@ -133,7 +133,7 @@ export class AdoptionService {
       gender: 'Female',
       city: 'Ohrid',
       description: 'Fluffy Maine Coon with a playful personality. Gets along great with dogs and kids.',
-      image: 'https://placekitten.com/304/200',
+      image: 'adoption-pets/maine-coon.webp',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -146,7 +146,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Skopje',
       description: 'Stunning Siberian Husky with blue eyes. Very active — needs daily running and mental stimulation.',
-      image: 'https://placedog.net/405/300',
+      image: 'adoption-pets/zeus-husky.jpg',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -159,7 +159,7 @@ export class AdoptionService {
       gender: 'Female',
       city: 'Strumica',
       description: 'Sweet mixed-breed dog rescued from the street. Loves people and is great with other dogs.',
-      image: 'https://placedog.net/406/300',
+      image: 'adoption-pets/mixed-breed-dog.jpg',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -172,7 +172,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Tetovo',
       description: 'Energetic orange kitten who loves to climb and explore. Very social and purrs constantly.',
-      image: 'https://placekitten.com/305/200',
+      image: 'adoption-pets/orange-tabby-cat.jpg',
       healthStatus: 'Needs checkup',
       vaccinated: false
     },
@@ -185,7 +185,7 @@ export class AdoptionService {
       gender: 'Female',
       city: 'Bitola',
       description: 'Intelligent and hypoallergenic Poodle. Perfect for families with allergies. Loves to learn tricks.',
-      image: 'https://placedog.net/407/300',
+      image: 'adoption-pets/poodle.jpg',
       healthStatus: 'Healthy',
       vaccinated: true
     },
@@ -198,7 +198,7 @@ export class AdoptionService {
       gender: 'Male',
       city: 'Skopje',
       description: 'Mysterious black cat with a golden heart. Shy at first, but incredibly loyal once he trusts you.',
-      image: 'https://placekitten.com/306/200',
+      image: 'adoption-pets/black-cat.webp',
       healthStatus: 'Healthy',
       vaccinated: true
     }
