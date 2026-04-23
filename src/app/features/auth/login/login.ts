@@ -1,13 +1,11 @@
-// Login / Register komponenta so tab layout
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 
-type Tab = 'login' | 'register';
-type Strength = 'weak' | 'fair' | 'strong' | '';
+type Tab       = 'login' | 'register';
+type Strength  = 'weak' | 'fair' | 'strong' | '';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +18,7 @@ export class LoginComponent {
 
   activeTab: Tab = 'login';
 
+  // ── Login ──
   loginForm = {
     email:    '',
     password: '',
@@ -29,6 +28,7 @@ export class LoginComponent {
   loginLoading:  boolean = false;
   showLoginPass: boolean = false;
 
+  // ── Register ──
   registerForm = {
     fullName:        '',
     email:           '',
@@ -58,6 +58,7 @@ export class LoginComponent {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
+  // ── Tabs ──
   setTab(tab: Tab): void {
     this.activeTab       = tab;
     this.loginError      = '';
@@ -65,6 +66,7 @@ export class LoginComponent {
     this.registerSuccess = '';
   }
 
+  // ── Login ──
   onLogin(): void {
     this.loginError = '';
 
@@ -86,10 +88,11 @@ export class LoginComponent {
         this.loginForm.password,
         this.loginForm.remember
       );
+
       this.loginLoading = false;
 
       if (result.success) {
-        this.router.navigate([this.returnUrl]);
+        this.router.navigateByUrl(this.returnUrl);
       } else {
         this.loginError = result.message;
         if (result.notFound) {
@@ -102,6 +105,7 @@ export class LoginComponent {
     }, 800);
   }
 
+  // ── Register ──
   onRegister(): void {
     this.registerError   = '';
     this.registerSuccess = '';
@@ -130,17 +134,19 @@ export class LoginComponent {
         city:     this.registerForm.city,
         avatar:   this.registerForm.avatar
       });
+
       this.registerLoading = false;
 
       if (result.success) {
         this.registerSuccess = result.message;
-        setTimeout(() => this.router.navigate(['/']), 1200);
+        setTimeout(() => this.router.navigateByUrl(this.returnUrl), 1200);
       } else {
         this.registerError = result.message;
       }
     }, 800);
   }
 
+  // ── Password strength ──
   checkPasswordStrength(password: string): void {
     if (!password) { this.passwordStrength = ''; return; }
     const hasUpper  = /[A-Z]/.test(password);
@@ -153,6 +159,7 @@ export class LoginComponent {
     else                 this.passwordStrength = 'strong';
   }
 
+  // ── Validation ──
   isValidEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }

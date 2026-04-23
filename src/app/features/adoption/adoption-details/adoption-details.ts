@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AdoptionService } from '../../../core/services/adoption';
 import { AdoptionPet } from '../../../core/models/adoption-pet.model';
 
@@ -11,28 +11,35 @@ import { AdoptionPet } from '../../../core/models/adoption-pet.model';
   templateUrl: './adoption-details.html',
   styleUrl: './adoption-details.css'
 })
-export class AdoptionDetailsComponent {
-  pet?: AdoptionPet;
-  isSaved: boolean = false;
+export class AdoptionDetailsComponent implements OnInit {
+
+  pet: AdoptionPet | undefined;
+  isFavorite = false;
 
   constructor(
+    private adoptionService: AdoptionService,
     private route: ActivatedRoute,
-    private adoptionService: AdoptionService
-  ) {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.pet = this.adoptionService.getPetById(id);
+    private router: Router
+  ) {}
 
-    // Check if already in favorites on load
-    if (this.pet) {
-      this.isSaved = this.adoptionService.getFavorites()
-        .some(f => f.id === this.pet!.id);
+  ngOnInit(): void {
+    const id   = Number(this.route.snapshot.paramMap.get('id'));
+    this.pet   = this.adoptionService.getPetById(id);
+    if (!this.pet) {
+      this.router.navigate(['/adoption']);
+      return;
     }
+    this.isFavorite = this.adoptionService.getFavorites()
+      .some(f => f.id === this.pet!.id);
   }
 
-  addToFavorites(): void {
-    if (this.pet && !this.isSaved) {
+  toggleFavorite(): void {
+    if (!this.pet) return;
+    if (this.isFavorite) {
+      this.adoptionService.removeFromFavorites(this.pet.id);
+    } else {
       this.adoptionService.addToFavorites(this.pet);
-      this.isSaved = true;
     }
+    this.isFavorite = !this.isFavorite;
   }
 }
