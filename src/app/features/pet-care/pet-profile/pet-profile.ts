@@ -1,9 +1,7 @@
-// Komponenta za kreiranje i ureduvanje na profil na mileniче
-
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { PetCareService } from '../../../core/services/pet-care';
 import { Pet } from '../../../core/models/pet.model';
 
@@ -14,60 +12,75 @@ import { Pet } from '../../../core/models/pet.model';
   templateUrl: './pet-profile.html',
   styleUrl: './pet-profile.css'
 })
-export class PetProfileComponent {
-  // Dali e vo edit mode ili add mode
-  isEditMode: boolean = false;
-  petId: number | null = null;
+export class PetProfileComponent implements OnInit {
 
-  // Forma podatoci
-  pet: Pet = {
-    id: 0,
-    name: '',
-    type: 'Куче',
-    breed: '',
+  isEditMode = false;
+  submitted  = false;
+  today      = new Date().toISOString().split('T')[0];
+
+  pet: Partial<Pet> = {
+    name:      '',
+    type:      '',
+    breed:     '',
+    gender:    '',
     birthDate: '',
-    gender: 'Машко',
-    image: '',
-    weight: 0,
-    weightHistory: []
+    weight:    undefined,
+    image:     ''
   };
 
   constructor(
     private petCareService: PetCareService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-    // Proveruva dali e edit mode preku URL parametarot :id
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
+
+    if (id && id !== 'add') {
       this.isEditMode = true;
-      this.petId = +id;
-      const existing = this.petCareService.getPetById(this.petId);
-      if (existing) this.pet = { ...existing };
+      const existing  = this.petCareService.getPetById(Number(id));
+      if (existing) {
+        this.pet = { ...existing };
+      } else {
+        this.router.navigate(['/pet-care']);
+      }
     }
   }
 
-  // Zacuvuva nov ili ureduvanje na postoecki mileniче
+  isFormValid(): boolean {
+    return !!(
+      this.pet.name?.trim() &&
+      this.pet.type &&
+      this.pet.breed?.trim() &&
+      this.pet.gender &&
+      this.pet.birthDate &&
+      this.pet.weight && this.pet.weight > 0
+    );
+  }
+
   savePet(): void {
-    if (this.isEditMode) {
-      this.petCareService.updatePet(this.pet);
+    this.submitted = true;
+    if (!this.isFormValid()) return;
+
+    if (this.isEditMode && this.pet.id) {
+      this.petCareService.updatePet(this.pet as Pet);
     } else {
-      // Nov ID - pogolem od posledniot
-      this.pet.id = Date.now();
-      // Prviot vnos na tezina
-      if (this.pet.weight > 0) {
-        this.pet.weightHistory = [{
-          date: new Date().toISOString().split('T')[0],
-          weight: this.pet.weight
-        }];
-      }
-      this.petCareService.addPet(this.pet);
+      this.petCareService.addPet({
+        id:        Date.now(),
+        name:      this.pet.name!.trim(),
+        type:      this.pet.type!,
+        breed:     this.pet.breed!.trim(),
+        gender:    this.pet.gender!,
+        birthDate: this.pet.birthDate!,
+        weight:    this.pet.weight!,
+        image:     this.pet.image || ''
+      } as Pet);
     }
-    // Po zacuvuvanje vraka na dashboard
+
     this.router.navigate(['/pet-care']);
   }
 
-  // Otkazi i vrati se na dashboard
   cancel(): void {
     this.router.navigate(['/pet-care']);
   }

@@ -43,7 +43,7 @@
           <select class="form-select" id="rem-type" [(ngModel)]="newReminder.type">
             <option value="Вакцинација">Вакцинација</option>
             <option value="Преглед">Преглед</option>
-            <option value="Храненје">Храненје</option>
+            <option value="Хранење">Хранење</option>
             <option value="Друго">Друго</option>
           </select>
         </div>
@@ -117,7 +117,7 @@
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
               <polyline points="9 22 9 12 15 12 15 22"/>
             </ng-container>
-            <ng-container *ngIf="reminder.type === 'Храненје'">
+            <ng-container *ngIf="reminder.type === 'Хранење'">
               <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
             </ng-container>
             <ng-container *ngIf="reminder.type === 'Друго'">
