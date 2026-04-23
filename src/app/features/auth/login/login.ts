@@ -126,6 +126,27 @@ export class LoginComponent {
     }, 800);
   }
 
+  onAvatarSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+
+  if (!input.files || input.files.length === 0) return;
+
+  const file = input.files[0];
+
+  if (!file.type.startsWith('image/')) {
+    this.registerError = 'Изберете валидна слика.';
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    this.registerForm.avatar = reader.result as string; // base64
+  };
+
+  reader.readAsDataURL(file);
+}
+
   // ── Register ──
   onRegister(): void {
     this.showSuccess = false;

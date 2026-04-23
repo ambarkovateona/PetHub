@@ -374,9 +374,9 @@
                 </svg>
                 <input class="form-input auth-input"
                        id="reg-avatar"
-                       type="url"
-                       placeholder="https://..."
-                       [(ngModel)]="registerForm.avatar"
+                       type="file"
+                       accept="image/*"
+                      (change)="onAvatarSelected($event)"
                        name="reg-avatar"/>
               </div>
               <div class="auth-avatar-preview" *ngIf="registerForm.avatar">

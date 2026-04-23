@@ -54,6 +54,14 @@ export class LostFoundFormComponent {
     
   }
 
+  onFileSelected(event: Event): void {
+  const file = (event.target as HTMLInputElement).files?.[0];
+
+  if (file) {
+    this.listing.image = URL.createObjectURL(file);
+  }
+}
+
   // Resetira formata
   resetForm(): void {
     this.listing = {

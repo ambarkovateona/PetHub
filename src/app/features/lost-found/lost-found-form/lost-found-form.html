@@ -94,9 +94,8 @@
       <!-- Slika -->
       <div class="form-group">
         <label class="form-label" for="lf-image">URL на слика</label>
-        <input class="form-input" id="lf-image" type="url"
-               placeholder="https://..."
-               [(ngModel)]="listing.image" name="image" />
+        <input class="form-input" id="lf-image" type="file" accept="image/*" (change)="onFileSelected($event)"
+                name="image" />
         <div class="lff-preview" *ngIf="listing.image" role="img" [attr.aria-label]="'Преглед на слика'">
           <img [src]="listing.image" alt="Преглед на слика"
                onerror="this.src='https://placehold.co/600x180/F5F4F0/9E8B7A?text=Pet'"/>
