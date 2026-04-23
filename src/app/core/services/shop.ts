@@ -1,6 +1,7 @@
 // Glavni servis za shopot - proizvodi, koshnicka i PawPoints
 
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Product } from '../models/product.model';
 import { CartItem } from '../models/cart-item.model';
 import { PawPoints } from '../models/paw-points.model';
@@ -9,6 +10,10 @@ import { PawPoints } from '../models/paw-points.model';
   providedIn: 'root'
 })
 export class ShopService {
+
+  // ── Cart count observable ──
+  private cartCountSubject = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCountSubject.asObservable();
 
   // ── Testni proizvodi ──
   private products: Product[] = [
@@ -245,8 +250,13 @@ export class ShopService {
     ]
   };
 
-  // ── CRUD za proizvodi ──
+  // ── Azurira cart count subject ──
+  private updateCartCount(): void {
+    const total = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    this.cartCountSubject.next(total);
+  }
 
+  // ── CRUD za proizvodi ──
   getAllProducts(): Product[] {
     return this.products;
   }
@@ -255,7 +265,6 @@ export class ShopService {
     return this.products.find(p => p.id === id);
   }
 
-  // Filtriranje spored vid na mileniче i vozrast
   getRecommendedProducts(petType: string, ageGroup: string, breedSize: string): Product[] {
     return this.products.filter(p =>
       p.petType.includes(petType) &&
@@ -265,7 +274,6 @@ export class ShopService {
   }
 
   // ── Koshnicka ──
-
   getCart(): CartItem[] {
     return this.cart;
   }
@@ -285,10 +293,12 @@ export class ShopService {
     } else {
       this.cart.push({ product, quantity: 1 });
     }
+    this.updateCartCount();
   }
 
   removeFromCart(productId: number): void {
     this.cart = this.cart.filter(i => i.product.id !== productId);
+    this.updateCartCount();
   }
 
   updateQuantity(productId: number, quantity: number): void {
@@ -300,15 +310,14 @@ export class ShopService {
         item.quantity = quantity;
       }
     }
+    this.updateCartCount();
   }
 
   // ── PawPoints ──
-
   getPawPoints(): PawPoints {
     return this.pawPoints;
   }
 
-  // Dodava poeni po kupuvanje
   addPawPoints(points: number, description: string): void {
     this.pawPoints.total += points;
     this.pawPoints.history.push({
@@ -318,7 +327,6 @@ export class ShopService {
     });
   }
 
-  // Potrosuva poeni za popust
   redeemPawPoints(points: number): boolean {
     if (this.pawPoints.total >= points) {
       this.pawPoints.total -= points;
@@ -332,7 +340,6 @@ export class ShopService {
     return false;
   }
 
-  // Simulira kupuvanje - dodava poeni i ja cistí koshnickata
   checkout(): number {
     const totalPoints = this.cart.reduce(
       (sum, item) => sum + item.product.pawPoints * item.quantity, 0
@@ -340,6 +347,7 @@ export class ShopService {
     const productNames = this.cart.map(i => i.product.name).join(', ');
     this.addPawPoints(totalPoints, `Купено: ${productNames}`);
     this.cart = [];
+    this.updateCartCount();
     return totalPoints;
   }
 }

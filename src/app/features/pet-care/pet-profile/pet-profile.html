@@ -17,87 +17,226 @@
           <ng-container *ngIf="!isEditMode">Додај <em>ново милениче</em></ng-container>
         </h1>
       </div>
+      <a class="btn btn-ghost btn-sm" routerLink="/pet-care">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Назад
+      </a>
     </div>
   </header>
 
   <main class="pp-content" role="main">
     <div class="pp-form surface-raised">
 
+      <!-- ── Основни информации ── -->
+      <div class="divider-label"><span>Основни информации</span></div>
+
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label" for="pet-name">Име на милениченото</label>
-          <input class="form-input" id="pet-name" type="text"
-                 placeholder="пр. Ares, Mija..."
-                 [(ngModel)]="pet.name" autocomplete="off"/>
+          <label class="form-label" for="pet-name">
+            Име на милениченото <span class="form-required">*</span>
+          </label>
+          <input class="form-input"
+                 [class.form-input--error]="submitted && !pet.name?.trim()"
+                 id="pet-name"
+                 type="text"
+                 placeholder="пр. Арес, Мија, Рекс..."
+                 [(ngModel)]="pet.name"
+                 name="pet-name"
+                 autocomplete="off"
+                 maxlength="50"/>
+          <p class="form-error" *ngIf="submitted && !pet.name?.trim()" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Внесете го името на милениченото
+          </p>
         </div>
+
         <div class="form-group">
-          <label class="form-label" for="pet-type">Вид</label>
-          <select class="form-select" id="pet-type" [(ngModel)]="pet.type">
+          <label class="form-label" for="pet-type">
+            Вид <span class="form-required">*</span>
+          </label>
+          <select class="form-select"
+                  [class.form-input--error]="submitted && !pet.type"
+                  id="pet-type"
+                  [(ngModel)]="pet.type"
+                  name="pet-type">
+            <option value="" disabled selected>— Изберете —</option>
             <option value="Куче">Куче</option>
             <option value="Мачка">Мачка</option>
             <option value="Птица">Птица</option>
             <option value="Друго">Друго</option>
           </select>
+          <p class="form-error" *ngIf="submitted && !pet.type" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Изберете вид
+          </p>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label" for="pet-breed">Раса</label>
-          <input class="form-input" id="pet-breed" type="text"
-                 placeholder="пр. Golden Retriever..."
-                 [(ngModel)]="pet.breed"/>
+          <label class="form-label" for="pet-breed">
+            Раса <span class="form-required">*</span>
+          </label>
+          <input class="form-input"
+                 [class.form-input--error]="submitted && !pet.breed?.trim()"
+                 id="pet-breed"
+                 type="text"
+                 placeholder="пр. Golden Retriever, Персиска, Мешанец..."
+                 [(ngModel)]="pet.breed"
+                 name="pet-breed"
+                 maxlength="60"/>
+          <p class="form-error" *ngIf="submitted && !pet.breed?.trim()" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Внесете ја расата
+          </p>
         </div>
+
         <div class="form-group">
-          <label class="form-label" for="pet-gender">Пол</label>
-          <select class="form-select" id="pet-gender" [(ngModel)]="pet.gender">
+          <label class="form-label" for="pet-gender">
+            Пол <span class="form-required">*</span>
+          </label>
+          <select class="form-select"
+                  [class.form-input--error]="submitted && !pet.gender"
+                  id="pet-gender"
+                  [(ngModel)]="pet.gender"
+                  name="pet-gender">
+            <option value="" disabled selected>— Изберете —</option>
             <option value="Машко">Машко</option>
             <option value="Женско">Женско</option>
           </select>
+          <p class="form-error" *ngIf="submitted && !pet.gender" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Изберете пол
+          </p>
         </div>
       </div>
+
+      <!-- ── Дополнителни информации ── -->
+      <div class="divider-label"><span>Дополнителни информации</span></div>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label" for="pet-birth">Датум на раѓање</label>
-          <input class="form-input" id="pet-birth" type="date"
-                 [(ngModel)]="pet.birthDate"/>
+          <label class="form-label" for="pet-birth">
+            Датум на раѓање <span class="form-required">*</span>
+          </label>
+          <input class="form-input"
+                 [class.form-input--error]="submitted && !pet.birthDate"
+                 id="pet-birth"
+                 type="date"
+                 [(ngModel)]="pet.birthDate"
+                 name="pet-birth"
+                 [max]="today"/>
+          <p class="form-error" *ngIf="submitted && !pet.birthDate" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Внесете датум на раѓање
+          </p>
         </div>
+
         <div class="form-group">
-          <label class="form-label" for="pet-weight">Тежина (kg)</label>
-          <input class="form-input" id="pet-weight" type="number"
+          <label class="form-label" for="pet-weight">
+            Тежина (kg) <span class="form-required">*</span>
+          </label>
+          <input class="form-input"
+                 [class.form-input--error]="submitted && (!pet.weight || pet.weight <= 0)"
+                 id="pet-weight"
+                 type="number"
                  placeholder="пр. 12.5"
-                 [(ngModel)]="pet.weight" min="0" step="0.1"/>
+                 [(ngModel)]="pet.weight"
+                 name="pet-weight"
+                 min="0.1"
+                 max="200"
+                 step="0.1"/>
+          <p class="form-error" *ngIf="submitted && (!pet.weight || pet.weight <= 0)" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Внесете валидна тежина
+          </p>
         </div>
       </div>
+
+      <!-- ── Слика ── -->
+      <div class="divider-label"><span>Слика</span></div>
 
       <div class="form-group">
-        <label class="form-label" for="pet-image">URL на слика</label>
-        <input class="form-input" id="pet-image" type="url"
+        <label class="form-label" for="pet-image">
+          URL на слика
+          <span class="pp-optional">опционално</span>
+        </label>
+        <input class="form-input"
+               id="pet-image"
+               type="url"
                placeholder="https://..."
-               [(ngModel)]="pet.image"/>
+               [(ngModel)]="pet.image"
+               name="pet-image"/>
+        <p class="form-hint">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          Препорачуваме јасна фотографија за подобар профил
+        </p>
         <div class="pp-preview" *ngIf="pet.image">
-          <img [src]="pet.image" [alt]="pet.name || 'Преглед'"
-               onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22160%22 viewBox=%220 0 600 160%22%3E%3Crect width=%22600%22 height=%22160%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(300,80)%22%3E%3Ccircle cx=%220%22 cy=%22-10%22 r=%2225%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-13%22 cy=%22-28%22 r=%228%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%2213%22 cy=%22-28%22 r=%228%22 fill=%22%23C4B5A8%22/%3E%3C/g%3E%3C/svg%3E'"/>
+          <img [src]="pet.image"
+               [alt]="pet.name || 'Преглед на слика'"
+               onerror="this.parentElement.style.display='none'"/>
         </div>
       </div>
 
-      <div class="divider-label">
-        <span>Дополнителни информации</span>
-      </div>
-
+      <!-- ── Actions ── -->
       <div class="pp-actions">
-        <button class="btn btn-ghost btn-sm" type="button" (click)="cancel()">
+        <button class="btn btn-ghost btn-sm"
+                type="button"
+                (click)="cancel()">
           Откажи
         </button>
-        <button class="btn btn-primary" type="submit" (click)="savePet()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
-            <polyline points="17 21 17 13 7 13 7 21"/>
-            <polyline points="7 3 7 8 15 8"/>
-          </svg>
-          {{ isEditMode ? 'Зачувај промени' : 'Додај милениче' }}
-        </button>
+        <div class="pp-actions__right">
+          <p class="pp-actions__hint"
+             *ngIf="submitted && !isFormValid()"
+             role="alert">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Пополнете ги сите задолжителни полиња
+          </p>
+          <button class="btn btn-primary"
+                  type="submit"
+                  (click)="savePet()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            {{ isEditMode ? 'Зачувај промени' : 'Додај милениче' }}
+          </button>
+        </div>
       </div>
 
     </div>
