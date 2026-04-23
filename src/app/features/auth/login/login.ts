@@ -17,6 +17,7 @@ type Strength  = 'weak' | 'fair' | 'strong' | '';
 export class LoginComponent {
 
   activeTab: Tab = 'login';
+  showSuccess=false
 
   // ── Login ──
   loginForm = {
@@ -58,12 +59,32 @@ export class LoginComponent {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
+  private resetRegisterForm(): void {
+  this.registerForm = {
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    city: '',
+    avatar: ''
+  };
+
+  this.passwordStrength = '';
+  this.showSuccess = false;
+}
+
   // ── Tabs ──
   setTab(tab: Tab): void {
     this.activeTab       = tab;
     this.loginError      = '';
     this.registerError   = '';
     this.registerSuccess = '';
+
+    if (tab === 'login') {
+      this.resetRegisterForm();
+    }
+    
   }
 
   // ── Login ──
@@ -107,11 +128,12 @@ export class LoginComponent {
 
   // ── Register ──
   onRegister(): void {
+    this.showSuccess = false;
     this.registerError   = '';
     this.registerSuccess = '';
 
     if (!this.registerForm.fullName.trim()) {
-      this.registerError = 'Внесете ime и презиме.'; return;
+      this.registerError = 'Внесете име и презиме.'; return;
     }
     if (!this.isValidEmail(this.registerForm.email)) {
       this.registerError = 'Внесете валиден email.'; return;
@@ -138,9 +160,11 @@ export class LoginComponent {
       this.registerLoading = false;
 
       if (result.success) {
-        this.registerSuccess = result.message;
-        setTimeout(() => this.router.navigateByUrl(this.returnUrl), 1200);
+        this.showSuccess = true;
+
+      
       } else {
+        this.showSuccess = false;
         this.registerError = result.message;
       }
     }, 800);
@@ -181,5 +205,13 @@ export class LoginComponent {
     if (this.passwordStrength === 'fair')   return 'Средна';
     if (this.passwordStrength === 'strong') return 'Силна';
     return '';
+  }
+
+  goToLogin() {
+    this.showSuccess = false; 
+    this.activeTab='login'
+    this.router.navigate(['/login']);
+    this.resetRegisterForm();
+    
   }
 }

@@ -75,6 +75,11 @@ export class AddAdoptionPetComponent {
       description:  this.pet.description.trim()
     });
 
-    this.router.navigate(['/adoption']);
+    setTimeout(()=>{
+        this.router.navigate(['/adoption']);
+
+
+    },1500);
+
   }
 }

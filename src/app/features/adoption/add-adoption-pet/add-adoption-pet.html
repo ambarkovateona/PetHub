@@ -284,7 +284,10 @@
             {{ pet.description.length }}/500
           </span>
         </div>
+
       </div>
+
+      
 
       <!-- ── Actions ── -->
       <div class="aap-actions">
@@ -306,8 +309,11 @@
             Објави за посвојување
           </button>
         </div>
-      </div>
 
+      </div>
+      <div *ngIf="submitted" class="success-box">
+        ✔ Успешно пријавен оглас!
+    </div>
     </div>
   </main>
 </div>

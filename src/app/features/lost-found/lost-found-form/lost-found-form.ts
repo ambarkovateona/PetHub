@@ -50,7 +50,7 @@ export class LostFoundFormComponent {
     setTimeout(()=>{
           this.router.navigate(['/lost-found']);
 
-    },1500);
+    },2800);
     
   }
 
