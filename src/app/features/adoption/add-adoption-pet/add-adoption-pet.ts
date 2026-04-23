@@ -33,7 +33,7 @@ export class AddAdoptionPetComponent {
     private router: Router
   ) {}
 
-  isValidUrl(url: string): boolean {
+  /*isValidUrl(url: string): boolean {
     if (!url) return false;
     try {
       const u = new URL(url);
@@ -41,7 +41,21 @@ export class AddAdoptionPetComponent {
     } catch {
       return false;
     }
+  }*/
+
+onFileSelected(event: Event): void {
+  const file = (event.target as HTMLInputElement).files?.[0];
+
+  if (file) {
+    this.pet.image = URL.createObjectURL(file) ;
   }
+}
+
+ngOnDestroy() {
+  if (this.pet.image) {
+    URL.revokeObjectURL(this.pet.image);
+  }
+}
 
   isFormValid(): boolean {
     return !!(
@@ -52,7 +66,7 @@ export class AddAdoptionPetComponent {
       this.pet.age !== null && this.pet.age >= 0 && this.pet.age <= 30 &&
       this.pet.city &&
       this.pet.healthStatus &&
-      this.isValidUrl(this.pet.image) &&
+      this.pet.image &&
       this.pet.description.trim()
     );
   }
@@ -79,7 +93,7 @@ export class AddAdoptionPetComponent {
         this.router.navigate(['/adoption']);
 
 
-    },1500);
+    },2000);
 
   }
 }
