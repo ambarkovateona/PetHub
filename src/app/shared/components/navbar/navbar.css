@@ -403,7 +403,7 @@
 @media (max-width: 900px) {
   .navbar__nav     { display: none; }
   .navbar__actions { display: none; }
-  .navbar__hamburger { display: flex; }
+  .navbar__hamburger { display: flex; margin-left: auto; }
   .navbar__mobile  { display: flex; }
   .navbar__inner   { gap: var(--sp-3); }
 }

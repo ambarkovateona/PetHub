@@ -18,8 +18,7 @@
           <em class="hero__title-em">почнува овде</em>
         </h1>
         <p class="hero__sub">
-          Посвојување, грижа, продавница и помош за изгубени миленичиња —
-          сè на едно место за вас и вашиот четириножен пријател.
+          Сè што ти треба за твоето милениче на едно место, од грижа и секојдневни потреби до посвојување и помош при пронаоѓање изгубени миленичиња за помалку грижи и повеќе време со твоето милениче.
         </p>
         <div class="hero__actions">
           <a class="btn btn-primary btn-lg hero__btn-primary" routerLink="/adoption">
@@ -104,7 +103,6 @@
       <div class="stats__item">
         <span class="stats__value">{{ reunitedCount }}+</span>
         <span class="stats__label">Успешно поврзани</span>
-
       </div>
       <div class="stats__divider" aria-hidden="true"></div>
       <div class="stats__item">
@@ -128,12 +126,36 @@
           Сè што ви треба за <em>вашето милениче</em>
         </h2>
         <p class="section-sub">
-          Четири модули, дизајнирани да го направат животот со вашиот милениче полесен.
+          Четири модули, дизајнирани да го направат животот со вашето милениче полесен.
         </p>
       </div>
 
       <div class="features__grid">
-        <a class="feature-card anim-fade-up delay-1" routerLink="/adoption">
+
+        <!-- 1: Griza -->
+        <a class="feature-card anim-fade-up delay-1" routerLink="/pet-care">
+          <div class="feature-card__icon feature-card__icon--sage">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+            </svg>
+          </div>
+          <div class="feature-card__body">
+            <h3 class="feature-card__title">Грижа за милениче</h3>
+            <p class="feature-card__desc">Следете активности, тежина и поставувајте потсетници за грижата.</p>
+          </div>
+          <div class="feature-card__footer">
+            <span class="feature-card__link">
+              Разгледај
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
+            <span class="feature-card__count">Мојот профил</span>
+          </div>
+        </a>
+
+        <!-- 2: Posvojuvanje -->
+        <a class="feature-card anim-fade-up delay-2" routerLink="/adoption">
           <div class="feature-card__icon feature-card__icon--accent">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -155,15 +177,17 @@
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-2" routerLink="/pet-care">
-          <div class="feature-card__icon feature-card__icon--sage">
+        <!-- 3: Izgubeno i Najdeno -->
+        <a class="feature-card anim-fade-up delay-3" routerLink="/lost-found">
+          <div class="feature-card__icon feature-card__icon--muted">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
             </svg>
           </div>
           <div class="feature-card__body">
-            <h3 class="feature-card__title">Грижа за милениче</h3>
-            <p class="feature-card__desc">Следете активности, тежина и поставувајте потсетници за грижата.</p>
+            <h3 class="feature-card__title">Изгубено &amp; Најдено</h3>
+            <p class="feature-card__desc">Пријавете изгубено или помогнете во пронаоѓањето на миленичиња.</p>
           </div>
           <div class="feature-card__footer">
             <span class="feature-card__link">
@@ -172,11 +196,12 @@
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </span>
-            <span class="feature-card__count">Мојот профил</span>
+            <span class="feature-card__count">{{ lostCount }} активни</span>
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-3" routerLink="/shop">
+        <!-- 4: Prodavnica -->
+        <a class="feature-card anim-fade-up delay-4" routerLink="/shop">
           <div class="feature-card__icon feature-card__icon--gold">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -199,27 +224,6 @@
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-4" routerLink="/lost-found">
-          <div class="feature-card__icon feature-card__icon--muted">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="M21 21l-4.35-4.35"/>
-            </svg>
-          </div>
-          <div class="feature-card__body">
-            <h3 class="feature-card__title">Изгубено &amp; Најдено</h3>
-            <p class="feature-card__desc">Пријавете изгубено или помогнете во пронаоѓањето на миленичиња.</p>
-          </div>
-          <div class="feature-card__footer">
-            <span class="feature-card__link">
-              Разгледај
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </span>
-            <span class="feature-card__count">{{ lostCount }} активни</span>
-          </div>
-        </a>
       </div>
     </div>
   </section>
@@ -332,7 +336,7 @@
               <div class="testimonial-card__avatar testimonial-card__avatar--sage" aria-hidden="true">Т</div>
               <div>
                 <p class="testimonial-card__name">Теона Амбаркова</p>
-                <p class="testimonial-card__role">Пронашла изгубен мачор · Велец</p>
+                <p class="testimonial-card__role">Пронашла изгубен мачор · Велес</p>
               </div>
             </div>
           </div>
@@ -608,7 +612,7 @@
             </div>
           </div>
           <div class="faq__answer">
-            <p>Кликнете на „Регистрирај се" во горниот десен агол. Внесете вашето име, email и лозинка — тоа е сè! Регистрацијата е целосно бесплатна и трае помалку од 1 минута.</p>
+            <p>Кликнете на „Регистрирај се" во горниот десен агол. Внесете вашето име, email и лозинка и тоа е сè! Регистрацијата е целосно бесплатна и трае помалку од 1 минута.</p>
           </div>
         </div>
 
