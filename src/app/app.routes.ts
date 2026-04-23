@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { HomeComponent } from './features/home/home';
 import { AdoptionListComponent } from './features/adoption/adoption-list/adoption-list';
 import { AdoptionDetailsComponent } from './features/adoption/adoption-details/adoption-details';
 import { AdoptionApplyComponent } from './features/adoption/adoption-apply/adoption-apply';
@@ -13,30 +14,35 @@ import { ShopDetailsComponent } from './features/shop/shop-details/shop-details'
 import { CartComponent } from './features/shop/cart/cart';
 import { LostFoundListComponent } from './features/lost-found/lost-found-list/lost-found-list';
 import { LostFoundFormComponent } from './features/lost-found/lost-found-form/lost-found-form';
+import { LoginComponent } from './features/auth/login/login';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'adoption', pathMatch: 'full' },
+  // ── Home ──
+  { path: '', component: HomeComponent },
 
-  // ── Adoption ruti (postojni) ──
+  // ── Auth ruti ──
+  { path: 'login', component: LoginComponent },
+
+  // ── Adoption ruti ──
   { path: 'adoption',           component: AdoptionListComponent },
   { path: 'adoption/add',       component: AddAdoptionPetComponent },
   { path: 'favorites',          component: FavoritesComponent },
   { path: 'adoption/:id',       component: AdoptionDetailsComponent },
   { path: 'adoption/:id/apply', component: AdoptionApplyComponent },
 
-  // ── Pet-care ruti (postojni) ──
+  // ── Pet-care ruti ──
   { path: 'pet-care',                component: PetDashboardComponent },
   { path: 'pet-care/profile/add',    component: PetProfileComponent },
   { path: 'pet-care/profile/:id',    component: PetProfileComponent },
   { path: 'pet-care/activities/:id', component: PetActivitiesComponent },
   { path: 'pet-care/reminders/:id',  component: PetRemindersComponent },
 
-  // ── Shop ruti (postojni) ──
+  // ── Shop ruti ──
   { path: 'shop',      component: ShopListComponent },
   { path: 'shop/cart', component: CartComponent },
   { path: 'shop/:id',  component: ShopDetailsComponent },
 
-  // ── Lost & Found ruti (novi) ──
+  // ── Lost & Found ruti ──
   { path: 'lost-found',     component: LostFoundListComponent },
   { path: 'lost-found/add', component: LostFoundFormComponent },
 ];

@@ -1,17 +1,15 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="form-page">
+<div class="lf-form page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
+          <span class="sep" aria-hidden="true">›</span>
           <a routerLink="/lost-found">Изгубено и Најдено</a>
-          <span class="sep">›</span>
-          <span class="current">Нов оглас</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Нов оглас</span>
         </nav>
         <h1 class="page-title">
           <ng-container *ngIf="listing.status === 'Изгубено'">Пријави <em>изгубено</em> милениче</ng-container>
@@ -19,43 +17,54 @@
         </h1>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- FORM -->
-  <div class="content-area">
-    <div class="form-card">
+  <!-- CONTENT -->
+  <main class="lff-content" role="main">
+    <div class="lff-form surface-raised">
 
-      <!-- Status izbor -->
-      <div class="status-toggle">
-        <button class="status-btn"
-                [class.active-lost]="listing.status === 'Изгубено'"
-                (click)="listing.status = 'Изгубено'">
-          💔 Изгубено
+      <!-- Status toggle -->
+      <div class="lff-status" role="group" aria-label="Изберете статус на огласот">
+        <button class="lff-status__btn"
+                [class.lff-status__btn--lost]="listing.status === 'Изгубено'"
+                (click)="listing.status = 'Изгубено'"
+                type="button"
+                [attr.aria-pressed]="listing.status === 'Изгубено'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          Изгубено
         </button>
-        <button class="status-btn"
-                [class.active-found]="listing.status === 'Најдено'"
-                (click)="listing.status = 'Најдено'">
-          🔍 Најдено
+        <button class="lff-status__btn"
+                [class.lff-status__btn--found]="listing.status === 'Најдено'"
+                (click)="listing.status = 'Најдено'"
+                type="button"
+                [attr.aria-pressed]="listing.status === 'Најдено'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          Најдено
         </button>
       </div>
 
       <!-- Vid i Ime -->
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Вид на милениче *</label>
-          <select class="form-select" [(ngModel)]="listing.petType">
-            <option value="">-- Изберете --</option>
-            <option value="Куче">🐶 Куче</option>
-            <option value="Мачка">🐱 Мачка</option>
-            <option value="Птица">🐦 Птица</option>
-            <option value="Друго">🐾 Друго</option>
+          <label class="form-label" for="lf-type">Вид на милениче *</label>
+          <select class="form-select" id="lf-type" [(ngModel)]="listing.petType">
+            <option value="">— Изберете —</option>
+            <option value="Куче">Куче</option>
+            <option value="Мачка">Мачка</option>
+            <option value="Птица">Птица</option>
+            <option value="Друго">Друго</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Име на милениченото</label>
-          <input class="form-input"
-                 type="text"
-                 placeholder="пр. Макс, Мица... (ако е познато)"
+          <label class="form-label" for="lf-name">Ime (ако е познато)</label>
+          <input class="form-input" id="lf-name" type="text"
+                 placeholder="пр. Макс, Мица..."
                  [(ngModel)]="listing.name"/>
         </div>
       </div>
@@ -63,16 +72,14 @@
       <!-- Rasa i Boja -->
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Раса</label>
-          <input class="form-input"
-                 type="text"
+          <label class="form-label" for="lf-breed">Раса</label>
+          <input class="form-input" id="lf-breed" type="text"
                  placeholder="пр. Лабрадор, Персиска..."
                  [(ngModel)]="listing.breed"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Боја / Опис на изглед *</label>
-          <input class="form-input"
-                 type="text"
+          <label class="form-label" for="lf-color">Боја / Опис на изглед *</label>
+          <input class="form-input" id="lf-color" type="text"
                  placeholder="пр. Кафеав со бела дамка..."
                  [(ngModel)]="listing.color"/>
         </div>
@@ -80,39 +87,36 @@
 
       <!-- Opis -->
       <div class="form-group">
-        <label class="form-label">Опис *</label>
-        <textarea class="form-textarea"
+        <label class="form-label" for="lf-desc">Опис *</label>
+        <textarea class="form-textarea" id="lf-desc" rows="4"
                   placeholder="Детален опис: карактеристики, однесување, особени знаци..."
-                  [(ngModel)]="listing.description"
-                  rows="4"></textarea>
+                  [(ngModel)]="listing.description"></textarea>
       </div>
 
-      <!-- Slika URL -->
+      <!-- Slika -->
       <div class="form-group">
-        <label class="form-label">URL на слика</label>
-        <input class="form-input"
-               type="text"
+        <label class="form-label" for="lf-image">URL на слика</label>
+        <input class="form-input" id="lf-image" type="url"
                placeholder="https://..."
                [(ngModel)]="listing.image"/>
-        <div class="img-preview" *ngIf="listing.image">
-          <img [src]="listing.image" alt="Preview"
-               onerror="this.src='https://placehold.co/400x200/E8D5B7/6B4F35?text=🐾'"/>
+        <div class="lff-preview" *ngIf="listing.image" role="img" [attr.aria-label]="'Преглед на слика'">
+          <img [src]="listing.image" alt="Преглед на слика"
+               onerror="this.src='https://placehold.co/600x180/F5F4F0/9E8B7A?text=Pet'"/>
         </div>
       </div>
 
       <!-- Lokacija i Grad -->
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Локација *</label>
-          <input class="form-input"
-                 type="text"
-                 placeholder="пр. Скопје — Центар, кај пазарот..."
+          <label class="form-label" for="lf-location">Локација *</label>
+          <input class="form-input" id="lf-location" type="text"
+                 placeholder="пр. Центар, кај пазарот..."
                  [(ngModel)]="listing.location"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Град *</label>
-          <select class="form-select" [(ngModel)]="listing.city">
-            <option value="">-- Изберете --</option>
+          <label class="form-label" for="lf-city">Град *</label>
+          <select class="form-select" id="lf-city" [(ngModel)]="listing.city">
+            <option value="">— Изберете —</option>
             <option value="Скопје">Скопје</option>
             <option value="Битола">Битола</option>
             <option value="Охрид">Охрид</option>
@@ -126,54 +130,73 @@
 
       <!-- Datum -->
       <div class="form-group">
-        <label class="form-label">Датум *</label>
-        <input class="form-input"
-               type="date"
-               [(ngModel)]="listing.date"/>
+        <label class="form-label" for="lf-date">Датум *</label>
+        <input class="form-input" id="lf-date" type="date" [(ngModel)]="listing.date"/>
       </div>
 
-      <!-- Kontakt sekcija -->
-      <div class="section-divider">
+      <!-- Kontakt divider -->
+      <div class="divider-label" role="separator">
         <span>Контакт информации</span>
       </div>
 
+      <!-- Kontakt -->
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Ваше Име *</label>
-          <input class="form-input"
-                 type="text"
-                 placeholder="Вашето име и презиме"
-                 [(ngModel)]="listing.contactName"/>
+          <label class="form-label" for="lf-cname">Ваше Ime *</label>
+          <input class="form-input" id="lf-cname" type="text"
+                 placeholder="Вашето Ime и презиме"
+                 [(ngModel)]="listing.contactName"
+                 autocomplete="name"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Телефон *</label>
-          <input class="form-input"
-                 type="text"
+          <label class="form-label" for="lf-phone">Телефон *</label>
+          <input class="form-input" id="lf-phone" type="tel"
                  placeholder="07x xxx xxx"
-                 [(ngModel)]="listing.contactPhone"/>
+                 [(ngModel)]="listing.contactPhone"
+                 autocomplete="tel"/>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">E-пошта (опционално)</label>
-        <input class="form-input"
-               type="email"
+        <label class="form-label" for="lf-email">E-пошта (опционално)</label>
+        <input class="form-input" id="lf-email" type="email"
                placeholder="vasa@email.com"
-               [(ngModel)]="listing.contactEmail"/>
+               [(ngModel)]="listing.contactEmail"
+               autocomplete="email"/>
       </div>
 
-      <!-- Akcii -->
-      <div class="form-actions">
-        <button class="btn-cancel" (click)="cancel()">Откажи</button>
-        <button class="btn-reset-form" (click)="resetForm()">↺ Ресетирај</button>
-        <button class="btn-submit"
-                [class.btn-lost]="listing.status === 'Изгубено'"
-                [class.btn-found]="listing.status === 'Најдено'"
-                (click)="submitListing()">
-          {{ listing.status === 'Изгубено' ? '💔 Пријави Изгубено' : '🔍 Пријави Најдено' }}
+      <!-- Actions -->
+      <div class="lff-actions">
+        <button class="btn btn-ghost btn-sm"
+                type="button"
+                (click)="cancel()"
+                aria-label="Откажи и врати се назад">
+          Откажи
+        </button>
+        <button class="btn btn-ghost btn-sm"
+                type="button"
+                (click)="resetForm()"
+                aria-label="Ресетирај ја формата">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 105.04-8.49"/>
+          </svg>
+          Ресетирај
+        </button>
+        <button class="btn lff-submit"
+                [class.lff-submit--lost]="listing.status === 'Изгубено'"
+                [class.lff-submit--found]="listing.status === 'Најдено'"
+                type="submit"
+                (click)="submitListing()"
+                [attr.aria-label]="'Пријави ' + listing.status + ' милениче'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          {{ listing.status === 'Изгубено' ? 'Пријави Изгубено' : 'Пријави Најдено' }}
         </button>
       </div>
 
     </div>
-  </div>
+  </main>
 </div>

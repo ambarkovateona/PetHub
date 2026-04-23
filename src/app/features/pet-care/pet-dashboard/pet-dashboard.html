@@ -1,92 +1,145 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="dashboard-page">
+<div class="pet-dashboard page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
-          <span class="current">Грижа за милениче</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Pet Care</span>
         </nav>
         <h1 class="page-title">
-          Моите <em>милениња</em>
+          Моите <em>миленичиња</em>
         </h1>
       </div>
-      <div class="header-right">
-        <div class="hstat">
-          <span class="hstat-num">{{ pets.length }}</span>
-          <span class="hstat-label">Милениња</span>
+
+      <div class="page-header-right">
+        <div class="header-stat">
+          <span class="header-stat-value">{{ pets.length }}</span>
+          <span class="header-stat-label">Миленичиња</span>
         </div>
-        <a class="btn-add" routerLink="/pet-care/profile/add">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <a class="btn btn-primary btn-sm"
+           routerLink="/pet-care/profile/add"
+           aria-label="Додај ново милениче">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
           </svg>
           Додај милениче
         </a>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- CONTENT -->
-  <div class="content-area">
+  <main class="content-area" role="main">
 
-    <!-- Prazna sostojba koga nema mileniinja -->
-    <div class="empty-state" *ngIf="pets.length === 0">
-      <span class="empty-icon">🐾</span>
-      <h3>Сеуште немате додадено милениче</h3>
-      <p>Додајте го вашето прво милениче за да започнете.</p>
-      <a class="btn-add" routerLink="/pet-care/profile/add">
-        + Додај милениче
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="pets.length === 0" role="status">
+      <div class="empty-state-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>
+      </div>
+      <h3>Сеуште немате милениче</h3>
+      <p>Додајте го вашето прво милениче за да започнете со следење на грижата.</p>
+      <a class="btn btn-primary btn-sm" routerLink="/pet-care/profile/add">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Додај милениче
       </a>
     </div>
 
-    <!-- Grid so mileniinja -->
-    <div class="pet-grid" *ngIf="pets.length > 0">
-      <div class="pet-card" *ngFor="let pet of pets">
+    <!-- Pet Grid -->
+    <div class="pd-grid" *ngIf="pets.length > 0" role="list">
 
-        <!-- Slika -->
-        <div class="card-img">
-          <img [src]="pet.image" [alt]="pet.name"
-               onerror="this.src='https://placehold.co/400x200/E8D5B7/6B4F35?text=🐾'"/>
-          <div class="img-overlay"></div>
-          <span class="type-badge">{{ pet.type }}</span>
-          <span class="gender-badge">{{ pet.gender }}</span>
+      <article class="pd-card anim-fade-up"
+               *ngFor="let pet of pets; let i = index"
+               [style.animation-delay]="(i * 0.06) + 's'"
+               role="listitem">
+
+        <!-- Image -->
+        <div class="pd-card__img">
+          <img
+            [src]="pet.image"
+            [alt]="pet.name + ', ' + pet.breed"
+            loading="lazy"
+            onerror="this.src='https://placehold.co/400x240/F5F4F0/9E8B7A?text=Pet'"/>
+          <div class="pd-card__img-overlay" aria-hidden="true"></div>
+
+          <div class="pd-card__badges" aria-hidden="true">
+            <span class="badge badge-gold">{{ pet.type }}</span>
+            <span class="badge badge-muted">{{ pet.gender }}</span>
+          </div>
         </div>
 
         <!-- Body -->
-        <div class="card-body">
-          <div class="pet-name">{{ pet.name }}</div>
-          <div class="pet-breed">{{ pet.breed }}</div>
-
-          <div class="pet-meta">
-            <span class="meta-item">🎂 {{ getAge(pet.birthDate) }}</span>
-            <span class="meta-item">⚖️ {{ pet.weight }} kg</span>
+        <div class="pd-card__body">
+          <div class="pd-card__header">
+            <div>
+              <h2 class="pd-card__name">{{ pet.name }}</h2>
+              <p class="pd-card__breed">{{ pet.breed }}</p>
+            </div>
+            <div class="pd-card__actions-top">
+              <a class="btn btn-ghost btn-icon"
+                 [routerLink]="['/pet-care/profile', pet.id]"
+                 [attr.aria-label]="'Уреди го профилот на ' + pet.name">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                  <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </a>
+              <button class="btn btn-ghost btn-icon btn-danger"
+                      (click)="deletePet(pet.id)"
+                      [attr.aria-label]="'Избриши го ' + pet.name">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                  <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
-          <div class="card-sep"></div>
+          <!-- Stats row -->
+          <div class="pd-card__stats">
+            <div class="pd-card__stat">
+              <span class="pd-card__stat-value">{{ getAge(pet.birthDate) }}</span>
+              <span class="pd-card__stat-label">Возраст</span>
+            </div>
+            <div class="pd-card__stat-divider" aria-hidden="true"></div>
+            <div class="pd-card__stat">
+              <span class="pd-card__stat-value">{{ pet.weight }} kg</span>
+              <span class="pd-card__stat-label">Тежина</span>
+            </div>
+          </div>
 
-          <!-- Akcii -->
-          <div class="card-footer">
-            <a class="btn-details" [routerLink]="['/pet-care/activities', pet.id]">
+          <!-- Actions -->
+          <div class="pd-card__actions">
+            <a class="btn btn-primary btn-sm"
+               [routerLink]="['/pet-care/activities', pet.id]"
+               [attr.aria-label]="'Активности на ' + pet.name">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
               Активности
             </a>
-            <a class="btn-outline" [routerLink]="['/pet-care/reminders', pet.id]">
+            <a class="btn btn-secondary btn-sm"
+               [routerLink]="['/pet-care/reminders', pet.id]"
+               [attr.aria-label]="'Потсетници за ' + pet.name">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 01-3.46 0"/>
+              </svg>
               Потсетници
             </a>
-            <a class="btn-icon" [routerLink]="['/pet-care/profile', pet.id]" title="Уреди">
-              ✏️
-            </a>
-            <button class="btn-icon btn-delete" (click)="deletePet(pet.id)" title="Избриши">
-              🗑️
-            </button>
           </div>
         </div>
 
-      </div>
-    </div>
+      </article>
 
-  </div>
+    </div>
+  </main>
 </div>

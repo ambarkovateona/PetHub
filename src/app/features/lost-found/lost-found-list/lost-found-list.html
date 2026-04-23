@@ -1,93 +1,96 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="lf-page">
+<div class="lf-list page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
-          <span class="current">Изгубено и Најдено</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Изгубено и Најдено</span>
         </nav>
         <h1 class="page-title">
-          Изгубено & <em>Најдено</em>
+          Изгубено <em>&amp; Најдено</em>
         </h1>
       </div>
 
-      <div class="header-right">
-        <!-- Statistika -->
-        <div class="header-stats">
-          <div class="hstat">
-            <span class="hstat-num lost">{{ lostCount }}</span>
-            <span class="hstat-label">Изгубени</span>
+      <div class="page-header-right">
+        <div class="lf-stats" aria-label="Статистика">
+          <div class="lf-stat">
+            <span class="lf-stat__value lf-stat__value--lost">{{ lostCount }}</span>
+            <span class="lf-stat__label">Изгубени</span>
           </div>
-          <div class="hstat">
-            <span class="hstat-num found">{{ foundCount }}</span>
-            <span class="hstat-label">Најдени</span>
+          <div class="lf-stat__divider" aria-hidden="true"></div>
+          <div class="lf-stat">
+            <span class="lf-stat__value lf-stat__value--found">{{ foundCount }}</span>
+            <span class="lf-stat__label">Најдени</span>
           </div>
-          <div class="hstat">
-            <span class="hstat-num reunited">{{ reunitedCount }}</span>
-            <span class="hstat-label">Воссоединети</span>
+          <div class="lf-stat__divider" aria-hidden="true"></div>
+          <div class="lf-stat">
+            <span class="lf-stat__value lf-stat__value--reunited">{{ reunitedCount }}</span>
+            <span class="lf-stat__label">Воссоединети</span>
           </div>
         </div>
-        <!-- Dodadi oglas -->
-        <a class="btn-add" routerLink="/lost-found/add">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+
+        <a class="btn btn-primary btn-sm"
+           routerLink="/lost-found/add"
+           aria-label="Додај нов оглас">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
           </svg>
           Додај оглас
         </a>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- FILTER BAR -->
-  <div class="filter-section">
-    <div class="filter-inner">
+  <div class="filter-bar" role="search" aria-label="Филтри">
+    <div class="filter-bar-inner">
 
-      <!-- Prebaruvanje -->
-      <div class="search-wrap">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
         </svg>
-        <input type="text"
-               placeholder="Локација, боја, опис..."
-               [(ngModel)]="searchTerm"
-               (input)="filterListings()"/>
+        <input
+          type="search"
+          placeholder="Локација, боја, опис..."
+          [(ngModel)]="searchTerm"
+          (input)="filterListings()"
+          aria-label="Пребарај огласи"/>
       </div>
 
-      <div class="fdivider"></div>
+      <div class="filter-divider" aria-hidden="true"></div>
 
-      <!-- Status -->
       <select class="filter-select"
-              [class.has-value]="selectedStatus !== ''"
+              [class.is-active]="selectedStatus !== ''"
               [(ngModel)]="selectedStatus"
-              (change)="filterListings()">
+              (change)="filterListings()"
+              aria-label="Филтрирај по статус">
         <option value="">Сите статуси</option>
-        <option value="Изгубено">💔 Изгубено</option>
-        <option value="Најдено">🔍 Најдено</option>
-        <option value="Воссоединето">🎉 Воссоединето</option>
+        <option value="Изгубено">Изгубено</option>
+        <option value="Најдено">Најдено</option>
+        <option value="Воссоединето">Воссоединето</option>
       </select>
 
-      <!-- Vid -->
       <select class="filter-select"
-              [class.has-value]="selectedPetType !== ''"
+              [class.is-active]="selectedPetType !== ''"
               [(ngModel)]="selectedPetType"
-              (change)="filterListings()">
+              (change)="filterListings()"
+              aria-label="Филтрирај по вид">
         <option value="">Сите видови</option>
-        <option value="Куче">🐶 Куче</option>
-        <option value="Мачка">🐱 Мачка</option>
-        <option value="Птица">🐦 Птица</option>
-        <option value="Друго">🐾 Друго</option>
+        <option value="Куче">Куче</option>
+        <option value="Мачка">Мачка</option>
+        <option value="Птица">Птица</option>
+        <option value="Друго">Друго</option>
       </select>
 
-      <!-- Grad -->
       <select class="filter-select"
-              [class.has-value]="selectedCity !== ''"
+              [class.is-active]="selectedCity !== ''"
               [(ngModel)]="selectedCity"
-              (change)="filterListings()">
+              (change)="filterListings()"
+              aria-label="Филтрирај по град">
         <option value="">Сите градови</option>
         <option value="Скопје">Скопје</option>
         <option value="Битола">Битола</option>
@@ -97,10 +100,15 @@
       </select>
 
       <div class="filter-actions">
-        <button class="btn-reset"
+        <button class="btn btn-ghost btn-sm"
                 *ngIf="searchTerm || selectedStatus || selectedPetType || selectedCity"
-                (click)="resetFilters()">
-          ↺ Ресетирај
+                (click)="resetFilters()"
+                aria-label="Ресетирај филтри">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 105.04-8.49"/>
+          </svg>
+          Ресетирај
         </button>
       </div>
 
@@ -108,88 +116,98 @@
   </div>
 
   <!-- CONTENT -->
-  <div class="content-area">
+  <main class="content-area" role="main">
 
     <!-- Results bar -->
     <div class="results-bar">
-      <p class="results-count">
+      <p class="results-count" aria-live="polite">
         <strong>{{ filteredListings.length }}</strong> огласи
-        <span class="results-sub" *ngIf="filteredListings.length !== allListings.length">
+        <span *ngIf="filteredListings.length !== allListings.length">
           · {{ allListings.length }} вкупно
         </span>
       </p>
     </div>
 
-    <!-- GRID -->
-    <div class="listings-grid">
+    <!-- Grid -->
+    <div class="lf-grid" role="list" aria-label="Листа на огласи">
 
-      <div class="empty-state" *ngIf="filteredListings.length === 0">
-        <span class="empty-icon">🐾</span>
-        <h3>Нема пронајдени огласи</h3>
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="filteredListings.length === 0" role="status">
+        <div class="empty-state-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </div>
+        <h3>Нема огласи</h3>
         <p>Обидете се со различни филтри.</p>
+        <button class="btn btn-secondary btn-sm" (click)="resetFilters()">Ресетирај</button>
       </div>
 
-      <!-- CARD -->
-      <div class="listing-card"
-           *ngFor="let listing of filteredListings; let i = index"
-           [class.status-lost]="listing.status === 'Изгубено'"
-           [class.status-found]="listing.status === 'Најдено'"
-           [class.status-reunited]="listing.status === 'Воссоединето'"
-           [style.animation-delay]="(i * 0.06) + 's'">
+      <!-- Listing Card -->
+      <article class="lf-card anim-fade-up"
+               *ngFor="let listing of filteredListings; let i = index"
+               [class.lf-card--lost]="listing.status === 'Изгубено'"
+               [class.lf-card--found]="listing.status === 'Најдено'"
+               [class.lf-card--reunited]="listing.status === 'Воссоединето'"
+               [style.animation-delay]="(i * 0.05) + 's'"
+               role="listitem">
 
-        <!-- Slika -->
-        <div class="card-img">
-          <img [src]="listing.image" [alt]="listing.name || listing.petType"
-               onerror="this.src='https://placehold.co/400x300/E8D5B7/6B4F35?text=🐾'"/>
-          <div class="img-overlay"></div>
+        <!-- Image -->
+        <div class="lf-card__img">
+          <img
+            [src]="listing.image"
+            [alt]="(listing.name || 'Непознато') + ', ' + listing.petType + ', ' + listing.city"
+            loading="lazy"
+            onerror="this.src='https://placehold.co/400x240/F5F4F0/9E8B7A?text=Pet'"/>
+          <div class="lf-card__img-overlay" aria-hidden="true"></div>
+
+          <div class="lf-card__badges" aria-hidden="true">
+            <!-- Urgent -->
+            <span class="badge badge-danger" *ngIf="listing.urgent">Ургентно</span>
+            <!-- New -->
+            <span class="badge badge-gold" *ngIf="isNew(listing.date) && !listing.urgent">Ново</span>
+          </div>
 
           <!-- Status badge -->
-          <span class="status-badge"
-                [class.badge-lost]="listing.status === 'Изгубено'"
-                [class.badge-found]="listing.status === 'Најдено'"
-                [class.badge-reunited]="listing.status === 'Воссоединето'">
-            {{ getStatusIcon(listing.status) }} {{ listing.status }}
+          <span class="lf-card__status"
+                [class.lf-card__status--lost]="listing.status === 'Изгубено'"
+                [class.lf-card__status--found]="listing.status === 'Најдено'"
+                [class.lf-card__status--reunited]="listing.status === 'Воссоединето'"
+                aria-label="Статус: {{ listing.status }}">
+            {{ listing.status }}
           </span>
 
-          <!-- Urgent badge -->
-          <span class="urgent-badge" *ngIf="listing.urgent">
-            ⚡ Ургентно
-          </span>
-
-          <!-- New badge -->
-          <span class="new-badge" *ngIf="isNew(listing.date)">
-            ✨ Ново
-          </span>
-
-          <!-- Pet type badge -->
-          <span class="pet-type-badge">
-            {{ getPetIcon(listing.petType) }} {{ listing.petType }}
+          <!-- Pet type -->
+          <span class="lf-card__pettype badge badge-muted" aria-hidden="true">
+            {{ listing.petType }}
           </span>
         </div>
 
         <!-- Body -->
-        <div class="card-body">
-          <div class="pet-name">
-            {{ listing.name || 'Непознато ' + listing.petType }}
+        <div class="lf-card__body">
+          <div class="lf-card__header">
+            <h2 class="lf-card__name">
+              {{ listing.name || 'Непознато ' + listing.petType }}
+            </h2>
+            <div class="lf-card__tags" aria-hidden="true">
+              <span class="badge badge-muted" *ngIf="listing.breed">{{ listing.breed }}</span>
+              <span class="badge badge-muted">{{ listing.color }}</span>
+            </div>
           </div>
 
-          <div class="pet-details">
-            <span class="detail-tag" *ngIf="listing.breed">{{ listing.breed }}</span>
-            <span class="detail-tag">{{ listing.color }}</span>
-          </div>
+          <p class="lf-card__desc">{{ listing.description }}</p>
 
-          <p class="pet-desc">{{ listing.description }}</p>
-
-          <div class="pet-meta">
-            <span class="meta-item">
-              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <div class="lf-card__meta">
+            <span class="lf-card__meta-item">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
               {{ listing.city }} — {{ listing.location }}
             </span>
-            <span class="meta-item">
-              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <span class="lf-card__meta-item">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                 <line x1="16" y1="2" x2="16" y2="6"/>
                 <line x1="8" y1="2" x2="8" y2="6"/>
@@ -199,20 +217,19 @@
             </span>
           </div>
 
-          <div class="card-sep"></div>
-
-          <!-- Kontakt -->
-          <div class="contact-row">
-            <div class="contact-info">
-              <span class="contact-name">👤 {{ listing.contactName }}</span>
-              <span class="contact-phone">📞 {{ listing.contactPhone }}</span>
+          <div class="lf-card__footer">
+            <div class="lf-card__contact">
+              <span class="lf-card__contact-name">{{ listing.contactName }}</span>
+              <a class="lf-card__contact-phone"
+                 [href]="'tel:' + listing.contactPhone"
+                 [attr.aria-label]="'Јавете се на ' + listing.contactPhone">
+                {{ listing.contactPhone }}
+              </a>
             </div>
-
-            <!-- Sподели копче -->
-            <button class="btn-share"
+            <button class="btn btn-ghost btn-sm lf-card__share"
                     (click)="shareListing($event, listing)"
-                    title="Сподели оглас">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    [attr.aria-label]="'Сподели оглас, споделено ' + listing.shareCount + ' пати'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <circle cx="18" cy="5" r="3"/>
                 <circle cx="6" cy="12" r="3"/>
                 <circle cx="18" cy="19" r="3"/>
@@ -222,11 +239,10 @@
               {{ listing.shareCount }}
             </button>
           </div>
-
         </div>
-      </div>
-      <!-- END *ngFor -->
+
+      </article>
 
     </div>
-  </div>
+  </main>
 </div>

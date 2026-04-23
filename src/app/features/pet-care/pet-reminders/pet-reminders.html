@@ -1,140 +1,162 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="reminders-page">
+<div class="pet-reminders page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
-          <a routerLink="/pet-care">Грижа за милениче</a>
-          <span class="sep">›</span>
-          <span class="current">Потсетници</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <a routerLink="/pet-care">Pet Care</a>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Потсетници</span>
         </nav>
         <h1 class="page-title">
           Потсетници за <em>{{ pet?.name }}</em>
         </h1>
       </div>
-      <div class="header-right">
-        <div class="hstat">
-          <span class="hstat-num">{{ reminders.length }}</span>
-          <span class="hstat-label">Потсетници</span>
+      <div class="page-header-right">
+        <div class="header-stat">
+          <span class="header-stat-value">{{ reminders.length }}</span>
+          <span class="header-stat-label">Потсетници</span>
         </div>
-        <button class="btn-add" (click)="showForm = !showForm">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <button class="btn btn-primary btn-sm"
+                (click)="showForm = !showForm"
+                [attr.aria-expanded]="showForm"
+                aria-controls="reminder-form">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
           </svg>
           Додај потсетник
         </button>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- FORMA ZA NOV POTSЕТNIK -->
-  <div class="form-section" *ngIf="showForm">
-    <div class="form-card">
-      <h3 class="form-title">Нов потсетник</h3>
-
+  <!-- ADD FORM -->
+  <div class="pr-form-wrap" *ngIf="showForm" id="reminder-form" role="region" aria-label="Форма за нов потсетник">
+    <div class="pr-form surface-raised">
+      <h2 class="pr-form__title">Нов потсетник</h2>
       <div class="form-row">
-        <!-- Tip -->
         <div class="form-group">
-          <label class="form-label">Тип</label>
-          <select class="form-select" [(ngModel)]="newReminder.type">
-            <option value="Вакцинација">💉 Вакцинација</option>
-            <option value="Преглед">🏥 Преглед</option>
-            <option value="Храненје">🍖 Храненје</option>
-            <option value="Друго">🔔 Друго</option>
+          <label class="form-label" for="rem-type">Тип</label>
+          <select class="form-select" id="rem-type" [(ngModel)]="newReminder.type">
+            <option value="Вакцинација">Вакцинација</option>
+            <option value="Преглед">Преглед</option>
+            <option value="Храненје">Храненје</option>
+            <option value="Друго">Друго</option>
           </select>
         </div>
-
-        <!-- Naslov -->
         <div class="form-group">
-          <label class="form-label">Наслов</label>
-          <input class="form-input"
-                 type="text"
-                 placeholder="пр. Годишна вакцина..."
-                 [(ngModel)]="newReminder.title"/>
+          <label class="form-label" for="rem-title">Наслов</label>
+          <input class="form-input" id="rem-title" type="text" placeholder="пр. Годишна вакцина..." [(ngModel)]="newReminder.title"/>
         </div>
-
-        <!-- Datum -->
         <div class="form-group">
-          <label class="form-label">Датум</label>
-          <input class="form-input"
-                 type="date"
-                 [(ngModel)]="newReminder.date"/>
+          <label class="form-label" for="rem-date">Датум</label>
+          <input class="form-input" id="rem-date" type="date" [(ngModel)]="newReminder.date"/>
         </div>
       </div>
-
-      <!-- Beleshki -->
       <div class="form-group">
-        <label class="form-label">Белешки</label>
-        <input class="form-input"
-               type="text"
-               placeholder="пр. Кај д-р Петров..."
-               [(ngModel)]="newReminder.notes"/>
+        <label class="form-label" for="rem-notes">Белешки</label>
+        <input class="form-input" id="rem-notes" type="text" placeholder="пр. Кај д-р Петров..." [(ngModel)]="newReminder.notes"/>
       </div>
-
-      <!-- Akcii -->
-      <div class="form-actions">
-        <button class="btn-cancel" (click)="showForm = false">Откажи</button>
-        <button class="btn-save" (click)="addReminder()">+ Додај</button>
+      <div class="pr-form__actions">
+        <button class="btn btn-ghost btn-sm" type="button" (click)="showForm = false">Откажи</button>
+        <button class="btn btn-primary btn-sm" type="button" (click)="addReminder()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Додај
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- LISTA NA POTSETNICI -->
-  <div class="content-area">
+  <!-- CONTENT -->
+  <main class="content-area" role="main">
 
-    <!-- Prazna sostojba -->
-    <div class="empty-state" *ngIf="reminders.length === 0">
-      <span class="empty-icon">🔔</span>
-      <h3>Сеуште нема потсетници</h3>
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="reminders.length === 0" role="status">
+      <div class="empty-state-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+      </div>
+      <h3>Нема потсетници</h3>
       <p>Додајте го првиот потсетник за {{ pet?.name }}.</p>
     </div>
 
-    <!-- Potsetnici lista -->
-    <div class="reminders-list" *ngIf="reminders.length > 0">
-      <div class="reminder-card"
-           *ngFor="let reminder of reminders"
-           [class.completed]="reminder.completed"
-           [class.overdue]="!reminder.completed && isOverdue(reminder.date)">
+    <!-- Reminders list -->
+    <div class="pr-list" *ngIf="reminders.length > 0" role="list">
+      <article class="pr-item anim-fade-up"
+               *ngFor="let reminder of reminders; let i = index"
+               [class.pr-item--completed]="reminder.completed"
+               [class.pr-item--overdue]="!reminder.completed && isOverdue(reminder.date)"
+               [style.animation-delay]="(i * 0.04) + 's'"
+               role="listitem">
 
-        <!-- Checkbox za completed -->
-        <button class="btn-check"
-                [class.checked]="reminder.completed"
+        <!-- Check button -->
+        <button class="pr-item__check"
+                [class.pr-item__check--done]="reminder.completed"
                 (click)="toggleReminder(reminder.id)"
-                title="{{ reminder.completed ? 'Означи како неизвршен' : 'Означи како извршен' }}">
-          {{ reminder.completed ? '✓' : '' }}
+                [attr.aria-label]="reminder.completed ? 'Означи како неизвршен' : 'Означи како извршен'"
+                [attr.aria-pressed]="reminder.completed">
+          <svg *ngIf="reminder.completed" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
         </button>
 
-        <div class="reminder-icon">{{ getReminderIcon(reminder.type) }}</div>
-
-        <div class="reminder-body">
-          <div class="reminder-title">{{ reminder.title }}</div>
-          <div class="reminder-meta">
-            <span class="reminder-type">{{ reminder.type }}</span>
-            <span>📅 {{ reminder.date | date:'dd.MM.yyyy' }}</span>
-            <span class="overdue-badge"
-                  *ngIf="!reminder.completed && isOverdue(reminder.date)">
-              ⚠ Задоцнето
-            </span>
-            <span class="done-badge" *ngIf="reminder.completed">
-              ✓ Извршено
-            </span>
-          </div>
-          <div class="reminder-notes" *ngIf="reminder.notes">
-            {{ reminder.notes }}
-          </div>
+        <!-- Icon -->
+        <div class="pr-item__icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <ng-container *ngIf="reminder.type === 'Вакцинација'">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </ng-container>
+            <ng-container *ngIf="reminder.type === 'Преглед'">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </ng-container>
+            <ng-container *ngIf="reminder.type === 'Храненје'">
+              <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
+            </ng-container>
+            <ng-container *ngIf="reminder.type === 'Друго'">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 01-3.46 0"/>
+            </ng-container>
+          </svg>
         </div>
 
-        <button class="btn-delete" (click)="deleteReminder(reminder.id)" title="Избриши">
-          🗑️
+        <!-- Body -->
+        <div class="pr-item__body">
+          <div class="pr-item__header">
+            <h3 class="pr-item__title">{{ reminder.title }}</h3>
+            <div class="pr-item__meta">
+              <span class="badge badge-muted">{{ reminder.type }}</span>
+              <span class="pr-item__date">{{ reminder.date | date:'dd.MM.yyyy' }}</span>
+              <span class="badge badge-danger"
+                    *ngIf="!reminder.completed && isOverdue(reminder.date)">
+                Задоцнето
+              </span>
+              <span class="badge badge-sage" *ngIf="reminder.completed">Извршено</span>
+            </div>
+          </div>
+          <p class="pr-item__notes" *ngIf="reminder.notes">{{ reminder.notes }}</p>
+        </div>
+
+        <!-- Delete -->
+        <button class="btn btn-ghost btn-icon btn-danger"
+                (click)="deleteReminder(reminder.id)"
+                [attr.aria-label]="'Избриши потсетник ' + reminder.title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+          </svg>
         </button>
 
-      </div>
+      </article>
     </div>
-
-  </div>
+  </main>
 </div>

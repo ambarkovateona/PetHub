@@ -1,93 +1,112 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="shop-page">
+<div class="shop-list page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
-          <span class="current">Продавница</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Продавница</span>
         </nav>
         <h1 class="page-title">
           PetHub <em>Продавница</em>
         </h1>
       </div>
-      <div class="header-right">
+
+      <div class="page-header-right">
         <!-- PawPoints -->
-        <div class="pawpoints-badge">
-          <span class="pawpoints-icon">🐾</span>
-          <div>
-            <span class="pawpoints-num">{{ pawPoints }}</span>
-            <span class="pawpoints-label">PawPoints</span>
+        <div class="pawpoints" aria-label="{{ pawPoints }} PawPoints">
+          <div class="pawpoints__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="7"/>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+            </svg>
+          </div>
+          <div class="pawpoints__info">
+            <span class="pawpoints__value">{{ pawPoints }}</span>
+            <span class="pawpoints__label">PawPoints</span>
           </div>
         </div>
-        <!-- Koshnicka -->
-        <a class="btn-cart" routerLink="/shop/cart">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
+        <!-- Cart -->
+        <a class="btn btn-secondary btn-sm"
+           routerLink="/shop/cart"
+           aria-label="Кошничка со {{ cartCount }} производи">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
             <line x1="3" y1="6" x2="21" y2="6"/>
             <path d="M16 10a4 4 0 01-8 0"/>
           </svg>
           Кошничка
-          <span class="cart-count" *ngIf="cartCount > 0">{{ cartCount }}</span>
+          <span class="badge badge-accent" *ngIf="cartCount > 0">{{ cartCount }}</span>
         </a>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- FILTER BAR -->
-  <div class="filter-section">
-    <div class="filter-inner">
+  <div class="filter-bar" role="search" aria-label="Филтри за производи">
+    <div class="filter-bar-inner">
 
-      <!-- Prebaruvanje -->
-      <div class="search-wrap">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
         </svg>
-        <input type="text"
-               placeholder="Пребарај производи..."
-               [(ngModel)]="searchTerm"
-               (input)="filterProducts()"/>
+        <input
+          type="search"
+          placeholder="Пребарај производи..."
+          [(ngModel)]="searchTerm"
+          (input)="filterProducts()"
+          aria-label="Пребарај производи"/>
       </div>
 
-      <div class="fdivider"></div>
+      <div class="filter-divider" aria-hidden="true"></div>
 
-      <!-- Kategorija -->
       <select class="filter-select"
-              [class.has-value]="selectedCategory !== ''"
+              [class.is-active]="selectedCategory !== ''"
               [(ngModel)]="selectedCategory"
-              (change)="filterProducts()">
+              (change)="filterProducts()"
+              aria-label="Филтрирај по категорија">
         <option value="">Сите категории</option>
         <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
       </select>
 
-      <!-- Vid na mileniче -->
       <select class="filter-select"
-              [class.has-value]="selectedPetType !== ''"
+              [class.is-active]="selectedPetType !== ''"
               [(ngModel)]="selectedPetType"
-              (change)="filterProducts()">
+              (change)="filterProducts()"
+              aria-label="Филтрирај по вид на милениче">
         <option value="">Сите миленичиња</option>
-        <option value="Куче">🐶 Куче</option>
-        <option value="Мачка">🐱 Мачка</option>
+        <option value="Куче">Куче</option>
+        <option value="Мачка">Мачка</option>
       </select>
 
-      <!-- Vet Approved -->
-      <label class="vet-toggle" [class.active]="vetApprovedOnly">
+      <label class="vet-toggle"
+             [class.vet-toggle--active]="vetApprovedOnly"
+             aria-label="Прикажи само Vet Approved производи">
         <input type="checkbox"
                [(ngModel)]="vetApprovedOnly"
-               (change)="filterProducts()"/>
-        <span>✓ Vet Approved</span>
+               (change)="filterProducts()"
+               aria-checked="{{ vetApprovedOnly }}"/>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        Vet Approved
       </label>
 
       <div class="filter-actions">
-        <!-- Reset -->
-        <button class="btn-reset"
+        <button class="btn btn-ghost btn-sm"
                 *ngIf="searchTerm || selectedCategory || selectedPetType || vetApprovedOnly"
-                (click)="resetFilters()">
-          ↺ Ресетирај
+                (click)="resetFilters()"
+                aria-label="Ресетирај филтри">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 105.04-8.49"/>
+          </svg>
+          Ресетирај
         </button>
       </div>
 
@@ -95,55 +114,72 @@
   </div>
 
   <!-- CONTENT -->
-  <div class="content-area">
+  <main class="content-area" role="main">
 
-    <!-- SMART PREPORAKI -->
-    <div class="recommendations-section" *ngIf="recommendedProducts.length > 0 && !searchTerm && !selectedCategory">
-      <div class="section-header">
-        <h2 class="section-title">
-          🐾 Препорачано за <em>{{ userPets[0]?.name }}</em>
-        </h2>
-        <p class="section-sub">Врз основа на профилот на вашето милениче</p>
+    <!-- SMART RECOMMENDATIONS -->
+    <section class="recommendations"
+             *ngIf="recommendedProducts.length > 0 && !searchTerm && !selectedCategory"
+             aria-labelledby="rec-title">
+      <div class="recommendations__header">
+        <div>
+          <p class="section-eyebrow">Паметни препораки</p>
+          <h2 class="recommendations__title" id="rec-title">
+            Препорачано за <em>{{ userPets[0]?.name }}</em>
+          </h2>
+          <p class="recommendations__sub">Врз основа на профилот на вашето милениче</p>
+        </div>
       </div>
-      <div class="recommendations-grid">
-        <a class="product-card recommended"
-           *ngFor="let product of recommendedProducts"
-           [routerLink]="['/shop', product.id]">
 
-          <div class="card-img">
+      <div class="recommendations__grid">
+        <a class="product-card product-card--rec anim-fade-up"
+           *ngFor="let product of recommendedProducts; let i = index"
+           [routerLink]="['/shop', product.id]"
+           [style.animation-delay]="(i * 0.05) + 's'"
+           [attr.aria-label]="product.name + ' - ' + formatPrice(product.price)">
+
+          <div class="product-card__img">
             <img [src]="product.image" [alt]="product.name"
-                 onerror="this.src='https://placehold.co/400x300/E8D5B7/6B4F35?text=🐾'"/>
-            <span class="vet-badge" *ngIf="product.vetApproved">✓ Vet</span>
-            <span class="rec-badge">⭐ Препорачано</span>
+                 loading="lazy"
+                 onerror="this.src='https://placehold.co/400x240/F5F4F0/9E8B7A?text=Product'"/>
+            <div class="product-card__img-overlay" aria-hidden="true"></div>
+            <div class="product-card__badges" aria-hidden="true">
+              <span class="badge badge-sage" *ngIf="product.vetApproved">Vet</span>
+              <span class="badge badge-gold">Препорачано</span>
+            </div>
           </div>
 
-          <div class="card-body">
-            <div class="product-brand">{{ product.brand }}</div>
-            <div class="product-name">{{ product.name }}</div>
-            <div class="product-rating">
-              <span class="stars">{{ getStars(product.rating) }}</span>
-              <span class="review-count">({{ product.reviewCount }})</span>
+          <div class="product-card__body">
+            <p class="product-card__brand">{{ product.brand }}</p>
+            <h3 class="product-card__name">{{ product.name }}</h3>
+            <div class="product-card__rating" aria-label="Оцена {{ product.rating }} од 5">
+              <span class="product-card__stars" aria-hidden="true">{{ getStars(product.rating) }}</span>
+              <span class="product-card__reviews">({{ product.reviewCount }})</span>
             </div>
-            <div class="card-footer">
-              <span class="product-price">{{ formatPrice(product.price) }}</span>
-              <button class="btn-add-cart" (click)="addToCart($event, product)">
-                + Додај
+            <div class="product-card__footer">
+              <span class="product-card__price">{{ formatPrice(product.price) }}</span>
+              <button class="btn btn-primary btn-sm"
+                      (click)="addToCart($event, product)"
+                      [attr.aria-label]="'Додај ' + product.name + ' во кошничка'">
+                Додај
               </button>
             </div>
           </div>
 
         </a>
       </div>
-    </div>
+    </section>
 
-    <!-- REZULTATI BAR -->
+    <!-- RESULTS BAR -->
     <div class="results-bar">
-      <p class="results-count">
+      <p class="results-count" aria-live="polite">
         <strong>{{ filteredProducts.length }}</strong> производи
       </p>
       <div class="sort-wrap">
-        <span class="sort-label">Сортирај</span>
-        <select class="sort-select" [(ngModel)]="sortBy" (change)="filterProducts()">
+        <span class="sort-label" id="sort-label">Сортирај</span>
+        <select class="sort-select"
+                [(ngModel)]="sortBy"
+                (change)="filterProducts()"
+                aria-labelledby="sort-label">
           <option value="popular">Најпопуларни</option>
           <option value="rating">Највисока оцена</option>
           <option value="price_asc">Цена: ниска → висока</option>
@@ -153,50 +189,67 @@
     </div>
 
     <!-- PRODUCTS GRID -->
-    <div class="products-grid">
+    <div class="products-grid" role="list" aria-label="Листа на производи">
 
-      <div class="empty-state" *ngIf="filteredProducts.length === 0">
-        <span class="empty-icon">🛒</span>
-        <h3>Нема пронајдени производи</h3>
+      <div class="empty-state" *ngIf="filteredProducts.length === 0" role="status">
+        <div class="empty-state-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+          </svg>
+        </div>
+        <h3>Нема производи</h3>
         <p>Обидете се со различни филтри.</p>
+        <button class="btn btn-secondary btn-sm" (click)="resetFilters()">Ресетирај</button>
       </div>
 
-      <a class="product-card"
+      <a class="product-card anim-fade-up"
          *ngFor="let product of filteredProducts; let i = index"
          [routerLink]="['/shop', product.id]"
-         [style.animation-delay]="(i * 0.05) + 's'">
+         [style.animation-delay]="(i * 0.04) + 's'"
+         role="listitem"
+         [attr.aria-label]="product.name + ' - ' + formatPrice(product.price)">
 
-        <div class="card-img">
+        <div class="product-card__img">
           <img [src]="product.image" [alt]="product.name"
-               onerror="this.src='https://placehold.co/400x300/E8D5B7/6B4F35?text=🐾'"/>
-          <div class="img-overlay"></div>
-          <span class="vet-badge" *ngIf="product.vetApproved">✓ Vet Approved</span>
-          <span class="out-of-stock-badge" *ngIf="!product.inStock">Нема залиха</span>
-          <div class="category-badge">{{ product.category }}</div>
+               loading="lazy"
+               onerror="this.src='https://placehold.co/400x240/F5F4F0/9E8B7A?text=Product'"/>
+          <div class="product-card__img-overlay" aria-hidden="true"></div>
+          <div class="product-card__badges" aria-hidden="true">
+            <span class="badge badge-sage" *ngIf="product.vetApproved">Vet Approved</span>
+            <span class="badge badge-danger" *ngIf="!product.inStock">Нема залиха</span>
+          </div>
+          <span class="product-card__category badge badge-muted" aria-hidden="true">
+            {{ product.category }}
+          </span>
         </div>
 
-        <div class="card-body">
-          <div class="product-brand">{{ product.brand }}</div>
-          <div class="product-name">{{ product.name }}</div>
-          <div class="product-weight" *ngIf="product.weight">{{ product.weight }}</div>
+        <div class="product-card__body">
+          <p class="product-card__brand">{{ product.brand }}</p>
+          <h3 class="product-card__name">{{ product.name }}</h3>
+          <p class="product-card__weight" *ngIf="product.weight">{{ product.weight }}</p>
 
-          <div class="product-rating">
-            <span class="stars">{{ getStars(product.rating) }}</span>
-            <span class="review-count">({{ product.reviewCount }})</span>
+          <div class="product-card__rating" aria-label="Оцена {{ product.rating }} од 5">
+            <span class="product-card__stars" aria-hidden="true">{{ getStars(product.rating) }}</span>
+            <span class="product-card__reviews">({{ product.reviewCount }})</span>
           </div>
 
-          <div class="pawpoints-earn">
-            🐾 +{{ product.pawPoints }} PawPoints
+          <div class="product-card__pawpoints">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="8" r="7"/>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+            </svg>
+            +{{ product.pawPoints }} PawPoints
           </div>
 
-          <div class="card-sep"></div>
-
-          <div class="card-footer">
-            <span class="product-price">{{ formatPrice(product.price) }}</span>
-            <button class="btn-add-cart"
+          <div class="product-card__footer">
+            <span class="product-card__price">{{ formatPrice(product.price) }}</span>
+            <button class="btn btn-sm"
+                    [class]="product.inStock ? 'btn-primary' : 'btn-secondary'"
                     [disabled]="!product.inStock"
-                    (click)="addToCart($event, product)">
-              {{ product.inStock ? '+ Додај' : 'Нема' }}
+                    (click)="addToCart($event, product)"
+                    [attr.aria-label]="product.inStock ? 'Додај ' + product.name + ' во кошничка' : product.name + ' нема на залиха'">
+              {{ product.inStock ? 'Додај' : 'Нема' }}
             </button>
           </div>
         </div>
@@ -204,6 +257,5 @@
       </a>
 
     </div>
-
-  </div>
+  </main>
 </div>

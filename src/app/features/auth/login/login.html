@@ -1,0 +1,457 @@
+<div class="auth-page page-wrapper">
+  <div class="auth-container">
+
+    <!-- BRAND -->
+    <div class="auth-brand">
+      <a class="auth-brand__logo" routerLink="/" aria-label="Оди на почетна">
+        <div class="auth-brand__icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="currentColor" opacity="0.15"/>
+            <circle cx="9" cy="7" r="2" fill="currentColor"/>
+            <circle cx="15" cy="7" r="2" fill="currentColor"/>
+            <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
+            <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
+            <path d="M12 22c2.5 0 4.5-2 4.5-4.5C16.5 15 14.5 13 12 13s-4.5 2-4.5 4.5C7.5 20 9.5 22 12 22z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="auth-brand__name">PetHub</span>
+      </a>
+      <p class="auth-brand__sub">Твојот свет за миленичиња</p>
+    </div>
+
+    <!-- CARD -->
+    <div class="auth-card surface-raised">
+
+      <!-- TABS -->
+      <div class="auth-tabs" role="tablist" aria-label="Најава или регистрација">
+        <button class="auth-tab"
+                [class.auth-tab--active]="activeTab === 'login'"
+                (click)="setTab('login')"
+                role="tab"
+                [attr.aria-selected]="activeTab === 'login'"
+                aria-controls="panel-login"
+                id="tab-login">
+          Најава
+        </button>
+        <button class="auth-tab"
+                [class.auth-tab--active]="activeTab === 'register'"
+                (click)="setTab('register')"
+                role="tab"
+                [attr.aria-selected]="activeTab === 'register'"
+                aria-controls="panel-register"
+                id="tab-register">
+          Регистрација
+        </button>
+        <div class="auth-tabs__indicator"
+             [class.auth-tabs__indicator--right]="activeTab === 'register'"
+             aria-hidden="true"></div>
+      </div>
+
+      <!-- ══ LOGIN PANEL ══ -->
+      <div class="auth-panel"
+           *ngIf="activeTab === 'login'"
+           id="panel-login"
+           role="tabpanel"
+           aria-labelledby="tab-login">
+
+        <div class="auth-panel__header">
+          <h1 class="auth-panel__title">Добредојдовте назад</h1>
+          <p class="auth-panel__sub">Најавете се во вашиот PetHub профил</p>
+        </div>
+
+        <!-- Error -->
+        <div class="auth-alert auth-alert--error"
+             *ngIf="loginError"
+             role="alert"
+             aria-live="assertive">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {{ loginError }}
+        </div>
+
+        <form class="auth-form" (ngSubmit)="onLogin()" novalidate>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email</label>
+            <div class="auth-input-wrap">
+              <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input class="form-input auth-input"
+                     id="login-email"
+                     type="email"
+                     placeholder="vasa@email.com"
+                     [(ngModel)]="loginForm.email"
+                     name="login-email"
+                     autocomplete="email"
+                     [attr.aria-invalid]="loginForm.email && !isValidEmail(loginForm.email)"
+                     aria-describedby="login-email-hint"/>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <div class="auth-label-row">
+              <label class="form-label" for="login-pass">Лозинка</label>
+            </div>
+            <div class="auth-input-wrap">
+              <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              <input class="form-input auth-input"
+                     id="login-pass"
+                     [type]="showLoginPass ? 'text' : 'password'"
+                     placeholder="Минимум 6 карактери"
+                     [(ngModel)]="loginForm.password"
+                     name="login-pass"
+                     autocomplete="current-password"
+                     aria-describedby="login-pass-hint"/>
+              <button class="auth-input-toggle"
+                      type="button"
+                      (click)="showLoginPass = !showLoginPass"
+                      [attr.aria-label]="showLoginPass ? 'Сокриј лозинка' : 'Прикажи лозинка'">
+                <svg *ngIf="!showLoginPass" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg *ngIf="showLoginPass" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember me -->
+          <div class="auth-remember">
+            <label class="auth-checkbox" for="remember">
+              <input type="checkbox"
+                     id="remember"
+                     [(ngModel)]="loginForm.remember"
+                     name="remember"/>
+              <span class="auth-checkbox__box" aria-hidden="true">
+                <svg *ngIf="loginForm.remember" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+              Запамти ме
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn btn-primary auth-submit"
+                  type="submit"
+                  [disabled]="!loginValid || loginLoading"
+                  [attr.aria-busy]="loginLoading">
+            <span class="auth-loader" *ngIf="loginLoading" aria-hidden="true"></span>
+            <svg *ngIf="!loginLoading" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            {{ loginLoading ? 'Најавување...' : 'Најави се' }}
+          </button>
+
+        </form>
+
+        <p class="auth-switch">
+          Немате профил?
+          <button class="auth-switch__btn" (click)="setTab('register')" type="button">
+            Регистрирајте се
+          </button>
+        </p>
+
+      </div>
+
+      <!-- ══ REGISTER PANEL ══ -->
+      <div class="auth-panel"
+           *ngIf="activeTab === 'register'"
+           id="panel-register"
+           role="tabpanel"
+           aria-labelledby="tab-register">
+
+        <div class="auth-panel__header">
+          <h1 class="auth-panel__title">Креирајте профил</h1>
+          <p class="auth-panel__sub">Придружете се на PetHub заедницата</p>
+        </div>
+
+        <!-- Error -->
+        <div class="auth-alert auth-alert--error"
+             *ngIf="registerError"
+             role="alert"
+             aria-live="assertive">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {{ registerError }}
+        </div>
+
+        <!-- Success -->
+        <div class="auth-alert auth-alert--success"
+             *ngIf="registerSuccess"
+             role="status"
+             aria-live="polite">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          {{ registerSuccess }} Пренасочување...
+        </div>
+
+        <form class="auth-form" (ngSubmit)="onRegister()" novalidate>
+
+          <!-- Full name -->
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Ime и презиме *</label>
+            <div class="auth-input-wrap">
+              <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <input class="form-input auth-input"
+                     id="reg-name"
+                     type="text"
+                     placeholder="Вашето ime и презиме"
+                     [(ngModel)]="registerForm.fullName"
+                     name="reg-name"
+                     autocomplete="name"/>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email *</label>
+            <div class="auth-input-wrap">
+              <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input class="form-input auth-input"
+                     id="reg-email"
+                     type="email"
+                     placeholder="vasa@email.com"
+                     [(ngModel)]="registerForm.email"
+                     name="reg-email"
+                     autocomplete="email"/>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label" for="reg-pass">Лозинка *</label>
+            <div class="auth-input-wrap">
+              <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              <input class="form-input auth-input"
+                     id="reg-pass"
+                     [type]="showRegPass ? 'text' : 'password'"
+                     placeholder="Минимум 6 карактери"
+                     [(ngModel)]="registerForm.password"
+                     name="reg-pass"
+                     autocomplete="new-password"
+                     (input)="checkPasswordStrength(registerForm.password)"/>
+              <button class="auth-input-toggle"
+                      type="button"
+                      (click)="showRegPass = !showRegPass"
+                      [attr.aria-label]="showRegPass ? 'Сокриј лозинка' : 'Прикажи лозинка'">
+                <svg *ngIf="!showRegPass" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg *ngIf="showRegPass" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Password strength -->
+            <div class="auth-strength" *ngIf="passwordStrength" aria-live="polite">
+              <div class="auth-strength__bars">
+                <div class="auth-strength__bar"
+                     [class.auth-strength__bar--active]="passwordStrength === 'weak' || passwordStrength === 'fair' || passwordStrength === 'strong'"
+                     [class.auth-strength__bar--weak]="passwordStrength === 'weak'"></div>
+                <div class="auth-strength__bar"
+                     [class.auth-strength__bar--active]="passwordStrength === 'fair' || passwordStrength === 'strong'"
+                     [class.auth-strength__bar--fair]="passwordStrength === 'fair'"></div>
+                <div class="auth-strength__bar"
+                     [class.auth-strength__bar--active]="passwordStrength === 'strong'"
+                     [class.auth-strength__bar--strong]="passwordStrength === 'strong'"></div>
+              </div>
+              <span class="auth-strength__label"
+                    [class.auth-strength__label--weak]="passwordStrength === 'weak'"
+                    [class.auth-strength__label--fair]="passwordStrength === 'fair'"
+                    [class.auth-strength__label--strong]="passwordStrength === 'strong'">
+                {{ strengthLabel }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Confirm password -->
+          <div class="form-group">
+            <label class="form-label" for="reg-confirm">Потврди лозинка *</label>
+            <div class="auth-input-wrap">
+              <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              <input class="form-input auth-input"
+                     id="reg-confirm"
+                     [type]="showRegConfPass ? 'text' : 'password'"
+                     placeholder="Повторете ја лозинката"
+                     [(ngModel)]="registerForm.confirmPassword"
+                     name="reg-confirm"
+                     autocomplete="new-password"/>
+              <button class="auth-input-toggle"
+                      type="button"
+                      (click)="showRegConfPass = !showRegConfPass"
+                      [attr.aria-label]="showRegConfPass ? 'Сокриј лозинка' : 'Прикажи лозинка'">
+                <svg *ngIf="!showRegConfPass" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg *ngIf="showRegConfPass" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
+            <!-- Match indicator -->
+            <p class="auth-match"
+               *ngIf="registerForm.confirmPassword"
+               [class.auth-match--ok]="registerForm.password === registerForm.confirmPassword"
+               [class.auth-match--err]="registerForm.password !== registerForm.confirmPassword"
+               aria-live="polite">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <ng-container *ngIf="registerForm.password === registerForm.confirmPassword">
+                  <polyline points="20 6 9 17 4 12"/>
+                </ng-container>
+                <ng-container *ngIf="registerForm.password !== registerForm.confirmPassword">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </ng-container>
+              </svg>
+              {{ registerForm.password === registerForm.confirmPassword ? 'Лозинките се совпаѓаат' : 'Лозинките не се совпаѓаат' }}
+            </p>
+          </div>
+
+          <!-- Optional fields -->
+          <div class="auth-optional">
+            <p class="auth-optional__label">Опционални информации</p>
+
+            <div class="form-row">
+              <!-- Phone -->
+              <div class="form-group">
+                <label class="form-label" for="reg-phone">Телефон</label>
+                <div class="auth-input-wrap">
+                  <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.1 2.18 2 2 0 012.08 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                  </svg>
+                  <input class="form-input auth-input"
+                         id="reg-phone"
+                         type="tel"
+                         placeholder="07x xxx xxx"
+                         [(ngModel)]="registerForm.phone"
+                         name="reg-phone"
+                         autocomplete="tel"/>
+                </div>
+              </div>
+
+              <!-- City -->
+              <div class="form-group">
+                <label class="form-label" for="reg-city">Град</label>
+                <div class="auth-input-wrap">
+                  <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <select class="form-select auth-input auth-select"
+                          id="reg-city"
+                          [(ngModel)]="registerForm.city"
+                          name="reg-city">
+                    <option value="">— Изберете —</option>
+                    <option value="Скопје">Скопје</option>
+                    <option value="Битола">Битола</option>
+                    <option value="Охрид">Охрид</option>
+                    <option value="Тетово">Тетово</option>
+                    <option value="Куманово">Куманово</option>
+                    <option value="Струмица">Струмица</option>
+                    <option value="Друго">Друго</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Avatar URL -->
+            <div class="form-group">
+              <label class="form-label" for="reg-avatar">URL на профилна слика</label>
+              <div class="auth-input-wrap">
+                <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <input class="form-input auth-input"
+                       id="reg-avatar"
+                       type="url"
+                       placeholder="https://..."
+                       [(ngModel)]="registerForm.avatar"
+                       name="reg-avatar"/>
+              </div>
+              <!-- Avatar preview -->
+              <div class="auth-avatar-preview" *ngIf="registerForm.avatar">
+                <img [src]="registerForm.avatar"
+                     alt="Преглед на профилна слика"
+                     onerror="this.style.display='none'"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn btn-primary auth-submit"
+                  type="submit"
+                  [disabled]="!registerValid || registerLoading"
+                  [attr.aria-busy]="registerLoading">
+            <span class="auth-loader" *ngIf="registerLoading" aria-hidden="true"></span>
+            <svg *ngIf="!registerLoading" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/>
+              <line x1="23" y1="11" x2="17" y2="11"/>
+            </svg>
+            {{ registerLoading ? 'Регистрирање...' : 'Креирај профил' }}
+          </button>
+
+        </form>
+
+        <p class="auth-switch">
+          Веќе имате профил?
+          <button class="auth-switch__btn" (click)="setTab('login')" type="button">
+            Најавете се
+          </button>
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Back link -->
+    <a class="auth-back" routerLink="/" aria-label="Врати се на почетна страница">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Назад на почетна
+    </a>
+
+  </div>
+</div>

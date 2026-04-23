@@ -1,0 +1,252 @@
+<nav
+  class="navbar"
+  [class.navbar--scrolled]="isScrolled"
+  [class.navbar--open]="menuOpen"
+  role="navigation"
+  aria-label="Main navigation">
+
+  <div class="navbar__inner">
+
+    <!-- LOGO -->
+    <a class="navbar__logo" routerLink="/" (click)="closeMenu()" aria-label="PetHub home">
+      <div class="navbar__logo-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="currentColor" opacity="0.15"/>
+          <circle cx="9" cy="7" r="2" fill="currentColor"/>
+          <circle cx="15" cy="7" r="2" fill="currentColor"/>
+          <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
+          <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
+          <path d="M12 22c2.5 0 4.5-2 4.5-4.5C16.5 15 14.5 13 12 13s-4.5 2-4.5 4.5C7.5 20 9.5 22 12 22z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="navbar__logo-text">
+        <span class="navbar__logo-name">PetHub</span>
+        <span class="navbar__logo-sub">Твојот свет за миленичиња</span>
+      </div>
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <div class="navbar__nav" role="menubar">
+      <a class="navbar__link"
+         routerLink="/adoption"
+         routerLinkActive="navbar__link--active"
+         role="menuitem">
+        Adoption
+      </a>
+      <a class="navbar__link"
+         routerLink="/pet-care"
+         routerLinkActive="navbar__link--active"
+         role="menuitem">
+        Pet Care
+      </a>
+      <a class="navbar__link"
+         routerLink="/shop"
+         routerLinkActive="navbar__link--active"
+         role="menuitem">
+        Продавница
+      </a>
+      <a class="navbar__link"
+         routerLink="/lost-found"
+         routerLinkActive="navbar__link--active"
+         role="menuitem">
+        Изгубено &amp; Најдено
+      </a>
+    </div>
+
+    <!-- DESKTOP ACTIONS -->
+    <div class="navbar__actions">
+
+      <!-- Cart -->
+      <a class="navbar__cart"
+         routerLink="/shop/cart"
+         aria-label="Кошничка">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="navbar__cart-badge"
+              *ngIf="cartCount > 0"
+              aria-label="{{ cartCount }} производи">
+          {{ cartCount > 9 ? '9+' : cartCount }}
+        </span>
+      </a>
+
+      <div class="navbar__divider" aria-hidden="true"></div>
+
+      <!-- Logiran korisnik -->
+      <div class="navbar__user" *ngIf="authService.isLoggedIn()">
+        <div class="navbar__avatar">
+          <ng-container *ngIf="authService.getCurrentUser() as user">
+            <img *ngIf="user.avatar"
+                 [src]="user.avatar"
+                 [alt]="user.fullName"
+                 onerror="this.style.display='none'"/>
+            <span *ngIf="!user.avatar">
+              {{ user.fullName.charAt(0).toUpperCase() }}
+            </span>
+          </ng-container>
+        </div>
+        <span class="navbar__user-name">
+          <ng-container *ngIf="authService.getCurrentUser() as user">
+            {{ user.fullName.split(' ')[0] }}
+          </ng-container>
+        </span>
+        <button class="btn btn-ghost btn-sm navbar__logout"
+                (click)="authService.logout()"
+                aria-label="Одјави се">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Одјави се
+        </button>
+      </div>
+
+      <!-- Ne logiran -->
+      <ng-container *ngIf="!authService.isLoggedIn()">
+        <a class="btn btn-ghost btn-sm"
+           routerLink="/login"
+           aria-label="Најава">
+          Најава
+        </a>
+        <a class="btn btn-primary btn-sm navbar__cta"
+           routerLink="/login"
+           aria-label="Регистрирај се">
+          Регистрирај се
+        </a>
+      </ng-container>
+
+    </div>
+
+    <!-- HAMBURGER -->
+    <button
+      class="navbar__hamburger"
+      [class.navbar__hamburger--open]="menuOpen"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen"
+      aria-controls="mobile-menu"
+      aria-label="Toggle navigation">
+      <span class="navbar__hamburger-bar"></span>
+      <span class="navbar__hamburger-bar"></span>
+      <span class="navbar__hamburger-bar"></span>
+    </button>
+
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="navbar__mobile"
+       [class.navbar__mobile--open]="menuOpen"
+       id="mobile-menu"
+       role="menu">
+
+    <div class="navbar__mobile-links">
+      <a class="navbar__mobile-link"
+         routerLink="/adoption"
+         routerLinkActive="navbar__mobile-link--active"
+         (click)="closeMenu()"
+         role="menuitem">
+        <span class="navbar__mobile-link-label">Adoption</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a class="navbar__mobile-link"
+         routerLink="/pet-care"
+         routerLinkActive="navbar__mobile-link--active"
+         (click)="closeMenu()"
+         role="menuitem">
+        <span class="navbar__mobile-link-label">Pet Care</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a class="navbar__mobile-link"
+         routerLink="/shop"
+         routerLinkActive="navbar__mobile-link--active"
+         (click)="closeMenu()"
+         role="menuitem">
+        <span class="navbar__mobile-link-label">Продавница</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a class="navbar__mobile-link"
+         routerLink="/lost-found"
+         routerLinkActive="navbar__mobile-link--active"
+         (click)="closeMenu()"
+         role="menuitem">
+        <span class="navbar__mobile-link-label">Изгубено &amp; Најдено</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="navbar__mobile-footer">
+
+      <!-- Logiran korisnik - mobile -->
+      <div class="navbar__mobile-user" *ngIf="authService.isLoggedIn()">
+        <ng-container *ngIf="authService.getCurrentUser() as user">
+          <div class="navbar__avatar navbar__avatar--sm">
+            <img *ngIf="user.avatar"
+                 [src]="user.avatar"
+                 [alt]="user.fullName"
+                 onerror="this.style.display='none'"/>
+            <span *ngIf="!user.avatar">
+              {{ user.fullName.charAt(0).toUpperCase() }}
+            </span>
+          </div>
+          <div class="navbar__mobile-user-info">
+            <span class="navbar__mobile-user-name">{{ user.fullName }}</span>
+            <span class="navbar__mobile-user-email">{{ user.email }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <a class="navbar__mobile-cart"
+         routerLink="/shop/cart"
+         (click)="closeMenu()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        Кошничка
+        <span class="navbar__cart-badge navbar__cart-badge--dark" *ngIf="cartCount > 0">
+          {{ cartCount }}
+        </span>
+      </a>
+
+      <!-- Ne logiran - mobile -->
+      <ng-container *ngIf="!authService.isLoggedIn()">
+        <a class="btn btn-secondary btn-sm"
+           routerLink="/login"
+           (click)="closeMenu()">
+          Најава
+        </a>
+        <a class="btn btn-primary btn-sm"
+           routerLink="/login"
+           (click)="closeMenu()">
+          Регистрирај се
+        </a>
+      </ng-container>
+
+      <!-- Logiran - logout mobile -->
+      <button class="btn btn-ghost btn-sm navbar__logout"
+              *ngIf="authService.isLoggedIn()"
+              (click)="authService.logout(); closeMenu()"
+              aria-label="Одјави се">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Одјави се
+      </button>
+
+    </div>
+  </div>
+
+</nav>

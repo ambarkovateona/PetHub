@@ -1,109 +1,124 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="profile-page">
+<div class="pet-profile page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
-          <a routerLink="/pet-care">Грижа за милениче</a>
-          <span class="sep">›</span>
-          <span class="current">{{ isEditMode ? 'Уреди профил' : 'Ново милениче' }}</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <a routerLink="/pet-care">Pet Care</a>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">
+            {{ isEditMode ? 'Уреди профил' : 'Ново милениче' }}
+          </span>
         </nav>
         <h1 class="page-title">
-          <ng-container *ngIf="isEditMode">Уреди го профилот</ng-container>
+          <ng-container *ngIf="isEditMode">Уреди го <em>профилот</em></ng-container>
           <ng-container *ngIf="!isEditMode">Додај <em>ново милениче</em></ng-container>
         </h1>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- FORM -->
-  <div class="content-area">
-    <div class="form-card">
+  <!-- CONTENT -->
+  <main class="pp-content" role="main">
+    <div class="pp-form surface-raised">
 
-      <!-- Ime -->
-      <div class="form-group">
-        <label class="form-label">Име на милениченото</label>
-        <input class="form-input"
-               type="text"
-               placeholder="пр. Ares, Mija..."
-               [(ngModel)]="pet.name"/>
-      </div>
-
-      <!-- Vid i Rasa -->
+      <!-- Vid i Ime -->
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Вид</label>
-          <select class="form-select" [(ngModel)]="pet.type">
-            <option value="Куче">🐶 Куче</option>
-            <option value="Мачка">🐱 Мачка</option>
-            <option value="Птица">🐦 Птица</option>
-            <option value="Друго">🐾 Друго</option>
-          </select>
+          <label class="form-label" for="pet-name">Ime на милениченото</label>
+          <input class="form-input"
+                 id="pet-name"
+                 type="text"
+                 placeholder="пр. Ares, Mija..."
+                 [(ngModel)]="pet.name"
+                 autocomplete="off"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Раса</label>
+          <label class="form-label" for="pet-type">Вид</label>
+          <select class="form-select" id="pet-type" [(ngModel)]="pet.type">
+            <option value="Куче">Куче</option>
+            <option value="Мачка">Мачка</option>
+            <option value="Птица">Птица</option>
+            <option value="Друго">Друго</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Rasa i Pol -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="pet-breed">Раса</label>
           <input class="form-input"
+                 id="pet-breed"
                  type="text"
                  placeholder="пр. Golden Retriever..."
                  [(ngModel)]="pet.breed"/>
         </div>
-      </div>
-
-      <!-- Pol i Datum na raganje -->
-      <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Пол</label>
-          <select class="form-select" [(ngModel)]="pet.gender">
-            <option value="Машко">♂ Машко</option>
-            <option value="Женско">♀ Женско</option>
+          <label class="form-label" for="pet-gender">Пол</label>
+          <select class="form-select" id="pet-gender" [(ngModel)]="pet.gender">
+            <option value="Машко">Машко</option>
+            <option value="Женско">Женско</option>
           </select>
         </div>
+      </div>
+
+      <!-- Datum i Tezina -->
+      <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Датум на раѓање</label>
+          <label class="form-label" for="pet-birth">Датум на раѓање</label>
           <input class="form-input"
+                 id="pet-birth"
                  type="date"
                  [(ngModel)]="pet.birthDate"/>
         </div>
-      </div>
-
-      <!-- Tezina -->
-      <div class="form-group">
-        <label class="form-label">Тежина (kg)</label>
-        <input class="form-input"
-               type="number"
-               placeholder="пр. 12.5"
-               [(ngModel)]="pet.weight"
-               min="0"
-               step="0.1"/>
-      </div>
-
-      <!-- Slika URL -->
-      <div class="form-group">
-        <label class="form-label">URL на слика</label>
-        <input class="form-input"
-               type="text"
-               placeholder="https://..."
-               [(ngModel)]="pet.image"/>
-        <!-- Preview na slikata -->
-        <div class="img-preview" *ngIf="pet.image">
-          <img [src]="pet.image" alt="Preview"
-               onerror="this.src='https://placehold.co/400x200/E8D5B7/6B4F35?text=🐾'"/>
+        <div class="form-group">
+          <label class="form-label" for="pet-weight">Тежина (kg)</label>
+          <input class="form-input"
+                 id="pet-weight"
+                 type="number"
+                 placeholder="пр. 12.5"
+                 [(ngModel)]="pet.weight"
+                 min="0"
+                 step="0.1"/>
         </div>
       </div>
 
-      <!-- Akcii -->
-      <div class="form-actions">
-        <button class="btn-cancel" (click)="cancel()">Откажи</button>
-        <button class="btn-save" (click)="savePet()">
-          {{ isEditMode ? '💾 Зачувај промени' : '+ Додај милениче' }}
-        </button>
+      <!-- Slika -->
+      <div class="form-group">
+        <label class="form-label" for="pet-image">URL на слика</label>
+        <input class="form-input"
+               id="pet-image"
+               type="url"
+               placeholder="https://..."
+               [(ngModel)]="pet.image"/>
+        <div class="pp-preview" *ngIf="pet.image" role="img" [attr.aria-label]="'Преглед на слика за ' + pet.name">
+          <img [src]="pet.image"
+               [alt]="pet.name || 'Преглед на слика'"
+               onerror="this.src='https://placehold.co/600x200/F5F4F0/9E8B7A?text=Pet'"/>
+        </div>
       </div>
 
-    </div>
-  </div>
-</div>
+      <!-- Divider -->
+      <div class="divider-label" role="separator">
+        <span>Контакт информации</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="pp-actions">
+        <button class="btn btn-ghost btn-sm"
+                type="button"
+                (click)="cancel()"
+                aria-label="Откажи и врати се назад">
+          Откажи
+        </button>
+        <button class="btn btn-primary"
+                type="submit"
+                (click)="savePet()"
+                [attr.aria-label]="isEditMode ? 'Зачувај ги промените' : 'Додај милениче'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>

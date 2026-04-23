@@ -1,121 +1,136 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="activities-page">
+<div class="pet-activities page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
-          <a routerLink="/pet-care">Грижа за милениче</a>
-          <span class="sep">›</span>
-          <span class="current">Активности</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <a routerLink="/pet-care">Pet Care</a>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Активности</span>
         </nav>
         <h1 class="page-title">
           Активности на <em>{{ pet?.name }}</em>
         </h1>
       </div>
-      <div class="header-right">
-        <div class="hstat">
-          <span class="hstat-num">{{ activities.length }}</span>
-          <span class="hstat-label">Активности</span>
+      <div class="page-header-right">
+        <div class="header-stat">
+          <span class="header-stat-value">{{ activities.length }}</span>
+          <span class="header-stat-label">Активности</span>
         </div>
-        <button class="btn-add" (click)="showForm = !showForm">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <button class="btn btn-primary btn-sm"
+                (click)="showForm = !showForm"
+                [attr.aria-expanded]="showForm"
+                aria-controls="activity-form">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
           </svg>
           Додај активност
         </button>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- FORMA ZA NOVA AKTIVNOST -->
-  <div class="form-section" *ngIf="showForm">
-    <div class="form-card">
-      <h3 class="form-title">Нова активност</h3>
-
+  <!-- ADD FORM -->
+  <div class="pa-form-wrap" *ngIf="showForm" id="activity-form" role="region" aria-label="Форма за нова активност">
+    <div class="pa-form surface-raised">
+      <h2 class="pa-form__title">Нова активност</h2>
       <div class="form-row">
-        <!-- Tip -->
         <div class="form-group">
-          <label class="form-label">Тип</label>
-          <select class="form-select" [(ngModel)]="newActivity.type">
-            <option value="Прошетка">🦮 Прошетка</option>
-            <option value="Игра">🎾 Игра</option>
-            <option value="Храненје">🍖 Храненје</option>
+          <label class="form-label" for="act-type">Тип</label>
+          <select class="form-select" id="act-type" [(ngModel)]="newActivity.type">
+            <option value="Прошетка">Прошетка</option>
+            <option value="Игра">Игра</option>
+            <option value="Храненје">Храненје</option>
           </select>
         </div>
-
-        <!-- Datum i vreme -->
         <div class="form-group">
-          <label class="form-label">Датум и време</label>
-          <input class="form-input"
-                 type="datetime-local"
-                 [(ngModel)]="newActivity.date"/>
+          <label class="form-label" for="act-date">Датум и време</label>
+          <input class="form-input" id="act-date" type="datetime-local" [(ngModel)]="newActivity.date"/>
         </div>
-
-        <!-- Traenje -->
         <div class="form-group">
-          <label class="form-label">Траење (мин)</label>
-          <input class="form-input"
-                 type="number"
-                 [(ngModel)]="newActivity.duration"
-                 min="0"/>
+          <label class="form-label" for="act-duration">Траење (мин)</label>
+          <input class="form-input" id="act-duration" type="number" [(ngModel)]="newActivity.duration" min="0"/>
         </div>
       </div>
-
-      <!-- Beleshki -->
       <div class="form-group">
-        <label class="form-label">Белешки</label>
-        <input class="form-input"
-               type="text"
-               placeholder="пр. Прошетка во паркот..."
-               [(ngModel)]="newActivity.notes"/>
+        <label class="form-label" for="act-notes">Белешки</label>
+        <input class="form-input" id="act-notes" type="text" placeholder="пр. Прошетка во паркот..." [(ngModel)]="newActivity.notes"/>
       </div>
-
-      <!-- Akcii -->
-      <div class="form-actions">
-        <button class="btn-cancel" (click)="showForm = false">Откажи</button>
-        <button class="btn-save" (click)="addActivity()">+ Додај</button>
+      <div class="pa-form__actions">
+        <button class="btn btn-ghost btn-sm" type="button" (click)="showForm = false">Откажи</button>
+        <button class="btn btn-primary btn-sm" type="button" (click)="addActivity()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Додај
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- LISTA NA AKTIVNOSTI -->
-  <div class="content-area">
+  <!-- CONTENT -->
+  <main class="content-area" role="main">
 
-    <!-- Prazna sostojba -->
-    <div class="empty-state" *ngIf="activities.length === 0">
-      <span class="empty-icon">🐾</span>
-      <h3>Сеуште нема евидентирани активности</h3>
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="activities.length === 0" role="status">
+      <div class="empty-state-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+      </div>
+      <h3>Нема активности</h3>
       <p>Додајте ја првата активност за {{ pet?.name }}.</p>
     </div>
 
-    <!-- Aktivnosti lista -->
-    <div class="activities-list" *ngIf="activities.length > 0">
-      <div class="activity-card" *ngFor="let activity of activities">
+    <!-- Activities list -->
+    <div class="pa-list" *ngIf="activities.length > 0" role="list">
+      <article class="pa-item anim-fade-up"
+               *ngFor="let activity of activities; let i = index"
+               [style.animation-delay]="(i * 0.04) + 's'"
+               role="listitem">
 
-        <div class="activity-icon">{{ getActivityIcon(activity.type) }}</div>
-
-        <div class="activity-body">
-          <div class="activity-type">{{ activity.type }}</div>
-          <div class="activity-meta">
-            <span>📅 {{ activity.date | date:'dd.MM.yyyy HH:mm' }}</span>
-            <span *ngIf="activity.duration > 0">⏱ {{ activity.duration }} мин</span>
-          </div>
-          <div class="activity-notes" *ngIf="activity.notes">
-            {{ activity.notes }}
-          </div>
+        <div class="pa-item__icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <ng-container *ngIf="activity.type === 'Прошетка'">
+              <path d="M3 12h4l3 8 4-16 3 8h4"/>
+            </ng-container>
+            <ng-container *ngIf="activity.type === 'Игра'">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M8 12h8M12 8v8"/>
+            </ng-container>
+            <ng-container *ngIf="activity.type === 'Храненје'">
+              <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
+            </ng-container>
+          </svg>
         </div>
 
-        <button class="btn-delete" (click)="deleteActivity(activity.id)" title="Избриши">
-          🗑️
+        <div class="pa-item__body">
+          <div class="pa-item__header">
+            <h3 class="pa-item__type">{{ activity.type }}</h3>
+            <div class="pa-item__meta">
+              <span>{{ activity.date | date:'dd.MM.yyyy HH:mm' }}</span>
+              <span class="pa-item__sep" aria-hidden="true">·</span>
+              <span *ngIf="activity.duration > 0">{{ activity.duration }} мин</span>
+            </div>
+          </div>
+          <p class="pa-item__notes" *ngIf="activity.notes">{{ activity.notes }}</p>
+        </div>
+
+        <button class="btn btn-ghost btn-icon btn-danger"
+                (click)="deleteActivity(activity.id)"
+                [attr.aria-label]="'Избриши активност ' + activity.type">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+          </svg>
         </button>
 
-      </div>
+      </article>
     </div>
-
-  </div>
+  </main>
 </div>

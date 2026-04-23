@@ -1,135 +1,206 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<div class="cart-page">
+<div class="cart-page page-wrapper">
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="header-inner">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
       <div>
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
-          <span class="sep">›</span>
+          <span class="sep" aria-hidden="true">›</span>
           <a routerLink="/shop">Продавница</a>
-          <span class="sep">›</span>
-          <span class="current">Кошничка</span>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Кошничка</span>
         </nav>
         <h1 class="page-title">
           Вашата <em>кошничка</em>
         </h1>
       </div>
-      <div class="pawpoints-badge">
-        <span class="pawpoints-icon">🐾</span>
-        <div>
-          <span class="pawpoints-num">{{ pawPoints.total }}</span>
-          <span class="pawpoints-label">PawPoints</span>
+      <div class="pawpoints-badge" aria-label="{{ pawPoints.total }} PawPoints">
+        <div class="pawpoints-badge__icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="7"/>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+          </svg>
+        </div>
+        <div class="pawpoints-badge__info">
+          <span class="pawpoints-badge__value">{{ pawPoints.total }}</span>
+          <span class="pawpoints-badge__label">PawPoints</span>
         </div>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- CONTENT -->
-  <div class="content-area">
+  <main class="content-area" role="main">
 
-    <!-- Potvrda za naracka -->
-    <div class="order-success" *ngIf="orderPlaced">
-      <div class="success-icon">🎉</div>
-      <h2 class="success-title">Нарачката е поставена!</h2>
-      <p class="success-sub">Заработивте <strong>+{{ earnedPoints }} PawPoints</strong> од оваа нарачка!</p>
-      <a class="btn-continue" routerLink="/shop">← Продолжи со купување</a>
+    <!-- Order success -->
+    <div class="cart-success anim-scale" *ngIf="orderPlaced" role="status" aria-live="polite">
+      <div class="cart-success__icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <h2 class="cart-success__title">Нарачката е поставена!</h2>
+      <p class="cart-success__sub">
+        Заработивте <strong>+{{ earnedPoints }} PawPoints</strong> од оваа нарачка!
+      </p>
+      <a class="btn btn-primary" routerLink="/shop">Продолжи со купување</a>
     </div>
 
-    <!-- Prazna koshnicka -->
-    <div class="empty-cart" *ngIf="cartItems.length === 0 && !orderPlaced">
-      <span class="empty-icon">🛒</span>
+    <!-- Empty cart -->
+    <div class="empty-state" *ngIf="cartItems.length === 0 && !orderPlaced" role="status">
+      <div class="empty-state-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+      </div>
       <h3>Кошничката е празна</h3>
-      <p>Додајте производи за да продолжите</p>
-      <a class="btn-continue" routerLink="/shop">← Кон продавница</a>
+      <p>Додајте производи за да продолжите.</p>
+      <a class="btn btn-primary btn-sm" routerLink="/shop">Кон продавница</a>
     </div>
 
-    <!-- Koshnicka so proizvodi -->
+    <!-- Cart layout -->
     <div class="cart-layout" *ngIf="cartItems.length > 0 && !orderPlaced">
 
-      <!-- Lista na proizvodi -->
-      <div class="cart-items">
-        <div class="cart-item" *ngFor="let item of cartItems">
+      <!-- Items -->
+      <div class="cart-items" role="list" aria-label="Производи во кошничка">
+        <article class="cart-item anim-fade-up"
+                 *ngFor="let item of cartItems; let i = index"
+                 [style.animation-delay]="(i * 0.04) + 's'"
+                 role="listitem">
 
-          <div class="item-img">
-            <img [src]="item.product.image" [alt]="item.product.name"
-                 onerror="this.src='https://placehold.co/100x100/E8D5B7/6B4F35?text=🐾'"/>
+          <div class="cart-item__img">
+            <img [src]="item.product.image"
+                 [alt]="item.product.name"
+                 loading="lazy"
+                 onerror="this.src='https://placehold.co/80x80/F5F4F0/9E8B7A?text=P'"/>
           </div>
 
-          <div class="item-info">
-            <div class="item-brand">{{ item.product.brand }}</div>
-            <div class="item-name">{{ item.product.name }}</div>
-            <div class="item-weight" *ngIf="item.product.weight">{{ item.product.weight }}</div>
-            <div class="item-points">🐾 +{{ item.product.pawPoints * item.quantity }} PawPoints</div>
+          <div class="cart-item__info">
+            <p class="cart-item__brand">{{ item.product.brand }}</p>
+            <h3 class="cart-item__name">{{ item.product.name }}</h3>
+            <p class="cart-item__weight" *ngIf="item.product.weight">{{ item.product.weight }}</p>
+            <p class="cart-item__points">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="8" r="7"/>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+              </svg>
+              +{{ item.product.pawPoints * item.quantity }} PawPoints
+            </p>
           </div>
 
-          <!-- Kolicina -->
-          <div class="item-quantity">
-            <button class="qty-btn" (click)="updateQuantity(item.product.id, item.quantity - 1)">−</button>
-            <span class="qty-num">{{ item.quantity }}</span>
-            <button class="qty-btn" (click)="updateQuantity(item.product.id, item.quantity + 1)">+</button>
+          <div class="cart-item__qty" role="group" [attr.aria-label]="'Количина на ' + item.product.name">
+            <button class="cart-item__qty-btn"
+                    (click)="updateQuantity(item.product.id, item.quantity - 1)"
+                    [attr.aria-label]="'Намали количина на ' + item.product.name">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M5 12h14"/>
+              </svg>
+            </button>
+            <span class="cart-item__qty-num" aria-live="polite">{{ item.quantity }}</span>
+            <button class="cart-item__qty-btn"
+                    (click)="updateQuantity(item.product.id, item.quantity + 1)"
+                    [attr.aria-label]="'Зголеми количина на ' + item.product.name">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </button>
           </div>
 
-          <div class="item-price">{{ formatPrice(item.product.price * item.quantity) }}</div>
+          <span class="cart-item__price" aria-label="Цена {{ formatPrice(item.product.price * item.quantity) }}">
+            {{ formatPrice(item.product.price * item.quantity) }}
+          </span>
 
-          <button class="btn-remove" (click)="removeItem(item.product.id)" title="Отстрани">
-            🗑️
+          <button class="btn btn-ghost btn-icon btn-danger"
+                  (click)="removeItem(item.product.id)"
+                  [attr.aria-label]="'Отстрани ' + item.product.name + ' од кошничка'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+            </svg>
           </button>
 
-        </div>
+        </article>
       </div>
 
       <!-- Summary -->
-      <div class="cart-summary">
-        <h3 class="summary-title">Резиме</h3>
+      <aside class="cart-summary surface-raised" role="complementary" aria-label="Резиме на нарачката">
+        <h2 class="cart-summary__title">Резиме</h2>
 
-        <div class="summary-row">
-          <span>Вкупно производи</span>
-          <span>{{ formatPrice(getSubtotal()) }}</span>
-        </div>
+        <div class="cart-summary__rows">
+          <div class="cart-summary__row">
+            <span>Производи</span>
+            <span>{{ formatPrice(getSubtotal()) }}</span>
+          </div>
 
-        <!-- PawPoints opcija -->
-        <div class="points-section">
-          <label class="points-toggle" [class.active]="usePoints">
-            <input type="checkbox" [(ngModel)]="usePoints"/>
-            <div class="points-toggle-inner">
-              <span class="points-toggle-icon">🐾</span>
-              <div>
-                <div class="points-toggle-title">Искористи PawPoints</div>
-                <div class="points-toggle-sub">{{ pawPoints.total }} достапни поени</div>
+          <!-- PawPoints toggle -->
+          <div class="cart-points">
+            <label class="cart-points__toggle"
+                   [class.cart-points__toggle--active]="usePoints"
+                   aria-label="Искористи PawPoints за попуст">
+              <input type="checkbox"
+                     [(ngModel)]="usePoints"
+                     aria-checked="{{ usePoints }}"/>
+              <div class="cart-points__toggle-inner">
+                <div class="cart-points__icon" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="8" r="7"/>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="cart-points__label">Искористи PawPoints</p>
+                  <p class="cart-points__sub">{{ pawPoints.total }} достапни поени</p>
+                </div>
               </div>
-            </div>
-          </label>
+            </label>
 
-          <div class="points-discount-row" *ngIf="usePoints && getPointsDiscount() > 0">
-            <span>Попуст ({{ getPointsToUse() }} поени)</span>
-            <span class="discount-val">− {{ formatPrice(getPointsDiscount()) }}</span>
+            <div class="cart-summary__row cart-summary__row--discount"
+                 *ngIf="usePoints && getPointsDiscount() > 0"
+                 aria-live="polite">
+              <span>Попуст ({{ getPointsToUse() }} поени)</span>
+              <span class="cart-discount">− {{ formatPrice(getPointsDiscount()) }}</span>
+            </div>
           </div>
         </div>
 
-        <div class="summary-sep"></div>
+        <div class="divider"></div>
 
-        <div class="summary-total-row">
+        <div class="cart-summary__total">
           <span>Вкупно</span>
-          <span class="total-price">{{ formatPrice(getTotal()) }}</span>
+          <span class="cart-summary__total-price" aria-live="polite">{{ formatPrice(getTotal()) }}</span>
         </div>
 
-        <div class="earn-row">
-          🐾 Ќе заработите <strong>+{{ getTotalEarnPoints() }} PawPoints</strong>
+        <div class="cart-earn" role="note" aria-label="PawPoints кои ќе ги заработите">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="8" r="7"/>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+          </svg>
+          Ќе заработите <strong>+{{ getTotalEarnPoints() }} PawPoints</strong>
         </div>
 
-        <button class="btn-order" (click)="placeOrder()">
-          Нарачај сега →
+        <button class="btn btn-primary btn-lg cart-summary__order"
+                type="button"
+                (click)="placeOrder()"
+                aria-label="Потврди и нарачај">
+          Нарачај сега
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </button>
 
-        <a class="btn-back-shop" routerLink="/shop">
-          ← Продолжи со купување
+        <a class="btn btn-ghost btn-sm cart-summary__back"
+           routerLink="/shop"
+           aria-label="Продолжи со купување">
+          Продолжи со купување
         </a>
 
-      </div>
+      </aside>
     </div>
-
-  </div>
+  </main>
 </div>
