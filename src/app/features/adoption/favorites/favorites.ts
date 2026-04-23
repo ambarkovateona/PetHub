@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AdoptionService } from '../../../core/services/adoption';
@@ -11,16 +11,18 @@ import { AdoptionPet } from '../../../core/models/adoption-pet.model';
   templateUrl: './favorites.html',
   styleUrl: './favorites.css'
 })
-export class FavoritesComponent {
+export class FavoritesComponent implements OnInit {
+
   favorites: AdoptionPet[] = [];
 
-  constructor(private adoptionService: AdoptionService) {
+  constructor(private adoptionService: AdoptionService) {}
+
+  ngOnInit(): void {
     this.favorites = this.adoptionService.getFavorites();
   }
 
-  removeFromFavorites(pet: AdoptionPet): void {
+  removeFavorite(pet: AdoptionPet): void {
     this.adoptionService.removeFromFavorites(pet.id);
-    // Refresh local array from service
     this.favorites = this.adoptionService.getFavorites();
   }
 }

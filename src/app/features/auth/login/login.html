@@ -29,7 +29,6 @@
                 (click)="setTab('login')"
                 role="tab"
                 [attr.aria-selected]="activeTab === 'login'"
-                aria-controls="panel-login"
                 id="tab-login">
           Најава
         </button>
@@ -38,7 +37,6 @@
                 (click)="setTab('register')"
                 role="tab"
                 [attr.aria-selected]="activeTab === 'register'"
-                aria-controls="panel-register"
                 id="tab-register">
           Регистрација
         </button>
@@ -50,7 +48,6 @@
       <!-- ══ LOGIN PANEL ══ -->
       <div class="auth-panel"
            *ngIf="activeTab === 'login'"
-           id="panel-login"
            role="tabpanel"
            aria-labelledby="tab-login">
 
@@ -59,11 +56,9 @@
           <p class="auth-panel__sub">Најавете се во вашиот PetHub профил</p>
         </div>
 
-        <!-- Error -->
         <div class="auth-alert auth-alert--error"
              *ngIf="loginError"
-             role="alert"
-             aria-live="assertive">
+             role="alert">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/>
             <line x1="12" y1="8" x2="12" y2="12"/>
@@ -74,7 +69,6 @@
 
         <form class="auth-form" (ngSubmit)="onLogin()" novalidate>
 
-          <!-- Email -->
           <div class="form-group">
             <label class="form-label" for="login-email">Email</label>
             <div class="auth-input-wrap">
@@ -88,17 +82,12 @@
                      placeholder="vasa@email.com"
                      [(ngModel)]="loginForm.email"
                      name="login-email"
-                     autocomplete="email"
-                     [attr.aria-invalid]="loginForm.email && !isValidEmail(loginForm.email)"
-                     aria-describedby="login-email-hint"/>
+                     autocomplete="email"/>
             </div>
           </div>
 
-          <!-- Password -->
           <div class="form-group">
-            <div class="auth-label-row">
-              <label class="form-label" for="login-pass">Лозинка</label>
-            </div>
+            <label class="form-label" for="login-pass">Лозинка</label>
             <div class="auth-input-wrap">
               <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
@@ -110,8 +99,7 @@
                      placeholder="Минимум 6 карактери"
                      [(ngModel)]="loginForm.password"
                      name="login-pass"
-                     autocomplete="current-password"
-                     aria-describedby="login-pass-hint"/>
+                     autocomplete="current-password"/>
               <button class="auth-input-toggle"
                       type="button"
                       (click)="showLoginPass = !showLoginPass"
@@ -128,7 +116,6 @@
             </div>
           </div>
 
-          <!-- Remember me -->
           <div class="auth-remember">
             <label class="auth-checkbox" for="remember">
               <input type="checkbox"
@@ -144,7 +131,6 @@
             </label>
           </div>
 
-          <!-- Submit -->
           <button class="btn btn-primary auth-submit"
                   type="submit"
                   [disabled]="!loginValid || loginLoading"
@@ -172,7 +158,6 @@
       <!-- ══ REGISTER PANEL ══ -->
       <div class="auth-panel"
            *ngIf="activeTab === 'register'"
-           id="panel-register"
            role="tabpanel"
            aria-labelledby="tab-register">
 
@@ -181,11 +166,9 @@
           <p class="auth-panel__sub">Придружете се на PetHub заедницата</p>
         </div>
 
-        <!-- Error -->
         <div class="auth-alert auth-alert--error"
              *ngIf="registerError"
-             role="alert"
-             aria-live="assertive">
+             role="alert">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/>
             <line x1="12" y1="8" x2="12" y2="12"/>
@@ -194,11 +177,9 @@
           {{ registerError }}
         </div>
 
-        <!-- Success -->
         <div class="auth-alert auth-alert--success"
              *ngIf="registerSuccess"
-             role="status"
-             aria-live="polite">
+             role="status">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
             <polyline points="22 4 12 14.01 9 11.01"/>
@@ -208,9 +189,8 @@
 
         <form class="auth-form" (ngSubmit)="onRegister()" novalidate>
 
-          <!-- Full name -->
           <div class="form-group">
-            <label class="form-label" for="reg-name">Ime и презиме *</label>
+            <label class="form-label" for="reg-name">Име и презиме *</label>
             <div class="auth-input-wrap">
               <svg class="auth-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
@@ -219,14 +199,13 @@
               <input class="form-input auth-input"
                      id="reg-name"
                      type="text"
-                     placeholder="Вашето ime и презиме"
+                     placeholder="Вашето име и презиме"
                      [(ngModel)]="registerForm.fullName"
                      name="reg-name"
                      autocomplete="name"/>
             </div>
           </div>
 
-          <!-- Email -->
           <div class="form-group">
             <label class="form-label" for="reg-email">Email *</label>
             <div class="auth-input-wrap">
@@ -244,7 +223,6 @@
             </div>
           </div>
 
-          <!-- Password -->
           <div class="form-group">
             <label class="form-label" for="reg-pass">Лозинка *</label>
             <div class="auth-input-wrap">
@@ -275,7 +253,6 @@
               </button>
             </div>
 
-            <!-- Password strength -->
             <div class="auth-strength" *ngIf="passwordStrength" aria-live="polite">
               <div class="auth-strength__bars">
                 <div class="auth-strength__bar"
@@ -297,7 +274,6 @@
             </div>
           </div>
 
-          <!-- Confirm password -->
           <div class="form-group">
             <label class="form-label" for="reg-confirm">Потврди лозинка *</label>
             <div class="auth-input-wrap">
@@ -315,7 +291,7 @@
               <button class="auth-input-toggle"
                       type="button"
                       (click)="showRegConfPass = !showRegConfPass"
-                      [attr.aria-label]="showRegConfPass ? 'Сокриј лозинка' : 'Прикажи лозинка'">
+                      [attr.aria-label]="showRegConfPass ? 'Сокриј' : 'Прикажи'">
                 <svg *ngIf="!showRegConfPass" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                   <circle cx="12" cy="12" r="3"/>
@@ -326,7 +302,6 @@
                 </svg>
               </button>
             </div>
-            <!-- Match indicator -->
             <p class="auth-match"
                *ngIf="registerForm.confirmPassword"
                [class.auth-match--ok]="registerForm.password === registerForm.confirmPassword"
@@ -345,12 +320,10 @@
             </p>
           </div>
 
-          <!-- Optional fields -->
           <div class="auth-optional">
             <p class="auth-optional__label">Опционални информации</p>
 
             <div class="form-row">
-              <!-- Phone -->
               <div class="form-group">
                 <label class="form-label" for="reg-phone">Телефон</label>
                 <div class="auth-input-wrap">
@@ -367,7 +340,6 @@
                 </div>
               </div>
 
-              <!-- City -->
               <div class="form-group">
                 <label class="form-label" for="reg-city">Град</label>
                 <div class="auth-input-wrap">
@@ -392,7 +364,6 @@
               </div>
             </div>
 
-            <!-- Avatar URL -->
             <div class="form-group">
               <label class="form-label" for="reg-avatar">URL на профилна слика</label>
               <div class="auth-input-wrap">
@@ -408,16 +379,14 @@
                        [(ngModel)]="registerForm.avatar"
                        name="reg-avatar"/>
               </div>
-              <!-- Avatar preview -->
               <div class="auth-avatar-preview" *ngIf="registerForm.avatar">
                 <img [src]="registerForm.avatar"
-                     alt="Преглед на профилна слика"
+                     alt="Преглед"
                      onerror="this.style.display='none'"/>
               </div>
             </div>
           </div>
 
-          <!-- Submit -->
           <button class="btn btn-primary auth-submit"
                   type="submit"
                   [disabled]="!registerValid || registerLoading"
@@ -445,8 +414,7 @@
 
     </div>
 
-    <!-- Back link -->
-    <a class="auth-back" routerLink="/" aria-label="Врати се на почетна страница">
+    <a class="auth-back" routerLink="/" aria-label="Врати се на почетна">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>

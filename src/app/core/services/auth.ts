@@ -1,4 +1,4 @@
-// Auth servis - in-memory + localStorage simulacija so SSR poddrska
+// Auth servis - in-memory + localStorage so SSR poddrska
 
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';

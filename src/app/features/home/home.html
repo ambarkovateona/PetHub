@@ -1,7 +1,7 @@
 <div class="home">
 
-  <!-- ══ HERO ══ -->
-  <section class="hero" aria-label="Hero section">
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
     <div class="hero__bg" aria-hidden="true">
       <div class="hero__bg-gradient"></div>
       <div class="hero__bg-grid"></div>
@@ -13,34 +13,25 @@
           <span class="hero__eyebrow-dot" aria-hidden="true"></span>
           Добредојдовте во PetHub
         </div>
-
         <h1 class="hero__title">
           Грижата за миленичиња
           <em class="hero__title-em">почнува овде</em>
         </h1>
-
         <p class="hero__sub">
-          Adoption, грижа, продавница и помош за изгубени миленичиња —
+          Посвојување, грижа, продавница и помош за изгубени миленичиња —
           сè на едно место за вас и вашиот четириножен пријател.
         </p>
-
         <div class="hero__actions">
-          <a class="btn btn-primary btn-lg hero__btn-primary"
-             routerLink="/adoption"
-             aria-label="Посвои милениче">
+          <a class="btn btn-primary btn-lg hero__btn-primary" routerLink="/adoption">
             Посвои милениче
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
-          <a class="btn btn-secondary btn-lg"
-             routerLink="/lost-found"
-             aria-label="Изгубено и Најдено">
-            Изгубено & Најдено
+          <a class="btn btn-secondary btn-lg" routerLink="/lost-found">
+            Изгубено &amp; Најдено
           </a>
         </div>
-
-        <!-- Trust indicators -->
         <div class="hero__trust">
           <div class="hero__trust-item">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -68,19 +59,13 @@
         </div>
       </div>
 
-      <!-- Hero image -->
       <div class="hero__visual" aria-hidden="true">
         <div class="hero__img-frame">
-          <img
-            src="https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=600&q=80"
-            alt="Среќно куче"
-            class="hero__img"
-            loading="eager"
-            onerror="this.src='https://placehold.co/560x480/F5F4F0/9E8B7A?text=PetHub'"/>
+          <img src="https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=600&q=80"
+               alt="Среќно куче" class="hero__img" loading="eager"
+               onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22460%22 viewBox=%220 0 600 460%22%3E%3Crect width=%22600%22 height=%22460%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(300,230)%22%3E%3Ccircle cx=%220%22 cy=%22-40%22 r=%2270%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-35%22 cy=%22-90%22 r=%2225%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%2235%22 cy=%22-90%22 r=%2225%22 fill=%22%23C4B5A8%22/%3E%3C/g%3E%3C/svg%3E'"/>
           <div class="hero__img-overlay" aria-hidden="true"></div>
         </div>
-
-        <!-- Floating cards -->
         <div class="hero__float hero__float--tl anim-fade-up delay-2">
           <div class="hero__float-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -92,7 +77,6 @@
             <span>Достапни</span>
           </div>
         </div>
-
         <div class="hero__float hero__float--br anim-fade-up delay-3">
           <div class="hero__float-icon hero__float-icon--gold">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -109,12 +93,12 @@
     </div>
   </section>
 
-  <!-- ══ STATS ══ -->
-  <section class="stats" aria-label="Statistics">
+  <!-- STATS -->
+  <section class="stats" aria-label="Статистика">
     <div class="stats__inner container">
       <div class="stats__item">
         <span class="stats__value">{{ totalPets }}+</span>
-        <span class="stats__label">Миленичиња за adoption</span>
+        <span class="stats__label">Миленичиња за посвојување</span>
       </div>
       <div class="stats__divider" aria-hidden="true"></div>
       <div class="stats__item">
@@ -134,26 +118,21 @@
     </div>
   </section>
 
-  <!-- ══ FEATURES ══ -->
+  <!-- FEATURES -->
   <section class="features section" aria-labelledby="features-title">
     <div class="section-inner container">
-
       <div class="features__header">
         <p class="section-eyebrow">Функционалности</p>
         <h2 class="section-heading" id="features-title">
           Сè што ви треба за <em>вашето милениче</em>
         </h2>
         <p class="section-sub">
-          Четири модули, дизајнирани да го направат животот со вашиот
-          милениче полесен, побезбеден и позабавен.
+          Четири модули, дизајнирани да го направат животот со вашиот милениче полесен.
         </p>
       </div>
 
       <div class="features__grid">
-
-        <a class="feature-card anim-fade-up delay-1"
-           routerLink="/adoption"
-           aria-label="Adoption модул">
+        <a class="feature-card anim-fade-up delay-1" routerLink="/adoption">
           <div class="feature-card__icon feature-card__icon--accent">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -161,11 +140,8 @@
             </svg>
           </div>
           <div class="feature-card__body">
-            <h3 class="feature-card__title">Adoption</h3>
-            <p class="feature-card__desc">
-              Пронајдете го вашиот совршен четириножен пријател.
-              {{ totalPets }} миленичиња чекаат топол дом.
-            </p>
+            <h3 class="feature-card__title">Посвојување</h3>
+            <p class="feature-card__desc">Пронајдете го вашиот совршен четириножен пријател. {{ totalPets }} миленичиња чекаат топол дом.</p>
           </div>
           <div class="feature-card__footer">
             <span class="feature-card__link">
@@ -178,20 +154,15 @@
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-2"
-           routerLink="/pet-care"
-           aria-label="Pet Care модул">
+        <a class="feature-card anim-fade-up delay-2" routerLink="/pet-care">
           <div class="feature-card__icon feature-card__icon--sage">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
             </svg>
           </div>
           <div class="feature-card__body">
-            <h3 class="feature-card__title">Pet Care</h3>
-            <p class="feature-card__desc">
-              Следете активности, тежина и поставувајте потсетници
-              за грижата на вашето милениче.
-            </p>
+            <h3 class="feature-card__title">Грижа за милениче</h3>
+            <p class="feature-card__desc">Следете активности, тежина и поставувајте потсетници за грижата.</p>
           </div>
           <div class="feature-card__footer">
             <span class="feature-card__link">
@@ -204,9 +175,7 @@
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-3"
-           routerLink="/shop"
-           aria-label="Продавница модул">
+        <a class="feature-card anim-fade-up delay-3" routerLink="/shop">
           <div class="feature-card__icon feature-card__icon--gold">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -216,10 +185,7 @@
           </div>
           <div class="feature-card__body">
             <h3 class="feature-card__title">Продавница</h3>
-            <p class="feature-card__desc">
-              {{ totalProducts }}+ производи со паметни препораки
-              и PawPoints loyalty програма.
-            </p>
+            <p class="feature-card__desc">{{ totalProducts }}+ производи со паметни препораки и PawPoints програма.</p>
           </div>
           <div class="feature-card__footer">
             <span class="feature-card__link">
@@ -232,9 +198,7 @@
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-4"
-           routerLink="/lost-found"
-           aria-label="Изгубено и Најдено модул">
+        <a class="feature-card anim-fade-up delay-4" routerLink="/lost-found">
           <div class="feature-card__icon feature-card__icon--muted">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <circle cx="11" cy="11" r="8"/>
@@ -242,11 +206,8 @@
             </svg>
           </div>
           <div class="feature-card__body">
-            <h3 class="feature-card__title">Изгубено & Најдено</h3>
-            <p class="feature-card__desc">
-              Пријавете изгубено или помогнете во пронаоѓањето
-              на изгубени миленичиња во вашата заедница.
-            </p>
+            <h3 class="feature-card__title">Изгубено &amp; Најдено</h3>
+            <p class="feature-card__desc">Пријавете изгубено или помогнете во пронаоѓањето на миленичиња.</p>
           </div>
           <div class="feature-card__footer">
             <span class="feature-card__link">
@@ -258,25 +219,21 @@
             <span class="feature-card__count">{{ lostCount }} активни</span>
           </div>
         </a>
-
       </div>
     </div>
   </section>
 
-  <!-- ══ FEATURED PETS ══ -->
+  <!-- FEATURED PETS -->
   <section class="featured section" aria-labelledby="featured-title">
     <div class="section-inner container">
-
       <div class="featured__header">
         <div>
-          <p class="section-eyebrow">Adoption</p>
+          <p class="section-eyebrow">Посвојување</p>
           <h2 class="section-heading" id="featured-title">
             Миленичиња кои чекаат <em>дом</em>
           </h2>
         </div>
-        <a class="btn btn-secondary btn-sm"
-           routerLink="/adoption"
-           aria-label="Види ги сите миленичиња">
+        <a class="btn btn-secondary btn-sm" routerLink="/adoption">
           Види ги сите
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -288,19 +245,16 @@
         <a class="pet-card anim-fade-up"
            *ngFor="let pet of featuredPets; let i = index"
            [routerLink]="['/adoption', pet.id]"
-           [class]="'delay-' + (i + 1)"
-           [attr.aria-label]="pet.name + ' - ' + pet.breed">
+           [class]="'delay-' + (i + 1)">
 
           <div class="pet-card__img">
-            <img
-              [src]="pet.image"
-              [alt]="pet.name + ', ' + pet.breed"
-              loading="lazy"
-              onerror="this.src='https://placehold.co/400x280/F5F4F0/9E8B7A?text=Pet'"/>
+            <img [src]="pet.image" [alt]="pet.name + ', ' + pet.breed"
+                 loading="lazy"
+                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22280%22 viewBox=%220 0 400 280%22%3E%3Crect width=%22400%22 height=%22280%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(200,140)%22%3E%3Ccircle cx=%220%22 cy=%22-20%22 r=%2240%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-20%22 cy=%22-52%22 r=%2214%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%2220%22 cy=%22-52%22 r=%2214%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-13%22 cy=%22-24%22 r=%225%22 fill=%22%239E8B7A%22/%3E%3Ccircle cx=%2213%22 cy=%22-24%22 r=%225%22 fill=%22%239E8B7A%22/%3E%3Cellipse cx=%220%22 cy=%22-12%22 rx=%227%22 ry=%225%22 fill=%22%23C96442%22 opacity=%220.6%22/%3E%3C/g%3E%3C/svg%3E'"/>
             <div class="pet-card__img-overlay" aria-hidden="true"></div>
             <div class="pet-card__badges" aria-hidden="true">
-              <span class="badge badge-gold">{{ pet.type }}</span>
-              <span class="badge badge-muted">{{ pet.gender }}</span>
+              <span class="badge badge-gold">{{ pet.type === 'Dog' ? 'Куче' : 'Мачка' }}</span>
+              <span class="badge badge-muted">{{ pet.gender === 'Male' ? 'Машко' : 'Женско' }}</span>
             </div>
           </div>
 
@@ -310,12 +264,10 @@
                 <h3 class="pet-card__name">{{ pet.name }}</h3>
                 <p class="pet-card__breed">{{ pet.breed }}</p>
               </div>
-              <span class="badge"
-                    [class]="pet.healthStatus === 'Healthy' ? 'badge-sage' : 'badge-gold'">
+              <span class="badge" [class]="pet.healthStatus === 'Healthy' ? 'badge-sage' : 'badge-gold'">
                 {{ pet.healthStatus === 'Healthy' ? 'Здраво' : 'Преглед' }}
               </span>
             </div>
-
             <div class="pet-card__meta">
               <span class="pet-card__meta-item">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -327,7 +279,6 @@
               <span class="pet-card__meta-sep" aria-hidden="true">·</span>
               <span class="pet-card__meta-item">{{ pet.age }} год.</span>
             </div>
-
             <div class="pet-card__footer">
               <span class="pet-card__cta">
                 Запознај го
@@ -337,13 +288,12 @@
               </span>
             </div>
           </div>
-
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ══ CTA ══ -->
+  <!-- CTA -->
   <section class="cta section" aria-labelledby="cta-title">
     <div class="cta__inner container">
 
@@ -357,14 +307,10 @@
           </div>
           <div>
             <h3 class="cta__title" id="cta-title">Изгубивте милениче?</h3>
-            <p class="cta__desc">
-              Пријавете го веднаш и заедницата ќе помогне во пронаоѓањето.
-            </p>
+            <p class="cta__desc">Пријавете го веднаш и заедницата ќе помогне во пронаоѓањето.</p>
           </div>
         </div>
-        <a class="btn btn-primary"
-           routerLink="/lost-found/add"
-           aria-label="Пријави изгубено милениче">
+        <a class="btn btn-primary" routerLink="/lost-found/add">
           Пријави изгубено
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -383,14 +329,10 @@
           </div>
           <div>
             <h3 class="cta__title">Посетете ја продавницата</h3>
-            <p class="cta__desc">
-              Паметни препораки врз основа на вашето милениче. Заработете PawPoints.
-            </p>
+            <p class="cta__desc">Паметни препораки врз основа на вашето милениче. Заработете PawPoints.</p>
           </div>
         </div>
-        <a class="btn btn-secondary"
-           routerLink="/shop"
-           aria-label="Посети ја продавницата">
+        <a class="btn btn-secondary" routerLink="/shop">
           Кон продавница
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -401,7 +343,7 @@
     </div>
   </section>
 
-  <!-- ══ FOOTER ══ -->
+  <!-- FOOTER -->
   <footer class="footer" role="contentinfo">
     <div class="footer__inner container">
       <div class="footer__brand">
@@ -418,14 +360,12 @@
         </div>
         <p class="footer__tagline">Направено со грижа за миленичињата и нивните сопственици.</p>
       </div>
-
-      <nav class="footer__nav" aria-label="Footer navigation">
-        <a routerLink="/adoption">Adoption</a>
-        <a routerLink="/pet-care">Pet Care</a>
+      <nav class="footer__nav" aria-label="Footer навигација">
+        <a routerLink="/adoption">Посвојување</a>
+        <a routerLink="/pet-care">Грижа</a>
         <a routerLink="/shop">Продавница</a>
-        <a routerLink="/lost-found">Изгубено & Најдено</a>
+        <a routerLink="/lost-found">Изгубено &amp; Најдено</a>
       </nav>
-
       <p class="footer__copy">© 2025 PetHub. Сите права задржани.</p>
     </div>
   </footer>

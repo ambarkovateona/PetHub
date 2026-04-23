@@ -7,21 +7,18 @@
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
           <span class="sep" aria-hidden="true">›</span>
-          <span class="current" aria-current="page">Adoption</span>
+          <span class="current" aria-current="page">Посвојување</span>
         </nav>
         <h1 class="page-title">
           Миленичиња кои бараат <em>топол дом</em>
         </h1>
       </div>
-
       <div class="page-header-right">
         <div class="header-stat">
           <span class="header-stat-value">{{ pets.length }}</span>
           <span class="header-stat-label">Достапни</span>
         </div>
-        <a class="btn btn-secondary btn-sm"
-           routerLink="/favorites"
-           aria-label="Зачувани миленичиња">
+        <a class="btn btn-secondary btn-sm" routerLink="/favorites">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
           </svg>
@@ -33,49 +30,35 @@
   </header>
 
   <!-- FILTER BAR -->
-  <div class="filter-bar" role="search" aria-label="Филтри за пребарување">
+  <div class="filter-bar" role="search">
     <div class="filter-bar-inner">
-
       <div class="search-field">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.35-4.35"/>
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
-        <input
-          type="search"
-          placeholder="Пребарај по име..."
-          [(ngModel)]="searchTerm"
-          (input)="filterPets()"
-          aria-label="Пребарај миленичиња по име"/>
+        <input type="search" placeholder="Пребарај по име..."
+               [(ngModel)]="searchTerm" (input)="filterPets()"
+               aria-label="Пребарај миленичиња"/>
       </div>
 
       <div class="filter-divider" aria-hidden="true"></div>
 
-      <select class="filter-select"
-              [class.is-active]="selectedType !== ''"
-              [(ngModel)]="selectedType"
-              (change)="filterPets()"
-              aria-label="Филтрирај по вид">
+      <select class="filter-select" [class.is-active]="selectedType !== ''"
+              [(ngModel)]="selectedType" (change)="filterPets()">
         <option value="">Сите видови</option>
         <option value="Dog">Куче</option>
         <option value="Cat">Мачка</option>
       </select>
 
-      <select class="filter-select"
-              [class.is-active]="selectedGender !== ''"
-              [(ngModel)]="selectedGender"
-              (change)="filterPets()"
-              aria-label="Филтрирај по пол">
+      <select class="filter-select" [class.is-active]="selectedGender !== ''"
+              [(ngModel)]="selectedGender" (change)="filterPets()">
         <option value="">Сите полови</option>
         <option value="Male">Машко</option>
         <option value="Female">Женско</option>
       </select>
 
-      <select class="filter-select"
-              [class.is-active]="selectedCity !== ''"
-              [(ngModel)]="selectedCity"
-              (change)="filterPets()"
-              aria-label="Филтрирај по град">
+      <select class="filter-select" [class.is-active]="selectedCity !== ''"
+              [(ngModel)]="selectedCity" (change)="filterPets()">
         <option value="">Сите градови</option>
         <option value="Skopje">Скопје</option>
         <option value="Bitola">Битола</option>
@@ -87,63 +70,56 @@
       <div class="filter-actions">
         <button class="btn btn-ghost btn-sm"
                 *ngIf="searchTerm || selectedType || selectedGender || selectedCity"
-                (click)="resetFilters()"
-                aria-label="Ресетирај ги сите филтри">
+                (click)="resetFilters()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <polyline points="1 4 1 10 7 10"/>
             <path d="M3.51 15a9 9 0 105.04-8.49"/>
           </svg>
           Ресетирај
         </button>
-
-        <a class="btn btn-primary btn-sm"
-           routerLink="/adoption/add"
-           aria-label="Додај ново милениче за adoption">
+        <a class="btn btn-primary btn-sm" routerLink="/adoption/add">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
           </svg>
           Додај милениче
         </a>
       </div>
-
     </div>
   </div>
 
   <!-- CONTENT -->
   <main class="content-area" role="main">
 
-    <!-- Active filter chips -->
+    <!-- Active chips -->
     <div class="active-filters"
-         *ngIf="searchTerm || selectedType || selectedGender || selectedCity"
-         role="list"
-         aria-label="Активни филтри">
-      <span class="filter-chip" *ngIf="searchTerm" role="listitem">
+         *ngIf="searchTerm || selectedType || selectedGender || selectedCity">
+      <span class="filter-chip" *ngIf="searchTerm">
         "{{ searchTerm }}"
-        <button (click)="searchTerm=''; filterPets()" aria-label="Отстрани филтер за пребарување">
+        <button (click)="searchTerm=''; filterPets()">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
         </button>
       </span>
-      <span class="filter-chip" *ngIf="selectedType" role="listitem">
+      <span class="filter-chip" *ngIf="selectedType">
         {{ selectedType === 'Dog' ? 'Куче' : 'Мачка' }}
-        <button (click)="selectedType=''; filterPets()" aria-label="Отстрани филтер за вид">
+        <button (click)="selectedType=''; filterPets()">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
         </button>
       </span>
-      <span class="filter-chip" *ngIf="selectedGender" role="listitem">
+      <span class="filter-chip" *ngIf="selectedGender">
         {{ selectedGender === 'Male' ? 'Машко' : 'Женско' }}
-        <button (click)="selectedGender=''; filterPets()" aria-label="Отстрани филтер за пол">
+        <button (click)="selectedGender=''; filterPets()">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
         </button>
       </span>
-      <span class="filter-chip" *ngIf="selectedCity" role="listitem">
+      <span class="filter-chip" *ngIf="selectedCity">
         {{ selectedCity }}
-        <button (click)="selectedCity=''; filterPets()" aria-label="Отстрани филтер за град">
+        <button (click)="selectedCity=''; filterPets()">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
@@ -154,61 +130,47 @@
     <!-- Results bar -->
     <div class="results-bar">
       <p class="results-count" aria-live="polite">
-        <strong>{{ filteredPets.length }}</strong> миленичиња пронајдени
-        <span *ngIf="filteredPets.length !== pets.length">
-          · {{ pets.length }} вкупно
-        </span>
+        <strong>{{ filteredPets.length }}</strong> миленичиња
+        <span *ngIf="filteredPets.length !== pets.length">· {{ pets.length }} вкупно</span>
       </p>
       <div class="sort-wrap">
-        <span class="sort-label" id="sort-label">Сортирај</span>
-        <select class="sort-select"
-                [(ngModel)]="sortBy"
-                (change)="filterPets()"
-                aria-labelledby="sort-label">
-          <option value="name">Ime A–Z</option>
+        <span class="sort-label">Сортирај</span>
+        <select class="sort-select" [(ngModel)]="sortBy" (change)="filterPets()">
+          <option value="name">Име A–Z</option>
           <option value="age_asc">Најмлади прво</option>
           <option value="age_desc">Најстари прво</option>
         </select>
       </div>
     </div>
 
-    <!-- Pet Grid -->
-    <div class="pet-grid"
-         role="list"
-         aria-label="Листа на миленичиња">
+    <!-- Grid -->
+    <div class="pet-grid" role="list">
 
-      <!-- Empty state -->
-      <div class="empty-state" *ngIf="filteredPets.length === 0" role="status">
+      <div class="empty-state" *ngIf="filteredPets.length === 0">
         <div class="empty-state-icon" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.35-4.35"/>
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
         </div>
         <h3>Нема резултати</h3>
-        <p>Обидете се со различни филтри или ресетирајте го пребарувањето.</p>
-        <button class="btn btn-secondary btn-sm" (click)="resetFilters()">
-          Ресетирај филтри
-        </button>
+        <p>Обидете се со различни филтри.</p>
+        <button class="btn btn-secondary btn-sm" (click)="resetFilters()">Ресетирај</button>
       </div>
 
-      <!-- Pet Card -->
       <article class="pet-card-item anim-fade-up"
                *ngFor="let pet of filteredPets; let i = index"
                [style.animation-delay]="(i * 0.04) + 's'"
                role="listitem">
 
         <div class="pci__img">
-          <img
-            [src]="pet.image"
-            [alt]="pet.name + ', ' + pet.breed + ', ' + pet.city"
-            loading="lazy"
-            onerror="this.src='https://placehold.co/400x260/F5F4F0/9E8B7A?text=Pet'"/>
+          <img [src]="pet.image"
+               [alt]="pet.name + ', ' + pet.breed"
+               loading="lazy"
+               onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22260%22 viewBox=%220 0 400 260%22%3E%3Crect width=%22400%22 height=%22260%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(200,130)%22%3E%3Ccircle cx=%220%22 cy=%22-20%22 r=%2235%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-18%22 cy=%22-45%22 r=%2212%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%2218%22 cy=%22-45%22 r=%2212%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-12%22 cy=%22-22%22 r=%224%22 fill=%22%239E8B7A%22/%3E%3Ccircle cx=%2212%22 cy=%22-22%22 r=%224%22 fill=%22%239E8B7A%22/%3E%3Cellipse cx=%220%22 cy=%22-12%22 rx=%226%22 ry=%224%22 fill=%22%23C96442%22 opacity=%220.6%22/%3E%3C/g%3E%3C/svg%3E'"/>
           <div class="pci__img-overlay" aria-hidden="true"></div>
 
           <div class="pci__badges" aria-hidden="true">
-            <span class="badge"
-                  [class]="pet.type === 'Dog' ? 'badge-gold' : 'badge-sage'">
+            <span class="badge" [class]="pet.type === 'Dog' ? 'badge-gold' : 'badge-sage'">
               {{ pet.type === 'Dog' ? 'Куче' : 'Мачка' }}
             </span>
             <span class="badge badge-muted">
@@ -219,7 +181,7 @@
           <button class="pci__fav"
                   [class.pci__fav--saved]="isFavorite(pet)"
                   (click)="toggleFavorite($event, pet)"
-                  [attr.aria-label]="isFavorite(pet) ? 'Отстрани од зачувани' : 'Зачувај милениче'"
+                  [attr.aria-label]="isFavorite(pet) ? 'Отстрани од зачувани' : 'Зачувај'"
                   [attr.aria-pressed]="isFavorite(pet)">
             <svg width="15" height="15" viewBox="0 0 24 24"
                  [attr.fill]="isFavorite(pet) ? 'currentColor' : 'none'"
@@ -229,8 +191,7 @@
           </button>
 
           <div class="pci__health" aria-hidden="true">
-            <span class="badge"
-                  [class]="pet.healthStatus === 'Healthy' ? 'badge-sage' : 'badge-gold'">
+            <span class="badge" [class]="pet.healthStatus === 'Healthy' ? 'badge-sage' : 'badge-gold'">
               {{ pet.healthStatus === 'Healthy' ? 'Здраво' : 'Потребен преглед' }}
             </span>
             <span class="badge badge-muted">{{ pet.age }} год</span>
@@ -244,7 +205,6 @@
               <p class="pci__breed">{{ pet.breed }}</p>
             </div>
           </div>
-
           <div class="pci__meta">
             <span class="pci__meta-item">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -254,18 +214,13 @@
               {{ pet.city }}
             </span>
           </div>
-
           <p class="pci__desc">{{ pet.description }}</p>
-
           <div class="pci__tags">
             <span class="badge badge-sage" *ngIf="pet.vaccinated">Вакциниран</span>
             <span class="badge badge-muted" *ngIf="!pet.vaccinated">Не вакциниран</span>
           </div>
-
           <div class="pci__footer">
-            <a class="btn btn-primary btn-sm"
-               [routerLink]="['/adoption', pet.id]"
-               [attr.aria-label]="'Запознај го ' + pet.name">
+            <a class="btn btn-primary btn-sm" [routerLink]="['/adoption', pet.id]">
               Запознај го
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -273,15 +228,13 @@
             </a>
             <a class="btn btn-ghost btn-sm"
                [routerLink]="['/adoption', pet.id, 'apply']"
-               (click)="$event.stopPropagation()"
-               [attr.aria-label]="'Аплицирај за ' + pet.name">
+               (click)="$event.stopPropagation()">
               Аплицирај
             </a>
           </div>
         </div>
 
       </article>
-
     </div>
   </main>
 </div>

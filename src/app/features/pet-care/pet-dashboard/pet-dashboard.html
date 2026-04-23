@@ -1,27 +1,21 @@
 <div class="pet-dashboard page-wrapper">
 
-  <!-- PAGE HEADER -->
   <header class="page-header" role="banner">
     <div class="page-header-inner">
       <div>
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
           <span class="sep" aria-hidden="true">›</span>
-          <span class="current" aria-current="page">Pet Care</span>
+          <span class="current" aria-current="page">Грижа</span>
         </nav>
-        <h1 class="page-title">
-          Моите <em>миленичиња</em>
-        </h1>
+        <h1 class="page-title">Моите <em>миленичиња</em></h1>
       </div>
-
       <div class="page-header-right">
         <div class="header-stat">
           <span class="header-stat-value">{{ pets.length }}</span>
           <span class="header-stat-label">Миленичиња</span>
         </div>
-        <a class="btn btn-primary btn-sm"
-           routerLink="/pet-care/profile/add"
-           aria-label="Додај ново милениче">
+        <a class="btn btn-primary btn-sm" routerLink="/pet-care/profile/add">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
           </svg>
@@ -31,18 +25,16 @@
     </div>
   </header>
 
-  <!-- CONTENT -->
   <main class="content-area" role="main">
 
-    <!-- Empty state -->
-    <div class="empty-state" *ngIf="pets.length === 0" role="status">
+    <div class="empty-state" *ngIf="pets.length === 0">
       <div class="empty-state-icon" aria-hidden="true">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
         </svg>
       </div>
       <h3>Сеуште немате милениче</h3>
-      <p>Додајте го вашето прво милениче за да започнете со следење на грижата.</p>
+      <p>Додајте го вашето прво милениче за да започнете.</p>
       <a class="btn btn-primary btn-sm" routerLink="/pet-care/profile/add">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M12 5v14M5 12h14"/>
@@ -51,7 +43,6 @@
       </a>
     </div>
 
-    <!-- Pet Grid -->
     <div class="pd-grid" *ngIf="pets.length > 0" role="list">
 
       <article class="pd-card anim-fade-up"
@@ -59,22 +50,17 @@
                [style.animation-delay]="(i * 0.06) + 's'"
                role="listitem">
 
-        <!-- Image -->
         <div class="pd-card__img">
-          <img
-            [src]="pet.image"
-            [alt]="pet.name + ', ' + pet.breed"
-            loading="lazy"
-            onerror="this.src='https://placehold.co/400x240/F5F4F0/9E8B7A?text=Pet'"/>
+          <img [src]="pet.image" [alt]="pet.name + ', ' + pet.breed"
+               loading="lazy"
+               onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22240%22 viewBox=%220 0 400 240%22%3E%3Crect width=%22400%22 height=%22240%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(200,120)%22%3E%3Ccircle cx=%220%22 cy=%22-20%22 r=%2235%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-18%22 cy=%22-45%22 r=%2212%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%2218%22 cy=%22-45%22 r=%2212%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-12%22 cy=%22-22%22 r=%224%22 fill=%22%239E8B7A%22/%3E%3Ccircle cx=%2212%22 cy=%22-22%22 r=%224%22 fill=%22%239E8B7A%22/%3E%3Cellipse cx=%220%22 cy=%22-12%22 rx=%226%22 ry=%224%22 fill=%22%23C96442%22 opacity=%220.6%22/%3E%3C/g%3E%3C/svg%3E'"/>
           <div class="pd-card__img-overlay" aria-hidden="true"></div>
-
           <div class="pd-card__badges" aria-hidden="true">
             <span class="badge badge-gold">{{ pet.type }}</span>
             <span class="badge badge-muted">{{ pet.gender }}</span>
           </div>
         </div>
 
-        <!-- Body -->
         <div class="pd-card__body">
           <div class="pd-card__header">
             <div>
@@ -84,7 +70,7 @@
             <div class="pd-card__actions-top">
               <a class="btn btn-ghost btn-icon"
                  [routerLink]="['/pet-care/profile', pet.id]"
-                 [attr.aria-label]="'Уреди го профилот на ' + pet.name">
+                 [attr.aria-label]="'Уреди ' + pet.name">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
                   <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -92,7 +78,7 @@
               </a>
               <button class="btn btn-ghost btn-icon btn-danger"
                       (click)="deletePet(pet.id)"
-                      [attr.aria-label]="'Избриши го ' + pet.name">
+                      [attr.aria-label]="'Избриши ' + pet.name">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <polyline points="3 6 5 6 21 6"/>
                   <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
@@ -103,7 +89,6 @@
             </div>
           </div>
 
-          <!-- Stats row -->
           <div class="pd-card__stats">
             <div class="pd-card__stat">
               <span class="pd-card__stat-value">{{ getAge(pet.birthDate) }}</span>
@@ -116,19 +101,16 @@
             </div>
           </div>
 
-          <!-- Actions -->
           <div class="pd-card__actions">
             <a class="btn btn-primary btn-sm"
-               [routerLink]="['/pet-care/activities', pet.id]"
-               [attr.aria-label]="'Активности на ' + pet.name">
+               [routerLink]="['/pet-care/activities', pet.id]">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
               </svg>
               Активности
             </a>
             <a class="btn btn-secondary btn-sm"
-               [routerLink]="['/pet-care/reminders', pet.id]"
-               [attr.aria-label]="'Потсетници за ' + pet.name">
+               [routerLink]="['/pet-care/reminders', pet.id]">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                 <path d="M13.73 21a2 2 0 01-3.46 0"/>
@@ -139,7 +121,6 @@
         </div>
 
       </article>
-
     </div>
   </main>
 </div>

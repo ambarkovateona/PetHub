@@ -1,834 +1,313 @@
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<div class="add-adoption page-wrapper">
 
-<style>
-  :root {
-    --cream: #FDF6EE;
-    --warm-white: #FEFCF8;
-    --sand: #E8D5B7;
-    --sand-dark: #D4BC96;
-    --terracotta: #C4704F;
-    --terracotta-dark: #A85A3A;
-    --terracotta-soft: rgba(196,112,79,0.1);
-    --sage: #7A9E7E;
-    --sage-soft: rgba(122,158,126,0.12);
-    --charcoal: #2C2416;
-    --brown-mid: #6B4F35;
-    --brown-light: #9C7A5A;
-    --paw-gold: #D4A853;
-    --error: #c0392b;
-    --error-soft: rgba(192,57,43,0.08);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  .add-page {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--charcoal);
-    min-height: 100vh;
-  }
-
-  /* ── BACK BAR ── */
-  .back-bar {
-    background: var(--warm-white);
-    border-bottom: 1px solid var(--sand);
-    padding: 0.75rem 2rem;
-  }
-  .back-inner {
-    max-width: 920px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.75rem;
-    color: var(--brown-light);
-  }
-  .breadcrumb a { color: var(--brown-light); text-decoration: none; transition: color 0.2s; }
-  .breadcrumb a:hover { color: var(--terracotta); }
-  .breadcrumb .sep { opacity: 0.4; }
-  .breadcrumb .current { color: var(--charcoal); font-weight: 600; }
-
-  .btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border: 1.5px solid var(--sand);
-    border-radius: 9px;
-    background: none;
-    color: var(--brown-mid);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .btn-back:hover {
-    border-color: var(--terracotta);
-    color: var(--terracotta);
-    background: var(--terracotta-soft);
-  }
-
-  /* ── MAIN LAYOUT ── */
-  .add-inner {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem 5rem;
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 2.5rem;
-    align-items: start;
-  }
-
-  /* ── FORM HEADER ── */
-  .form-header { margin-bottom: 1.8rem; }
-  .form-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--terracotta);
-    margin-bottom: 0.5rem;
-  }
-  .form-title {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(1.7rem, 3vw, 2.3rem);
-    font-weight: 300;
-    color: var(--charcoal);
-    line-height: 1.15;
-    margin-bottom: 0.5rem;
-  }
-  .form-title em { font-style: italic; color: var(--terracotta); font-weight: 400; }
-  .form-sub { font-size: 0.88rem; color: var(--brown-light); line-height: 1.6; }
-
-  /* ── FORM CARD ── */
-  .form-card {
-    background: var(--warm-white);
-    border: 1px solid var(--sand);
-    border-radius: 20px;
-    overflow: hidden;
-  }
-
-  .form-section {
-    padding: 1.5rem 1.8rem;
-    border-bottom: 1px solid var(--sand);
-  }
-  .form-section:last-of-type { border-bottom: none; }
-
-  .section-title {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--brown-light);
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    background: var(--terracotta-soft);
-    color: var(--terracotta);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-  }
-
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .field-row-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .field { display: flex; flex-direction: column; margin-bottom: 1rem; }
-  .field:last-child { margin-bottom: 0; }
-
-  .field-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--brown-mid);
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .req { width: 5px; height: 5px; border-radius: 50%; background: var(--terracotta); display: inline-block; }
-
-  .field-input,
-  .field-select,
-  .field-textarea {
-    padding: 11px 14px;
-    border: 1.5px solid var(--sand);
-    border-radius: 11px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    background: var(--cream);
-    color: var(--charcoal);
-    transition: all 0.2s;
-    outline: none;
-    width: 100%;
-  }
-  .field-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 12 12'%3E%3Cpath fill='%236B4F35' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
-    cursor: pointer;
-  }
-  .field-input::placeholder, .field-textarea::placeholder { color: var(--brown-light); opacity: 0.55; }
-
-  .field-input:focus, .field-select:focus, .field-textarea:focus {
-    border-color: var(--terracotta);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(196,112,79,0.1);
-  }
-  .field-input.ng-valid.ng-touched:not(:placeholder-shown),
-  .field-select.ng-valid.ng-touched,
-  .field-textarea.ng-valid.ng-touched:not(:placeholder-shown) {
-    border-color: var(--sage);
-    background: var(--sage-soft);
-  }
-  .field-input.ng-invalid.ng-touched,
-  .field-select.ng-invalid.ng-touched,
-  .field-textarea.ng-invalid.ng-touched {
-    border-color: var(--error);
-    background: var(--error-soft);
-    box-shadow: 0 0 0 3px rgba(192,57,43,0.07);
-  }
-
-  .field-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
-
-  .field-error {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.74rem;
-    color: var(--error);
-    font-weight: 500;
-    margin-top: 5px;
-    animation: errIn 0.2s ease;
-  }
-  @keyframes errIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Image preview */
-  .img-preview {
-    margin-top: 0.75rem;
-    border-radius: 12px;
-    overflow: hidden;
-    height: 160px;
-    background: var(--sand);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1.5px dashed var(--sand-dark);
-    transition: all 0.3s;
-  }
-  .img-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    animation: imgFade 0.3s ease;
-  }
-  @keyframes imgFade {
-    from { opacity: 0; } to { opacity: 1; }
-  }
-  .img-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: var(--brown-light);
-    font-size: 0.8rem;
-  }
-  .img-placeholder span { font-size: 2rem; opacity: 0.4; }
-
-  /* Vaccinated toggle */
-  .toggle-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.2rem;
-    background: var(--cream);
-    border: 1.5px solid var(--sand);
-    border-radius: 11px;
-    cursor: pointer;
-    transition: all 0.2s;
-    user-select: none;
-  }
-  .toggle-wrap:hover { border-color: var(--terracotta); }
-  .toggle-label-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .toggle-label-main { font-size: 0.88rem; font-weight: 600; color: var(--charcoal); }
-  .toggle-label-sub  { font-size: 0.75rem; color: var(--brown-light); }
-
-  .toggle-switch {
-    width: 44px;
-    height: 24px;
-    border-radius: 100px;
-    background: var(--sand-dark);
-    position: relative;
-    transition: background 0.25s;
-    flex-shrink: 0;
-  }
-  .toggle-switch::after {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: white;
-    top: 3px;
-    left: 3px;
-    transition: transform 0.25s;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-  }
-  .toggle-wrap.on .toggle-switch { background: var(--sage); }
-  .toggle-wrap.on .toggle-switch::after { transform: translateX(20px); }
-
-  /* Form footer */
-  .form-footer {
-    padding: 1.4rem 1.8rem;
-    background: rgba(232,213,183,0.2);
-    border-top: 1px solid var(--sand);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .footer-note {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.75rem;
-    color: var(--brown-light);
-  }
-
-  .btn-submit {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 13px 28px;
-    background: var(--terracotta);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.22s;
-  }
-  .btn-submit:hover {
-    background: var(--terracotta-dark);
-    box-shadow: 0 8px 24px rgba(196,112,79,0.32);
-    transform: translateY(-1px);
-  }
-  .btn-submit svg { transition: transform 0.18s; }
-  .btn-submit:hover svg { transform: translateX(3px); }
-
-  /* ── SUCCESS STATE ── */
-  .success-wrap {
-    background: var(--warm-white);
-    border: 1px solid var(--sand);
-    border-radius: 20px;
-    padding: 3.5rem 2rem;
-    text-align: center;
-    animation: fadeUp 0.4s ease;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .success-icon {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    background: var(--sage-soft);
-    border: 2px solid rgba(122,158,126,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.2rem;
-    margin: 0 auto 1.4rem;
-  }
-  .success-wrap h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.7rem; font-weight: 400;
-    color: var(--charcoal); margin-bottom: 0.5rem;
-  }
-  .success-wrap p {
-    color: var(--brown-light); font-size: 0.9rem;
-    line-height: 1.65; max-width: 340px;
-    margin: 0 auto 1.8rem;
-  }
-  .btn-done {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 12px 24px;
-    background: var(--terracotta); color: white; border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif; font-size: 0.92rem; font-weight: 600;
-    cursor: pointer; text-decoration: none; transition: all 0.2s;
-  }
-  .btn-done:hover { background: var(--terracotta-dark); }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    position: sticky;
-    top: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .tip-card {
-    background: var(--warm-white);
-    border: 1px solid var(--sand);
-    border-radius: 16px;
-    padding: 1.2rem;
-  }
-  .tip-card-title {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--brown-light);
-    margin-bottom: 1rem;
-  }
-  .tip-item {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 0.85rem;
-    font-size: 0.82rem;
-  }
-  .tip-item:last-child { margin-bottom: 0; }
-  .tip-icon {
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    background: var(--terracotta-soft);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-  .tip-text { color: var(--brown-mid); line-height: 1.5; }
-  .tip-text strong { color: var(--charcoal); display: block; font-weight: 600; margin-bottom: 1px; }
-
-  .checklist-card {
-    background: var(--warm-white);
-    border: 1px solid var(--sand);
-    border-radius: 16px;
-    padding: 1.2rem;
-  }
-  .checklist-card-title {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--brown-light);
-    margin-bottom: 1rem;
-  }
-  .check-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
-    color: var(--brown-mid);
-    margin-bottom: 0.6rem;
-    transition: color 0.2s;
-  }
-  .check-item:last-child { margin-bottom: 0; }
-  .check-dot {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    border: 2px solid var(--sand-dark);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    font-size: 0.6rem;
-    transition: all 0.2s;
-  }
-  .check-item.done .check-dot {
-    border-color: var(--sage);
-    background: var(--sage);
-    color: white;
-  }
-  .check-item.done { color: var(--sage); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 760px) {
-    .add-inner { grid-template-columns: 1fr; padding: 1.8rem 1.25rem 4rem; gap: 1.5rem; }
-    .sidebar { position: static; order: -1; }
-    .back-bar { padding: 0.7rem 1.25rem; }
-    .field-row, .field-row-3 { grid-template-columns: 1fr; }
-    .form-section { padding: 1.2rem 1.3rem; }
-    .form-footer { flex-direction: column; align-items: stretch; }
-    .btn-submit { justify-content: center; }
-  }
-</style>
-
-<div class="add-page">
-
-  <!-- BACK BAR -->
-  <div class="back-bar">
-    <div class="back-inner">
-      <nav class="breadcrumb">
-        <a routerLink="/">Home</a>
-        <span class="sep">›</span>
-        <a routerLink="/adoption">Adoption</a>
-        <span class="sep">›</span>
-        <span class="current">Post a pet</span>
-      </nav>
-      <a class="btn-back" routerLink="/adoption">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+  <header class="page-header" role="banner">
+    <div class="page-header-inner">
+      <div>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a routerLink="/">Дома</a>
+          <span class="sep" aria-hidden="true">›</span>
+          <a routerLink="/adoption">Посвојување</a>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current" aria-current="page">Додај милениче</span>
+        </nav>
+        <h1 class="page-title">Објави милениче за <em>посвојување</em></h1>
+      </div>
+      <a class="btn btn-ghost btn-sm" routerLink="/adoption">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
-        Back
+        Назад
       </a>
     </div>
-  </div>
+  </header>
 
-  <div class="add-inner">
+  <main class="aap-content" role="main">
+    <div class="aap-form surface-raised">
 
-    <!-- ════ LEFT: FORM ════ -->
-    <div class="form-col">
+      <!-- ── Основни информации ── -->
+      <div class="divider-label"><span>Основни информации</span></div>
 
-      <div class="form-header">
-        <div class="form-eyebrow">🐾 New listing</div>
-        <h1 class="form-title">Post a pet for <em>adoption</em></h1>
-        <p class="form-sub">Help your pet find a loving home. Fill in the details below — good photos and honest descriptions get the most responses.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="pet-name">
+            Име на милениченото <span class="form-required">*</span>
+          </label>
+          <input class="form-input"
+                 [class.form-input--error]="submitted && !pet.name.trim()"
+                 id="pet-name"
+                 type="text"
+                 placeholder="пр. Мекси, Мија, Арес..."
+                 [(ngModel)]="pet.name"
+                 name="pet-name"
+                 autocomplete="off"
+                 maxlength="50"/>
+          <p class="form-error" *ngIf="submitted && !pet.name.trim()" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Внесете го името на милениченото
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pet-breed">
+            Раса <span class="form-required">*</span>
+          </label>
+          <input class="form-input"
+                 [class.form-input--error]="submitted && !pet.breed.trim()"
+                 id="pet-breed"
+                 type="text"
+                 placeholder="пр. Лабрадор, Персиска, Мешанец..."
+                 [(ngModel)]="pet.breed"
+                 name="pet-breed"
+                 maxlength="60"/>
+          <p class="form-error" *ngIf="submitted && !pet.breed.trim()" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Внесете ја расата
+          </p>
+        </div>
       </div>
 
-      <!-- SUCCESS -->
-      <div class="success-wrap" *ngIf="submitted">
-        <div class="success-icon">🐾</div>
-        <h3>Listing posted!</h3>
-        <p>Your pet has been added to the adoption listings. We hope they find their forever home soon.</p>
-        <a class="btn-done" routerLink="/adoption">
-          View all listings
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
+      <div class="form-row form-row--3">
+        <div class="form-group">
+          <label class="form-label" for="pet-type">
+            Вид <span class="form-required">*</span>
+          </label>
+          <select class="form-select"
+                  [class.form-input--error]="submitted && !pet.type"
+                  id="pet-type"
+                  [(ngModel)]="pet.type"
+                  name="pet-type">
+            <option value="" disabled selected>— Изберете —</option>
+            <option value="Dog">Куче</option>
+            <option value="Cat">Мачка</option>
+            <option value="Bird">Птица</option>
+            <option value="Other">Друго</option>
+          </select>
+          <p class="form-error" *ngIf="submitted && !pet.type" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Изберете вид
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pet-gender">
+            Пол <span class="form-required">*</span>
+          </label>
+          <select class="form-select"
+                  [class.form-input--error]="submitted && !pet.gender"
+                  id="pet-gender"
+                  [(ngModel)]="pet.gender"
+                  name="pet-gender">
+            <option value="" disabled selected>— Изберете —</option>
+            <option value="Male">Машко</option>
+            <option value="Female">Женско</option>
+          </select>
+          <p class="form-error" *ngIf="submitted && !pet.gender" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Изберете пол
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pet-age">
+            Возраст (години) <span class="form-required">*</span>
+          </label>
+          <input class="form-input"
+                 [class.form-input--error]="submitted && (pet.age === null || pet.age < 0 || pet.age > 30)"
+                 id="pet-age"
+                 type="number"
+                 placeholder="пр. 2"
+                 [(ngModel)]="pet.age"
+                 name="pet-age"
+                 min="0"
+                 max="30"
+                 step="0.5"/>
+          <p class="form-error" *ngIf="submitted && (pet.age === null || pet.age < 0 || pet.age > 30)" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Внесете валидна возраст (0–30 год.)
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Локација и здравје ── -->
+      <div class="divider-label"><span>Локација и здравје</span></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="pet-city">
+            Град <span class="form-required">*</span>
+          </label>
+          <select class="form-select"
+                  [class.form-input--error]="submitted && !pet.city"
+                  id="pet-city"
+                  [(ngModel)]="pet.city"
+                  name="pet-city">
+            <option value="" disabled selected>— Изберете град —</option>
+            <option value="Skopje">Скопје</option>
+            <option value="Bitola">Битола</option>
+            <option value="Ohrid">Охрид</option>
+            <option value="Tetovo">Тетово</option>
+            <option value="Kumanovo">Куманово</option>
+            <option value="Strumica">Струмица</option>
+            <option value="Veles">Велес</option>
+            <option value="Other">Друго</option>
+          </select>
+          <p class="form-error" *ngIf="submitted && !pet.city" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Изберете град
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pet-health">
+            Здравствена состојба <span class="form-required">*</span>
+          </label>
+          <select class="form-select"
+                  [class.form-input--error]="submitted && !pet.healthStatus"
+                  id="pet-health"
+                  [(ngModel)]="pet.healthStatus"
+                  name="pet-health">
+            <option value="" disabled selected>— Изберете —</option>
+            <option value="Healthy">Здраво</option>
+            <option value="NeedsCheckup">Потребен преглед</option>
+          </select>
+          <p class="form-error" *ngIf="submitted && !pet.healthStatus" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Изберете здравствена состојба
+          </p>
+        </div>
+      </div>
+
+      <!-- Vakciniran -->
+      <div class="form-group">
+        <label class="aap-toggle" for="pet-vaccinated">
+          <input type="checkbox"
+                 id="pet-vaccinated"
+                 [(ngModel)]="pet.vaccinated"
+                 name="pet-vaccinated"/>
+          <div class="aap-toggle__track" aria-hidden="true">
+            <div class="aap-toggle__thumb"></div>
+          </div>
+          <div class="aap-toggle__label">
+            <span class="aap-toggle__title">Вакциниран</span>
+            <span class="aap-toggle__sub">Милениченото ги има добиено потребните вакцини</span>
+          </div>
+        </label>
+      </div>
+
+      <!-- ── Слика и опис ── -->
+      <div class="divider-label"><span>Слика и опис</span></div>
+
+      <div class="form-group">
+        <label class="form-label" for="pet-image">
+          URL на слика <span class="form-required">*</span>
+        </label>
+        <input class="form-input"
+               [class.form-input--error]="submitted && !isValidUrl(pet.image)"
+               id="pet-image"
+               type="url"
+               placeholder="https://example.com/slika.jpg"
+               [(ngModel)]="pet.image"
+               name="pet-image"/>
+        <p class="form-hint">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
           </svg>
-        </a>
+          Препорачуваме јасна, осветлена фотографија во близок план
+        </p>
+        <p class="form-error" *ngIf="submitted && !isValidUrl(pet.image)" role="alert">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Внесете валиден URL (https://...)
+        </p>
+        <div class="aap-img-preview" *ngIf="pet.image && isValidUrl(pet.image)">
+          <img [src]="pet.image"
+               [alt]="'Слика на ' + pet.name"
+               onerror="this.parentElement.style.display='none'"/>
+        </div>
       </div>
 
-      <!-- FORM -->
-      <form class="form-card"
-            [formGroup]="addPetForm"
-            (ngSubmit)="onSubmit()"
-            *ngIf="!submitted"
-            novalidate>
-
-        <!-- Section 1: Basic info -->
-        <div class="form-section">
-          <div class="section-title">
-            <span class="section-icon">🐾</span>
-            Basic information
-          </div>
-
-          <div class="field-row" style="margin-bottom:1rem">
-            <!-- Name -->
-            <div class="field">
-              <label class="field-label" for="name">
-                Pet name <span class="req"></span>
-              </label>
-              <input id="name" type="text" class="field-input"
-                     formControlName="name" placeholder="e.g. Mila" />
-              <div class="field-error"
-                   *ngIf="addPetForm.get('name')?.invalid && addPetForm.get('name')?.touched">
-                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Name is required
-              </div>
-            </div>
-
-            <!-- Breed -->
-            <div class="field">
-              <label class="field-label" for="breed">
-                Breed <span class="req"></span>
-              </label>
-              <input id="breed" type="text" class="field-input"
-                     formControlName="breed" placeholder="e.g. Labrador" />
-              <div class="field-error"
-                   *ngIf="addPetForm.get('breed')?.invalid && addPetForm.get('breed')?.touched">
-                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Breed is required
-              </div>
-            </div>
-          </div>
-
-          <div class="field-row-3">
-            <!-- Type -->
-            <div class="field">
-              <label class="field-label" for="type">
-                Type <span class="req"></span>
-              </label>
-              <select id="type" class="field-select" formControlName="type">
-                <option value="" disabled>Select…</option>
-                <option value="Dog">🐶 Dog</option>
-                <option value="Cat">🐱 Cat</option>
-                <option value="Rabbit">🐰 Rabbit</option>
-                <option value="Bird">🐦 Bird</option>
-                <option value="Other">🐾 Other</option>
-              </select>
-              <div class="field-error"
-                   *ngIf="addPetForm.get('type')?.invalid && addPetForm.get('type')?.touched">
-                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Required
-              </div>
-            </div>
-
-            <!-- Gender -->
-            <div class="field">
-              <label class="field-label" for="gender">
-                Gender <span class="req"></span>
-              </label>
-              <select id="gender" class="field-select" formControlName="gender">
-                <option value="" disabled>Select…</option>
-                <option value="Male">♂ Male</option>
-                <option value="Female">♀ Female</option>
-              </select>
-              <div class="field-error"
-                   *ngIf="addPetForm.get('gender')?.invalid && addPetForm.get('gender')?.touched">
-                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Required
-              </div>
-            </div>
-
-            <!-- Age -->
-            <div class="field">
-              <label class="field-label" for="age">
-                Age (years) <span class="req"></span>
-              </label>
-              <input id="age" type="number" class="field-input" min="0" max="30"
-                     formControlName="age" placeholder="e.g. 2" />
-              <div class="field-error"
-                   *ngIf="addPetForm.get('age')?.invalid && addPetForm.get('age')?.touched">
-                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Required
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 2: Location & Health -->
-        <div class="form-section">
-          <div class="section-title">
-            <span class="section-icon">📍</span>
-            Location & health
-          </div>
-
-          <div class="field-row" style="margin-bottom:1rem">
-            <!-- City -->
-            <div class="field">
-              <label class="field-label" for="city">
-                City <span class="req"></span>
-              </label>
-              <select id="city" class="field-select" formControlName="city">
-                <option value="" disabled>Select city…</option>
-                <option value="Skopje">Skopje</option>
-                <option value="Bitola">Bitola</option>
-                <option value="Ohrid">Ohrid</option>
-                <option value="Tetovo">Tetovo</option>
-                <option value="Kumanovo">Kumanovo</option>
-                <option value="Veles">Veles</option>
-                <option value="Strumica">Strumica</option>
-                <option value="Gostivar">Gostivar</option>
-              </select>
-              <div class="field-error"
-                   *ngIf="addPetForm.get('city')?.invalid && addPetForm.get('city')?.touched">
-                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                City is required
-              </div>
-            </div>
-
-            <!-- Health status -->
-            <div class="field">
-              <label class="field-label" for="healthStatus">
-                Health status <span class="req"></span>
-              </label>
-              <select id="healthStatus" class="field-select" formControlName="healthStatus">
-                <option value="" disabled>Select…</option>
-                <option value="Healthy">✓ Healthy</option>
-                <option value="Needs checkup">⚠ Needs checkup</option>
-                <option value="Under treatment">🏥 Under treatment</option>
-              </select>
-              <div class="field-error"
-                   *ngIf="addPetForm.get('healthStatus')?.invalid && addPetForm.get('healthStatus')?.touched">
-                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Required
-              </div>
-            </div>
-          </div>
-
-          <!-- Vaccinated toggle -->
-          <div class="field">
-            <div class="toggle-wrap"
-                 [class.on]="addPetForm.get('vaccinated')?.value"
-                 (click)="toggleVaccinated()">
-              <div class="toggle-label-text">
-                <span class="toggle-label-main">💉 Vaccinated</span>
-                <span class="toggle-label-sub">Has the pet received vaccinations?</span>
-              </div>
-              <div class="toggle-switch"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 3: Photo -->
-        <div class="form-section">
-          <div class="section-title">
-            <span class="section-icon">📷</span>
-            Photo
-          </div>
-
-          <div class="field">
-            <label class="field-label" for="image">
-              Image URL <span class="req"></span>
-            </label>
-            <input id="image" type="url" class="field-input"
-                   formControlName="image"
-                   placeholder="https://example.com/photo.jpg"
-                   (input)="onImageInput()" />
-            <div class="field-error"
-                 *ngIf="addPetForm.get('image')?.invalid && addPetForm.get('image')?.touched">
-              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Image URL is required
-            </div>
-
-            <!-- Live preview -->
-            <div class="img-preview">
-              <img *ngIf="imagePreview"
-                   [src]="imagePreview"
-                   alt="Preview"
-                   (error)="imagePreview = ''" />
-              <div class="img-placeholder" *ngIf="!imagePreview">
-                <span>🖼</span>
-                Preview will appear here
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 4: Description -->
-        <div class="form-section">
-          <div class="section-title">
-            <span class="section-icon">💬</span>
-            Description
-          </div>
-
-          <div class="field">
-            <label class="field-label" for="description">
-              About this pet <span class="req"></span>
-            </label>
-            <textarea id="description" class="field-textarea"
-                      formControlName="description"
-                      placeholder="Describe your pet's personality, habits, what kind of home they'd thrive in…"></textarea>
-            <div class="field-error"
-                 *ngIf="addPetForm.get('description')?.invalid && addPetForm.get('description')?.touched">
-              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Description is required
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="form-footer">
-          <div class="footer-note">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      <div class="form-group">
+        <label class="form-label" for="pet-desc">
+          Опис <span class="form-required">*</span>
+        </label>
+        <textarea class="form-textarea"
+                  [class.form-input--error]="submitted && !pet.description.trim()"
+                  id="pet-desc"
+                  rows="5"
+                  placeholder="Опишете го милениченото — карактер, навики, дали се разбира со деца и други животни, посебни потреби..."
+                  [(ngModel)]="pet.description"
+                  name="pet-desc"
+                  maxlength="500"></textarea>
+        <div class="aap-desc-footer">
+          <p class="form-error" *ngIf="submitted && !pet.description.trim()" role="alert">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
             </svg>
-            All fields marked with a dot are required
-          </div>
-          <button type="submit" class="btn-submit">
-            Post listing
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+            Внесете опис за милениченото
+          </p>
+          <span class="form-count" [class.form-count--near]="pet.description.length > 400">
+            {{ pet.description.length }}/500
+          </span>
+        </div>
+      </div>
+
+      <!-- ── Actions ── -->
+      <div class="aap-actions">
+        <a class="btn btn-ghost btn-sm" routerLink="/adoption">Откажи</a>
+        <div class="aap-actions__right">
+          <p class="aap-actions__hint" *ngIf="submitted && !isFormValid()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
             </svg>
+            Пополнете ги сите задолжителни полиња
+          </p>
+          <button class="btn btn-primary" type="submit" (click)="submitPet()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Објави за посвојување
           </button>
         </div>
-
-      </form>
-    </div>
-    <!-- END form-col -->
-
-    <!-- ════ RIGHT: SIDEBAR ════ -->
-    <div class="sidebar">
-
-      <!-- Tips -->
-      <div class="tip-card">
-        <div class="tip-card-title">Tips for a great listing</div>
-        <div class="tip-item">
-          <div class="tip-icon">📸</div>
-          <div class="tip-text">
-            <strong>Use a clear photo</strong>
-            A bright, close-up photo gets 3× more responses.
-          </div>
-        </div>
-        <div class="tip-item">
-          <div class="tip-icon">✍️</div>
-          <div class="tip-text">
-            <strong>Be honest</strong>
-            Mention quirks, habits, and needs — the right family will appreciate it.
-          </div>
-        </div>
-        <div class="tip-item">
-          <div class="tip-icon">💉</div>
-          <div class="tip-text">
-            <strong>Include health info</strong>
-            Vaccination and health status builds trust with adopters.
-          </div>
-        </div>
-      </div>
-
-      <!-- Live checklist -->
-      <div class="checklist-card">
-        <div class="checklist-card-title">Listing checklist</div>
-        <div class="check-item" [class.done]="addPetForm.get('name')?.valid">
-          <div class="check-dot">{{ addPetForm.get('name')?.valid ? '✓' : '' }}</div>
-          Pet name
-        </div>
-        <div class="check-item" [class.done]="addPetForm.get('type')?.valid">
-          <div class="check-dot">{{ addPetForm.get('type')?.valid ? '✓' : '' }}</div>
-          Type & gender
-        </div>
-        <div class="check-item" [class.done]="addPetForm.get('city')?.valid">
-          <div class="check-dot">{{ addPetForm.get('city')?.valid ? '✓' : '' }}</div>
-          Location
-        </div>
-        <div class="check-item" [class.done]="addPetForm.get('image')?.valid">
-          <div class="check-dot">{{ addPetForm.get('image')?.valid ? '✓' : '' }}</div>
-          Photo added
-        </div>
-        <div class="check-item" [class.done]="addPetForm.get('description')?.valid">
-          <div class="check-dot">{{ addPetForm.get('description')?.valid ? '✓' : '' }}</div>
-          Description written
-        </div>
-        <div class="check-item" [class.done]="addPetForm.get('healthStatus')?.valid">
-          <div class="check-dot">{{ addPetForm.get('healthStatus')?.valid ? '✓' : '' }}</div>
-          Health status set
-        </div>
       </div>
 
     </div>
-    <!-- END sidebar -->
-
-  </div>
+  </main>
 </div>

@@ -1,13 +1,12 @@
 <div class="pet-profile page-wrapper">
 
-  <!-- PAGE HEADER -->
   <header class="page-header" role="banner">
     <div class="page-header-inner">
       <div>
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a routerLink="/">Дома</a>
           <span class="sep" aria-hidden="true">›</span>
-          <a routerLink="/pet-care">Pet Care</a>
+          <a routerLink="/pet-care">Грижа</a>
           <span class="sep" aria-hidden="true">›</span>
           <span class="current" aria-current="page">
             {{ isEditMode ? 'Уреди профил' : 'Ново милениче' }}
@@ -21,20 +20,15 @@
     </div>
   </header>
 
-  <!-- CONTENT -->
   <main class="pp-content" role="main">
     <div class="pp-form surface-raised">
 
-      <!-- Vid i Ime -->
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label" for="pet-name">Ime на милениченото</label>
-          <input class="form-input"
-                 id="pet-name"
-                 type="text"
+          <label class="form-label" for="pet-name">Име на милениченото</label>
+          <input class="form-input" id="pet-name" type="text"
                  placeholder="пр. Ares, Mija..."
-                 [(ngModel)]="pet.name"
-                 autocomplete="off"/>
+                 [(ngModel)]="pet.name" autocomplete="off"/>
         </div>
         <div class="form-group">
           <label class="form-label" for="pet-type">Вид</label>
@@ -47,13 +41,10 @@
         </div>
       </div>
 
-      <!-- Rasa i Pol -->
       <div class="form-row">
         <div class="form-group">
           <label class="form-label" for="pet-breed">Раса</label>
-          <input class="form-input"
-                 id="pet-breed"
-                 type="text"
+          <input class="form-input" id="pet-breed" type="text"
                  placeholder="пр. Golden Retriever..."
                  [(ngModel)]="pet.breed"/>
         </div>
@@ -66,59 +57,49 @@
         </div>
       </div>
 
-      <!-- Datum i Tezina -->
       <div class="form-row">
         <div class="form-group">
           <label class="form-label" for="pet-birth">Датум на раѓање</label>
-          <input class="form-input"
-                 id="pet-birth"
-                 type="date"
+          <input class="form-input" id="pet-birth" type="date"
                  [(ngModel)]="pet.birthDate"/>
         </div>
         <div class="form-group">
           <label class="form-label" for="pet-weight">Тежина (kg)</label>
-          <input class="form-input"
-                 id="pet-weight"
-                 type="number"
+          <input class="form-input" id="pet-weight" type="number"
                  placeholder="пр. 12.5"
-                 [(ngModel)]="pet.weight"
-                 min="0"
-                 step="0.1"/>
+                 [(ngModel)]="pet.weight" min="0" step="0.1"/>
         </div>
       </div>
 
-      <!-- Slika -->
       <div class="form-group">
         <label class="form-label" for="pet-image">URL на слика</label>
-        <input class="form-input"
-               id="pet-image"
-               type="url"
+        <input class="form-input" id="pet-image" type="url"
                placeholder="https://..."
                [(ngModel)]="pet.image"/>
-        <div class="pp-preview" *ngIf="pet.image" role="img" [attr.aria-label]="'Преглед на слика за ' + pet.name">
-          <img [src]="pet.image"
-               [alt]="pet.name || 'Преглед на слика'"
-               onerror="this.src='https://placehold.co/600x200/F5F4F0/9E8B7A?text=Pet'"/>
+        <div class="pp-preview" *ngIf="pet.image">
+          <img [src]="pet.image" [alt]="pet.name || 'Преглед'"
+               onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22160%22 viewBox=%220 0 600 160%22%3E%3Crect width=%22600%22 height=%22160%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(300,80)%22%3E%3Ccircle cx=%220%22 cy=%22-10%22 r=%2225%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%22-13%22 cy=%22-28%22 r=%228%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%2213%22 cy=%22-28%22 r=%228%22 fill=%22%23C4B5A8%22/%3E%3C/g%3E%3C/svg%3E'"/>
         </div>
       </div>
 
-      <!-- Divider -->
-      <div class="divider-label" role="separator">
-        <span>Контакт информации</span>
+      <div class="divider-label">
+        <span>Дополнителни информации</span>
       </div>
 
-      <!-- Actions -->
       <div class="pp-actions">
-        <button class="btn btn-ghost btn-sm"
-                type="button"
-                (click)="cancel()"
-                aria-label="Откажи и врати се назад">
+        <button class="btn btn-ghost btn-sm" type="button" (click)="cancel()">
           Откажи
         </button>
-        <button class="btn btn-primary"
-                type="submit"
-                (click)="savePet()"
-                [attr.aria-label]="isEditMode ? 'Зачувај ги промените' : 'Додај милениче'">
+        <button class="btn btn-primary" type="submit" (click)="savePet()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
             <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          {{ isEditMode ? 'Зачувај промени' : 'Додај милениче' }}
+        </button>
+      </div>
+
+    </div>
+  </main>
+</div>

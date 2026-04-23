@@ -1,0 +1,44 @@
+/* ============================================================
+   Favorites — Warm Modern Light
+   ============================================================ */
+
+.favorites { background: var(--bg-base); }
+
+/* ── Empty state ── */
+.fav-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-24) var(--sp-8);
+  text-align: center;
+  max-width: 420px;
+  margin-inline: auto;
+}
+.fav-empty__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-2xl);
+  background: var(--accent-muted);
+  border: 1px solid rgba(201,100,66,0.16);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-2);
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+.fav-empty__icon:hover { transform: scale(1.05); }
+.fav-empty h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.fav-empty p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 300px;
+}

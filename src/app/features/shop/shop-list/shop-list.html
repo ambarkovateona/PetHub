@@ -1,6 +1,5 @@
 <div class="shop-list page-wrapper">
 
-  <!-- PAGE HEADER -->
   <header class="page-header" role="banner">
     <div class="page-header-inner">
       <div>
@@ -9,13 +8,9 @@
           <span class="sep" aria-hidden="true">›</span>
           <span class="current" aria-current="page">Продавница</span>
         </nav>
-        <h1 class="page-title">
-          PetHub <em>Продавница</em>
-        </h1>
+        <h1 class="page-title">PetHub <em>Продавница</em></h1>
       </div>
-
       <div class="page-header-right">
-        <!-- PawPoints -->
         <div class="pawpoints" aria-label="{{ pawPoints }} PawPoints">
           <div class="pawpoints__icon" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -28,11 +23,7 @@
             <span class="pawpoints__label">PawPoints</span>
           </div>
         </div>
-
-        <!-- Cart -->
-        <a class="btn btn-secondary btn-sm"
-           routerLink="/shop/cart"
-           aria-label="Кошничка со {{ cartCount }} производи">
+        <a class="btn btn-secondary btn-sm" routerLink="/shop/cart">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
             <line x1="3" y1="6" x2="21" y2="6"/>
@@ -45,78 +36,56 @@
     </div>
   </header>
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar" role="search" aria-label="Филтри за производи">
+  <div class="filter-bar" role="search">
     <div class="filter-bar-inner">
-
       <div class="search-field">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.35-4.35"/>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
-        <input
-          type="search"
-          placeholder="Пребарај производи..."
-          [(ngModel)]="searchTerm"
-          (input)="filterProducts()"
-          aria-label="Пребарај производи"/>
+        <input type="search" placeholder="Пребарај производи..."
+               [(ngModel)]="searchTerm" (input)="filterProducts()"/>
       </div>
 
       <div class="filter-divider" aria-hidden="true"></div>
 
-      <select class="filter-select"
-              [class.is-active]="selectedCategory !== ''"
-              [(ngModel)]="selectedCategory"
-              (change)="filterProducts()"
-              aria-label="Филтрирај по категорија">
+      <select class="filter-select" [class.is-active]="selectedCategory !== ''"
+              [(ngModel)]="selectedCategory" (change)="filterProducts()">
         <option value="">Сите категории</option>
         <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
       </select>
 
-      <select class="filter-select"
-              [class.is-active]="selectedPetType !== ''"
-              [(ngModel)]="selectedPetType"
-              (change)="filterProducts()"
-              aria-label="Филтрирај по вид на милениче">
+      <select class="filter-select" [class.is-active]="selectedPetType !== ''"
+              [(ngModel)]="selectedPetType" (change)="filterProducts()">
         <option value="">Сите миленичиња</option>
         <option value="Куче">Куче</option>
         <option value="Мачка">Мачка</option>
       </select>
 
-      <label class="vet-toggle"
-             [class.vet-toggle--active]="vetApprovedOnly"
-             aria-label="Прикажи само Vet Approved производи">
-        <input type="checkbox"
-               [(ngModel)]="vetApprovedOnly"
-               (change)="filterProducts()"
-               aria-checked="{{ vetApprovedOnly }}"/>
+      <label class="vet-toggle" [class.vet-toggle--active]="vetApprovedOnly">
+        <input type="checkbox" [(ngModel)]="vetApprovedOnly" (change)="filterProducts()"/>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
           <polyline points="22 4 12 14.01 9 11.01"/>
         </svg>
-        Vet Approved
+        Вет. одобрено
       </label>
 
       <div class="filter-actions">
         <button class="btn btn-ghost btn-sm"
                 *ngIf="searchTerm || selectedCategory || selectedPetType || vetApprovedOnly"
-                (click)="resetFilters()"
-                aria-label="Ресетирај филтри">
+                (click)="resetFilters()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="1 4 1 10 7 10"/>
-            <path d="M3.51 15a9 9 0 105.04-8.49"/>
+            <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 105.04-8.49"/>
           </svg>
           Ресетирај
         </button>
       </div>
-
     </div>
   </div>
 
-  <!-- CONTENT -->
   <main class="content-area" role="main">
 
-    <!-- SMART RECOMMENDATIONS -->
+    <!-- Smart preporaki -->
     <section class="recommendations"
              *ngIf="recommendedProducts.length > 0 && !searchTerm && !selectedCategory"
              aria-labelledby="rec-title">
@@ -134,52 +103,42 @@
         <a class="product-card product-card--rec anim-fade-up"
            *ngFor="let product of recommendedProducts; let i = index"
            [routerLink]="['/shop', product.id]"
-           [style.animation-delay]="(i * 0.05) + 's'"
-           [attr.aria-label]="product.name + ' - ' + formatPrice(product.price)">
-
+           [style.animation-delay]="(i * 0.05) + 's'">
           <div class="product-card__img">
-            <img [src]="product.image" [alt]="product.name"
-                 loading="lazy"
-                 onerror="this.src='https://placehold.co/400x240/F5F4F0/9E8B7A?text=Product'"/>
+            <img [src]="product.image" [alt]="product.name" loading="lazy"
+                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22240%22 viewBox=%220 0 400 240%22%3E%3Crect width=%22400%22 height=%22240%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(200,120)%22%3E%3Crect x=%22-30%22 y=%22-40%22 width=%2260%22 height=%2250%22 rx=%228%22 fill=%22%23C4B5A8%22/%3E%3Crect x=%22-20%22 y=%22-60%22 width=%2240%22 height=%2225%22 rx=%225%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%220%22 cy=%2228%22 r=%2214%22 fill=%22%23C4B5A8%22/%3E%3C/g%3E%3C/svg%3E'"/>
             <div class="product-card__img-overlay" aria-hidden="true"></div>
             <div class="product-card__badges" aria-hidden="true">
-              <span class="badge badge-sage" *ngIf="product.vetApproved">Vet</span>
+              <span class="badge badge-sage" *ngIf="product.vetApproved">Вет. одобрено</span>
               <span class="badge badge-gold">Препорачано</span>
             </div>
           </div>
-
           <div class="product-card__body">
             <p class="product-card__brand">{{ product.brand }}</p>
             <h3 class="product-card__name">{{ product.name }}</h3>
-            <div class="product-card__rating" aria-label="Оцена {{ product.rating }} од 5">
+            <div class="product-card__rating">
               <span class="product-card__stars" aria-hidden="true">{{ getStars(product.rating) }}</span>
               <span class="product-card__reviews">({{ product.reviewCount }})</span>
             </div>
             <div class="product-card__footer">
               <span class="product-card__price">{{ formatPrice(product.price) }}</span>
-              <button class="btn btn-primary btn-sm"
-                      (click)="addToCart($event, product)"
-                      [attr.aria-label]="'Додај ' + product.name + ' во кошничка'">
+              <button class="btn btn-primary btn-sm" (click)="addToCart($event, product)">
                 Додај
               </button>
             </div>
           </div>
-
         </a>
       </div>
     </section>
 
-    <!-- RESULTS BAR -->
+    <!-- Results -->
     <div class="results-bar">
       <p class="results-count" aria-live="polite">
         <strong>{{ filteredProducts.length }}</strong> производи
       </p>
       <div class="sort-wrap">
-        <span class="sort-label" id="sort-label">Сортирај</span>
-        <select class="sort-select"
-                [(ngModel)]="sortBy"
-                (change)="filterProducts()"
-                aria-labelledby="sort-label">
+        <span class="sort-label">Сортирај</span>
+        <select class="sort-select" [(ngModel)]="sortBy" (change)="filterProducts()">
           <option value="popular">Најпопуларни</option>
           <option value="rating">Највисока оцена</option>
           <option value="price_asc">Цена: ниска → висока</option>
@@ -188,10 +147,10 @@
       </div>
     </div>
 
-    <!-- PRODUCTS GRID -->
-    <div class="products-grid" role="list" aria-label="Листа на производи">
+    <!-- Grid -->
+    <div class="products-grid" role="list">
 
-      <div class="empty-state" *ngIf="filteredProducts.length === 0" role="status">
+      <div class="empty-state" *ngIf="filteredProducts.length === 0">
         <div class="empty-state-icon" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -207,16 +166,14 @@
          *ngFor="let product of filteredProducts; let i = index"
          [routerLink]="['/shop', product.id]"
          [style.animation-delay]="(i * 0.04) + 's'"
-         role="listitem"
-         [attr.aria-label]="product.name + ' - ' + formatPrice(product.price)">
+         role="listitem">
 
         <div class="product-card__img">
-          <img [src]="product.image" [alt]="product.name"
-               loading="lazy"
-               onerror="this.src='https://placehold.co/400x240/F5F4F0/9E8B7A?text=Product'"/>
+          <img [src]="product.image" [alt]="product.name" loading="lazy"
+               onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22240%22 viewBox=%220 0 400 240%22%3E%3Crect width=%22400%22 height=%22240%22 fill=%22%23EEEAE3%22/%3E%3Cg transform=%22translate(200,120)%22%3E%3Crect x=%22-30%22 y=%22-40%22 width=%2260%22 height=%2250%22 rx=%228%22 fill=%22%23C4B5A8%22/%3E%3Crect x=%22-20%22 y=%22-60%22 width=%2240%22 height=%2225%22 rx=%225%22 fill=%22%23C4B5A8%22/%3E%3Ccircle cx=%220%22 cy=%2228%22 r=%2214%22 fill=%22%23C4B5A8%22/%3E%3C/g%3E%3C/svg%3E'"/>
           <div class="product-card__img-overlay" aria-hidden="true"></div>
           <div class="product-card__badges" aria-hidden="true">
-            <span class="badge badge-sage" *ngIf="product.vetApproved">Vet Approved</span>
+            <span class="badge badge-sage" *ngIf="product.vetApproved">Вет. одобрено</span>
             <span class="badge badge-danger" *ngIf="!product.inStock">Нема залиха</span>
           </div>
           <span class="product-card__category badge badge-muted" aria-hidden="true">
@@ -228,12 +185,10 @@
           <p class="product-card__brand">{{ product.brand }}</p>
           <h3 class="product-card__name">{{ product.name }}</h3>
           <p class="product-card__weight" *ngIf="product.weight">{{ product.weight }}</p>
-
-          <div class="product-card__rating" aria-label="Оцена {{ product.rating }} од 5">
+          <div class="product-card__rating">
             <span class="product-card__stars" aria-hidden="true">{{ getStars(product.rating) }}</span>
             <span class="product-card__reviews">({{ product.reviewCount }})</span>
           </div>
-
           <div class="product-card__pawpoints">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <circle cx="12" cy="8" r="7"/>
@@ -241,21 +196,18 @@
             </svg>
             +{{ product.pawPoints }} PawPoints
           </div>
-
           <div class="product-card__footer">
             <span class="product-card__price">{{ formatPrice(product.price) }}</span>
             <button class="btn btn-sm"
                     [class]="product.inStock ? 'btn-primary' : 'btn-secondary'"
                     [disabled]="!product.inStock"
-                    (click)="addToCart($event, product)"
-                    [attr.aria-label]="product.inStock ? 'Додај ' + product.name + ' во кошничка' : product.name + ' нема на залиха'">
+                    (click)="addToCart($event, product)">
               {{ product.inStock ? 'Додај' : 'Нема' }}
             </button>
           </div>
         </div>
 
       </a>
-
     </div>
   </main>
 </div>

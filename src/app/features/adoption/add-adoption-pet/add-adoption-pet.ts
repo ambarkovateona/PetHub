@@ -1,77 +1,80 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 import { AdoptionService } from '../../../core/services/adoption';
 
 @Component({
   selector: 'app-add-adoption-pet',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './add-adoption-pet.html',
   styleUrl: './add-adoption-pet.css'
 })
 export class AddAdoptionPetComponent {
-  addPetForm;
-  submitted: boolean = false;   // replaces alert()
-  imagePreview: string = '';     // live image preview
+
+  submitted = false;
+
+  pet = {
+    name:         '',
+    breed:        '',
+    type:         '',
+    gender:       '',
+    age:          null as number | null,
+    city:         '',
+    healthStatus: '',
+    vaccinated:   false,
+    image:        '',
+    description:  ''
+  };
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private adoptionService: AdoptionService
-  ) {
-    this.addPetForm = this.fb.group({
-      name:         ['', Validators.required],
-      type:         ['', Validators.required],
-      breed:        ['', Validators.required],
-      age:          ['', Validators.required],
-      gender:       ['', Validators.required],
-      city:         ['', Validators.required],
-      description:  ['', Validators.required],
-      image:        ['', Validators.required],
-      healthStatus: ['', Validators.required],
-      vaccinated:   [false]
-    });
-  }
+    private adoptionService: AdoptionService,
+    private router: Router
+  ) {}
 
-  /** Toggle the vaccinated boolean field */
-  toggleVaccinated(): void {
-    const current = this.addPetForm.get('vaccinated')?.value;
-    this.addPetForm.patchValue({ vaccinated: !current });
-  }
-
-  /** Update live image preview as user types */
-  onImageInput(): void {
-    const url = this.addPetForm.get('image')?.value ?? '';
-    this.imagePreview = url;
-  }
-
-  onSubmit(): void {
-    if (this.addPetForm.valid) {
-      this.adoptionService.addPet({
-        id:           Date.now(),
-        name:         this.addPetForm.value.name         ?? '',
-        type:         this.addPetForm.value.type         ?? '',
-        breed:        this.addPetForm.value.breed        ?? '',
-        age:          Number(this.addPetForm.value.age   ?? 0),
-        gender:       this.addPetForm.value.gender       ?? '',
-        city:         this.addPetForm.value.city         ?? '',
-        description:  this.addPetForm.value.description  ?? '',
-        image:        this.addPetForm.value.image        ?? '',
-        healthStatus: this.addPetForm.value.healthStatus ?? '',
-        vaccinated:   this.addPetForm.value.vaccinated   ?? false
-      });
-
-      this.submitted = true;    // show success state, no alert()
-      this.imagePreview = '';
-      this.addPetForm.reset({ vaccinated: false });
-
-      // Auto-navigate after 3s
-      setTimeout(() => this.router.navigate(['/adoption']), 3000);
-
-    } else {
-      this.addPetForm.markAllAsTouched();
+  isValidUrl(url: string): boolean {
+    if (!url) return false;
+    try {
+      const u = new URL(url);
+      return u.protocol === 'https:' || u.protocol === 'http:';
+    } catch {
+      return false;
     }
+  }
+
+  isFormValid(): boolean {
+    return !!(
+      this.pet.name.trim() &&
+      this.pet.breed.trim() &&
+      this.pet.type &&
+      this.pet.gender &&
+      this.pet.age !== null && this.pet.age >= 0 && this.pet.age <= 30 &&
+      this.pet.city &&
+      this.pet.healthStatus &&
+      this.isValidUrl(this.pet.image) &&
+      this.pet.description.trim()
+    );
+  }
+
+  submitPet(): void {
+    this.submitted = true;
+    if (!this.isFormValid()) return;
+
+    this.adoptionService.addPet({
+      id:           Date.now(),
+      name:         this.pet.name.trim(),
+      breed:        this.pet.breed.trim(),
+      type:         this.pet.type as 'Dog' | 'Cat',
+      gender:       this.pet.gender as 'Male' | 'Female',
+      age:          this.pet.age!,
+      city:         this.pet.city,
+      healthStatus: this.pet.healthStatus as 'Healthy' | 'NeedsCheckup',
+      vaccinated:   this.pet.vaccinated,
+      image:        this.pet.image,
+      description:  this.pet.description.trim()
+    });
+
+    this.router.navigate(['/adoption']);
   }
 }
