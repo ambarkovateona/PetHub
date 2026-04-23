@@ -14,11 +14,13 @@ import { AdoptionPet } from '../../core/models/adoption-pet.model';
   styleUrl: './home.css'
 })
 export class HomeComponent implements OnInit {
-  featuredPets: AdoptionPet[] = [];
+
+  featuredPets:  AdoptionPet[] = [];
   totalPets:     number = 0;
   reunitedCount: number = 0;
   totalProducts: number = 0;
   lostCount:     number = 0;
+  openFaq:       number | null = null;
 
   constructor(
     private adoptionService:  AdoptionService,
@@ -33,4 +35,23 @@ export class HomeComponent implements OnInit {
     this.reunitedCount = (this.lostFoundService.getReunitedCount?.() ?? 0) + 23;
     this.totalProducts = this.shopService.getAllProducts().length;
   }
+
+  toggleFaq(index: number): void {
+    this.openFaq = this.openFaq === index ? null : index;
+  }
+
+  activeTestimonial = 0;
+
+nextTestimonial(): void {
+  if (this.activeTestimonial < 2) this.activeTestimonial++;
+}
+
+prevTestimonial(): void {
+  if (this.activeTestimonial > 0) this.activeTestimonial--;
+}
+
+setTestimonial(index: number): void {
+  this.activeTestimonial = index;
+}
+
 }

@@ -1,5 +1,3 @@
-// Servis za lost and found - upravuva so oglasi za izgubeni/najdeni mileniinja
-
 import { Injectable } from '@angular/core';
 import { LostFound } from '../models/lost-found.model';
 
@@ -8,7 +6,6 @@ import { LostFound } from '../models/lost-found.model';
 })
 export class LostFoundService {
 
-  // ── Testni podatoci ──
   private listings: LostFound[] = [
     {
       id: 1,
@@ -17,7 +14,7 @@ export class LostFoundService {
       name: 'Мекси',
       breed: 'Лабрадор',
       color: 'Жолта',
-      description: 'Пријателско куче, носи sina огрлица. Последно видено кај Градски парк. Многу питомо, одговара на своето име.',
+      description: 'Пријателско куче, носи сина огрлица. Последно видено кај Градски парк. Многу питомо, одговара на своето ime.',
       image: 'https://placedog.net/400/300',
       location: 'Градски Парк',
       city: 'Скопје',
@@ -53,7 +50,7 @@ export class LostFoundService {
       name: 'Роки',
       breed: 'Германски овчар',
       color: 'Кафеав и црн',
-      description: 'Голем пас, многу питом. Побегнал при громотевица. Носи сина огрлица со таг. Наградa за наоѓач.',
+      description: 'Голем пас, многу питом. Побегнал при громотевица. Носи сина огрлица со таг. Награда за наоѓач.',
       image: 'https://placedog.net/401/300',
       location: 'Аеродром',
       city: 'Скопје',
@@ -66,7 +63,7 @@ export class LostFoundService {
     },
     {
       id: 4,
-      status: 'Воссоединето',
+      status: 'Успешно поврзани',
       petType: 'Мачка',
       name: 'Луна',
       breed: 'Персиска',
@@ -108,7 +105,7 @@ export class LostFoundService {
       breed: 'Папагал',
       color: 'Зелена со жолта глава',
       description: 'Пронајден папагал во дворот. Зборува неколку зборови. Очигледно питомо животно кое некому му недостасува.',
-      image: 'https://placehold.co/400x300/7A9E7E/FFFFFF?text=🦜',
+      image: 'https://placehold.co/400x300/7A9E7E/FFFFFF?text=Papagal',
       location: 'Карпош',
       city: 'Скопје',
       date: '2025-04-21',
@@ -120,8 +117,6 @@ export class LostFoundService {
     }
   ];
 
-  // ── Getteri ──
-
   getAllListings(): LostFound[] {
     return this.listings;
   }
@@ -130,7 +125,6 @@ export class LostFoundService {
     return this.listings.find(l => l.id === id);
   }
 
-  // Statistika za headerot
   getLostCount(): number {
     return this.listings.filter(l => l.status === 'Изгубено').length;
   }
@@ -140,37 +134,31 @@ export class LostFoundService {
   }
 
   getReunitedCount(): number {
-    return this.listings.filter(l => l.status === 'Воссоединето').length;
+    return this.listings.filter(l => l.status === 'Успешно поврзани').length;
   }
 
-  // Dodavanje nov oglas
   addListing(listing: LostFound): void {
     listing.id = Date.now();
-    // Proveruva dali e urgentno (poveke od 7 dena)
     const days = this.getDaysSince(listing.date);
     listing.urgent = days > 7;
-    this.listings.unshift(listing); // go dodava na pocetok
+    this.listings.unshift(listing);
   }
 
-  // Spodeluvanje - go zgolemuva brojacot
   shareListing(id: number): void {
     const listing = this.getListingById(id);
     if (listing) listing.shareCount++;
   }
 
-  // Presmetuva kolku dena izminale
   getDaysSince(date: string): number {
     const diff = new Date().getTime() - new Date(date).getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
   }
 
-  // Azurira status na oglas
-  updateStatus(id: number, status: 'Изгубено' | 'Најдено' | 'Воссоединето'): void {
+  updateStatus(id: number, status: 'Изгубено' | 'Најдено' | 'Успешно поврзани'): void {
     const listing = this.getListingById(id);
     if (listing) listing.status = status;
   }
 
-  // Proveruva dali ogласот e nov (pomal od 24 casa)
   isNew(date: string): boolean {
     const d = new Date(date);
     const now = new Date();

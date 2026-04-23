@@ -1,62 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AdoptionService } from '../../../core/services/adoption';
 import { AdoptionPet } from '../../../core/models/adoption-pet.model';
 
 @Component({
   selector: 'app-adoption-apply',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './adoption-apply.html',
   styleUrl: './adoption-apply.css'
 })
-export class AdoptionApplyComponent {
-  petId: number = 0;
-  pet?: AdoptionPet;          // loaded for sidebar display
-  submitted: boolean = false; // replaces alert()
+export class AdoptionApplyComponent implements OnInit {
 
-  applicationForm;
+  pet: AdoptionPet | undefined;
+  submitted    = false;
+  formSubmitted = false;
+
+  application = {
+    fullName:   '',
+    city:       '',
+    email:      '',
+    phone:      '',
+    experience: '',
+    message:    ''
+  };
 
   constructor(
-    private fb: FormBuilder,
+    private adoptionService: AdoptionService,
     private route: ActivatedRoute,
-    private router: Router,
-    private adoptionService: AdoptionService
-  ) {
-    this.petId = Number(this.route.snapshot.paramMap.get('id'));
-    this.pet = this.adoptionService.getPetById(this.petId); // load pet for sidebar
+    private router: Router
+  ) {}
 
-    this.applicationForm = this.fb.group({
-      fullName: ['', Validators.required],
-      email:    ['', [Validators.required, Validators.email]],
-      phone:    ['', Validators.required],
-      city:     ['', Validators.required],
-      message:  ['', Validators.required]
-    });
+  ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.pet  = this.adoptionService.getPetById(id);
+    if (!this.pet) {
+      this.router.navigate(['/adoption']);
+    }
   }
 
-  onSubmit(): void {
-    if (this.applicationForm.valid) {
-      this.adoptionService.submitApplication({
-        id: Date.now(),
-        petId: this.petId,
-        fullName: this.applicationForm.value.fullName ?? '',
-        email:    this.applicationForm.value.email    ?? '',
-        phone:    this.applicationForm.value.phone    ?? '',
-        city:     this.applicationForm.value.city     ?? '',
-        message:  this.applicationForm.value.message  ?? ''
-      });
+  isValidEmail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
 
-      this.submitted = true;           // show success state in UI
-      this.applicationForm.reset();
+  isValidPhone(phone: string): boolean {
+    if (!phone) return false;
+    return /^[0-9+\s\-()]{7,15}$/.test(phone.trim());
+  }
 
-      // Navigate back after 3 seconds
-      setTimeout(() => this.router.navigate(['/adoption']), 3000);
+  isFormValid(): boolean {
+    return !!(
+      this.application.fullName.trim() &&
+      this.application.city &&
+      this.isValidEmail(this.application.email) &&
+      this.isValidPhone(this.application.phone)
+    );
+  }
 
-    } else {
-      this.applicationForm.markAllAsTouched();
-    }
+  submitApplication(): void {
+    this.formSubmitted = true;
+    if (!this.isFormValid()) return;
+    this.submitted = true;
   }
 }

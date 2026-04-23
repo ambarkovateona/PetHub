@@ -95,7 +95,7 @@
   flex-shrink: 0;
 }
 
-/* Image */
+/* ── Image ── */
 .lf-card__img {
   position: relative;
   height: 200px;
@@ -143,28 +143,11 @@
   backdrop-filter: blur(8px);
   z-index: 1;
 }
-.lf-card__status--lost {
-  background: rgba(201,100,66,0.9);
-  color: #fff;
-}
-.lf-card__status--found {
-  background: rgba(90,143,100,0.9);
-  color: #fff;
-}
-.lf-card__status--reunited {
-  background: rgba(200,144,42,0.9);
-  color: #fff;
-}
+.lf-card__status--lost     { background: rgba(201,100,66,0.9); color: #fff; }
+.lf-card__status--found    { background: rgba(90,143,100,0.9); color: #fff; }
+.lf-card__status--reunited { background: rgba(200,144,42,0.9); color: #fff; }
 
-/* Pet type */
-.lf-card__pettype {
-  position: absolute;
-  bottom: var(--sp-3);
-  left: var(--sp-3);
-  z-index: 1;
-}
-
-/* Body */
+/* ── Body ── */
 .lf-card__body {
   padding: var(--sp-5);
   display: flex;
@@ -172,19 +155,35 @@
   gap: var(--sp-3);
   flex: 1;
 }
-.lf-card__header { display: flex; flex-direction: column; gap: var(--sp-2); }
+
+.lf-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
 .lf-card__name {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.02em;
+  line-height: 1.2;
 }
+
 .lf-card__tags {
   display: flex;
   gap: var(--sp-1);
   flex-wrap: wrap;
 }
+
+.lf-card__pettype-badge {
+  background: var(--bg-muted);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
 .lf-card__desc {
   font-family: var(--font-sans);
   font-size: var(--text-sm);
@@ -197,6 +196,7 @@
   flex: 1;
   margin: 0;
 }
+
 .lf-card__meta {
   display: flex;
   flex-direction: column;
@@ -212,7 +212,7 @@
   color: var(--text-muted);
 }
 
-/* Footer */
+/* ── Footer ── */
 .lf-card__footer {
   display: flex;
   align-items: center;
@@ -220,17 +220,22 @@
   gap: var(--sp-3);
   padding-top: var(--sp-3);
   border-top: 1px solid var(--border-subtle);
+  margin-top: auto;
 }
 .lf-card__contact {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 .lf-card__contact-name {
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: 600;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .lf-card__contact-phone {
   font-family: var(--font-sans);
@@ -239,6 +244,7 @@
   color: var(--accent);
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
 }
 .lf-card__contact-phone:hover { color: var(--accent-dark); }
 .lf-card__share {
