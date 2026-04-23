@@ -69,8 +69,10 @@ export class LostFoundFormComponent {
       shareCount: 0
     };
   }
+  setStatus(val : string):void{
+    this.listing.status = val === 'izgubeno' ? 'Изгубено' : 'Најдено';
+  }
 
-  // Otkazi i vrati se na listata
   cancel(): void {
     this.router.navigate(['/lost-found']);
   }
