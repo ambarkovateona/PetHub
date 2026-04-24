@@ -227,14 +227,14 @@
 
       <div class="form-group">
         <label class="form-label" for="pet-image">
-          URL на слика <span class="form-required">*</span>
+          Слика <span class="form-required">*</span>
         </label>
         <input class="form-input"
-               [class.form-input--error]="submitted && !isValidUrl(pet.image)"
+               [class.form-input--error]="submitted"
                id="pet-image"
-               type="url"
-               placeholder="https://example.com/slika.jpg"
-               [(ngModel)]="pet.image"
+               type="file"
+               accept="image/*"
+               (change)="onFileSelected($event)"
                name="pet-image"/>
         <p class="form-hint">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -244,15 +244,8 @@
           </svg>
           Препорачуваме јасна, осветлена фотографија во близок план
         </p>
-        <p class="form-error" *ngIf="submitted && !isValidUrl(pet.image)" role="alert">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          Внесете валиден URL (https://...)
-        </p>
-        <div class="aap-img-preview" *ngIf="pet.image && isValidUrl(pet.image)">
+        
+        <div class="aap-img-preview" *ngIf="pet.image">          
           <img [src]="pet.image"
                [alt]="'Слика на ' + pet.name"
                onerror="this.parentElement.style.display='none'"/>
@@ -284,7 +277,10 @@
             {{ pet.description.length }}/500
           </span>
         </div>
+
       </div>
+
+      
 
       <!-- ── Actions ── -->
       <div class="aap-actions">
@@ -306,8 +302,11 @@
             Објави за посвојување
           </button>
         </div>
-      </div>
 
+      </div>
+      <div *ngIf="submitted" class="success-box">
+        ✔ Успешно пријавен оглас!
+    </div>
     </div>
   </main>
 </div>

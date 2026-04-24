@@ -189,9 +189,9 @@
         </label>
         <input class="form-input"
                id="pet-image"
-               type="url"
-               placeholder="https://..."
-               [(ngModel)]="pet.image"
+               type="file"
+               accept="image/*"
+               (change)="onFileSelected($event)"
                name="pet-image"/>
         <p class="form-hint">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -207,6 +207,10 @@
                onerror="this.parentElement.style.display='none'"/>
         </div>
       </div>
+
+      <!-- ── Слика ── -->
+
+    
 
       <!-- ── Actions ── -->
       <div class="pp-actions">

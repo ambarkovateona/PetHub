@@ -58,6 +58,19 @@ export class PetProfileComponent implements OnInit {
       this.pet.weight && this.pet.weight > 0
     );
   }
+  onFileSelected(event: Event): void {
+  const file = (event.target as HTMLInputElement).files?.[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    this.pet.image = reader.result as string; // base64
+  };
+
+  reader.readAsDataURL(file);
+}
 
   savePet(): void {
     this.submitted = true;

@@ -205,6 +205,85 @@
     justify-content: center;
   }
 }
+
+.success-box {
+  margin-top: var(--sp-6);
+  padding: var(--sp-5) var(--sp-6);
+
+  border-radius: var(--radius-lg);
+
+  background: linear-gradient(
+    135deg,
+    rgba(90, 143, 100, 0.22),
+    rgba(90, 143, 100, 0.10)
+  );
+
+  border: 1.5px solid rgba(90, 143, 100, 0.55);
+
+  color: var(--sage);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+
+  box-shadow:
+    0 10px 30px rgba(90, 143, 100, 0.18),
+    0 0 0 4px rgba(90, 143, 100, 0.08);
+
+  position: relative;
+  overflow: hidden;
+
+  /* stays visible (no fade-out animation) */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Strong left accent bar */
+.success-box::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--sage);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+/* Icon */
+.success-box::after {
+  content: "✔";
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--sage);
+  margin-right: var(--sp-1);
+}
+
+/* Subtle attention pulse (keeps it noticeable longer) */
+.success-box {
+  animation: successPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+  0% {
+    box-shadow:
+      0 10px 30px rgba(90, 143, 100, 0.18),
+      0 0 0 4px rgba(90, 143, 100, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 14px 38px rgba(90, 143, 100, 0.25),
+      0 0 0 6px rgba(90, 143, 100, 0.14);
+  }
+  100% {
+    box-shadow:
+      0 10px 30px rgba(90, 143, 100, 0.18),
+      0 0 0 4px rgba(90, 143, 100, 0.08);
+  }
+}
 @media (max-width: 480px) {
   .form-row--3 { grid-template-columns: 1fr !important; }
 }
