@@ -17,6 +17,7 @@ type Strength  = 'weak' | 'fair' | 'strong' | '';
 export class LoginComponent {
 
   activeTab: Tab = 'login';
+  showSuccess=false
 
   // ── Login ──
   loginForm = {
@@ -47,16 +48,36 @@ export class LoginComponent {
 
   private returnUrl: string = '/';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
-    }
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+constructor(
+  private authService: AuthService,
+  private router: Router,
+  private route: ActivatedRoute
+) {
+  if (this.authService.isLoggedIn()) {
+    this.router.navigate(['/']);
   }
+  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+  const tab = this.route.snapshot.queryParams['tab'];
+  if (tab === 'register') {
+    this.activeTab = 'register';
+  }
+}
+
+  private resetRegisterForm(): void {
+  this.registerForm = {
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    city: '',
+    avatar: ''
+  };
+
+  this.passwordStrength = '';
+  this.showSuccess = false;
+}
 
   // ── Tabs ──
   setTab(tab: Tab): void {
@@ -64,6 +85,11 @@ export class LoginComponent {
     this.loginError      = '';
     this.registerError   = '';
     this.registerSuccess = '';
+
+    if (tab === 'login') {
+      this.resetRegisterForm();
+    }
+    
   }
 
   // ── Login ──
@@ -105,13 +131,35 @@ export class LoginComponent {
     }, 800);
   }
 
+  onAvatarSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+
+  if (!input.files || input.files.length === 0) return;
+
+  const file = input.files[0];
+
+  if (!file.type.startsWith('image/')) {
+    this.registerError = 'Изберете валидна слика.';
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    this.registerForm.avatar = reader.result as string; // base64
+  };
+
+  reader.readAsDataURL(file);
+}
+
   // ── Register ──
   onRegister(): void {
+    this.showSuccess = false;
     this.registerError   = '';
     this.registerSuccess = '';
 
     if (!this.registerForm.fullName.trim()) {
-      this.registerError = 'Внесете ime и презиме.'; return;
+      this.registerError = 'Внесете име и презиме.'; return;
     }
     if (!this.isValidEmail(this.registerForm.email)) {
       this.registerError = 'Внесете валиден email.'; return;
@@ -138,9 +186,11 @@ export class LoginComponent {
       this.registerLoading = false;
 
       if (result.success) {
-        this.registerSuccess = result.message;
-        setTimeout(() => this.router.navigateByUrl(this.returnUrl), 1200);
+        this.showSuccess = true;
+
+      
       } else {
+        this.showSuccess = false;
         this.registerError = result.message;
       }
     }, 800);
@@ -181,5 +231,13 @@ export class LoginComponent {
     if (this.passwordStrength === 'fair')   return 'Средна';
     if (this.passwordStrength === 'strong') return 'Силна';
     return '';
+  }
+
+  goToLogin() {
+    this.showSuccess = false; 
+    this.activeTab='login'
+    this.router.navigate(['/login']);
+    this.resetRegisterForm();
+    
   }
 }

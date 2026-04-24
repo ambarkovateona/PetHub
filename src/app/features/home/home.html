@@ -18,8 +18,7 @@
           <em class="hero__title-em">почнува овде</em>
         </h1>
         <p class="hero__sub">
-          Посвојување, грижа, продавница и помош за изгубени миленичиња —
-          сè на едно место за вас и вашиот четириножен пријател.
+          Сè што ти треба за твоето милениче на едно место, од грижа и секојдневни потреби до посвојување и помош при пронаоѓање изгубени миленичиња за помалку грижи и повеќе време со твоето милениче.
         </p>
         <div class="hero__actions">
           <a class="btn btn-primary btn-lg hero__btn-primary" routerLink="/adoption">
@@ -104,7 +103,6 @@
       <div class="stats__item">
         <span class="stats__value">{{ reunitedCount }}+</span>
         <span class="stats__label">Успешно поврзани</span>
-
       </div>
       <div class="stats__divider" aria-hidden="true"></div>
       <div class="stats__item">
@@ -128,12 +126,33 @@
           Сè што ви треба за <em>вашето милениче</em>
         </h2>
         <p class="section-sub">
-          Четири модули, дизајнирани да го направат животот со вашиот милениче полесен.
+          Четири модули, дизајнирани да го направат животот со вашето милениче полесен.
         </p>
       </div>
 
       <div class="features__grid">
-        <a class="feature-card anim-fade-up delay-1" routerLink="/adoption">
+        <a class="feature-card anim-fade-up delay-1" routerLink="/pet-care">
+          <div class="feature-card__icon feature-card__icon--sage">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+            </svg>
+          </div>
+          <div class="feature-card__body">
+            <h3 class="feature-card__title">Грижа за милениче</h3>
+            <p class="feature-card__desc">Следете активности, тежина и поставувајте потсетници за грижата.</p>
+          </div>
+          <div class="feature-card__footer">
+            <span class="feature-card__link">
+              Разгледај
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
+            <span class="feature-card__count">Мојот профил</span>
+          </div>
+        </a>
+
+        <a class="feature-card anim-fade-up delay-2" routerLink="/adoption">
           <div class="feature-card__icon feature-card__icon--accent">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -155,15 +174,16 @@
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-2" routerLink="/pet-care">
-          <div class="feature-card__icon feature-card__icon--sage">
+        <a class="feature-card anim-fade-up delay-3" routerLink="/lost-found">
+          <div class="feature-card__icon feature-card__icon--muted">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
             </svg>
           </div>
           <div class="feature-card__body">
-            <h3 class="feature-card__title">Грижа за милениче</h3>
-            <p class="feature-card__desc">Следете активности, тежина и поставувајте потсетници за грижата.</p>
+            <h3 class="feature-card__title">Изгубено &amp; Најдено</h3>
+            <p class="feature-card__desc">Пријавете изгубено или помогнете во пронаоѓањето на миленичиња.</p>
           </div>
           <div class="feature-card__footer">
             <span class="feature-card__link">
@@ -172,11 +192,11 @@
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </span>
-            <span class="feature-card__count">Мојот профил</span>
+            <span class="feature-card__count">{{ lostCount }} активни</span>
           </div>
         </a>
 
-        <a class="feature-card anim-fade-up delay-3" routerLink="/shop">
+        <a class="feature-card anim-fade-up delay-4" routerLink="/shop">
           <div class="feature-card__icon feature-card__icon--gold">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -196,28 +216,6 @@
               </svg>
             </span>
             <span class="feature-card__count">{{ totalProducts }} производи</span>
-          </div>
-        </a>
-
-        <a class="feature-card anim-fade-up delay-4" routerLink="/lost-found">
-          <div class="feature-card__icon feature-card__icon--muted">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="M21 21l-4.35-4.35"/>
-            </svg>
-          </div>
-          <div class="feature-card__body">
-            <h3 class="feature-card__title">Изгубено &amp; Најдено</h3>
-            <p class="feature-card__desc">Пријавете изгубено или помогнете во пронаоѓањето на миленичиња.</p>
-          </div>
-          <div class="feature-card__footer">
-            <span class="feature-card__link">
-              Разгледај
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </span>
-            <span class="feature-card__count">{{ lostCount }} активни</span>
           </div>
         </a>
       </div>
@@ -295,7 +293,6 @@
   <!-- TESTIMONIALS -->
   <section class="testimonials section" aria-labelledby="testimonials-title">
     <div class="section-inner container">
-
       <div class="testimonials__header">
         <p class="section-eyebrow">Искуства</p>
         <h2 class="section-heading" id="testimonials-title">
@@ -332,7 +329,7 @@
               <div class="testimonial-card__avatar testimonial-card__avatar--sage" aria-hidden="true">Т</div>
               <div>
                 <p class="testimonial-card__name">Теона Амбаркова</p>
-                <p class="testimonial-card__role">Пронашла изгубен мачор · Велец</p>
+                <p class="testimonial-card__role">Пронашла изгубен мачор · Велес</p>
               </div>
             </div>
           </div>
@@ -363,31 +360,23 @@
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
           </button>
-
           <div class="testimonials__dots" role="tablist">
             <button class="testimonials__dot"
                     [class.testimonials__dot--active]="activeTestimonial === 0"
-                    (click)="setTestimonial(0)"
-                    role="tab"
+                    (click)="setTestimonial(0)" role="tab"
                     [attr.aria-selected]="activeTestimonial === 0"
-                    aria-label="Рецензија 1">
-            </button>
+                    aria-label="Рецензија 1"></button>
             <button class="testimonials__dot"
                     [class.testimonials__dot--active]="activeTestimonial === 1"
-                    (click)="setTestimonial(1)"
-                    role="tab"
+                    (click)="setTestimonial(1)" role="tab"
                     [attr.aria-selected]="activeTestimonial === 1"
-                    aria-label="Рецензија 2">
-            </button>
+                    aria-label="Рецензија 2"></button>
             <button class="testimonials__dot"
                     [class.testimonials__dot--active]="activeTestimonial === 2"
-                    (click)="setTestimonial(2)"
-                    role="tab"
+                    (click)="setTestimonial(2)" role="tab"
                     [attr.aria-selected]="activeTestimonial === 2"
-                    aria-label="Рецензија 3">
-            </button>
+                    aria-label="Рецензија 3"></button>
           </div>
-
           <button class="testimonials__btn"
                   (click)="nextTestimonial()"
                   [disabled]="activeTestimonial === 2"
@@ -404,7 +393,6 @@
   <!-- CTA -->
   <section class="cta section" aria-labelledby="cta-title">
     <div class="cta__inner container">
-
       <div class="cta__card cta__card--lost">
         <div class="cta__card-content">
           <div class="cta__icon" aria-hidden="true">
@@ -447,14 +435,12 @@
           </svg>
         </a>
       </div>
-
     </div>
   </section>
 
   <!-- FAQ -->
   <section class="faq section" aria-labelledby="faq-title">
     <div class="section-inner container">
-
       <div class="faq__header">
         <p class="section-eyebrow">Прашања и одговори</p>
         <h2 class="section-heading" id="faq-title">
@@ -467,152 +453,152 @@
 
       <div class="faq__grid">
 
-        <div class="faq__item anim-fade-up delay-1"
-             [class.faq__item--open]="openFaq === 0"
-             (click)="toggleFaq(0)">
-          <div class="faq__question">
-            <div class="faq__question-inner">
-              <div class="faq__question-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                  <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-              </div>
-              <span>Како функционира посвојувањето?</span>
-            </div>
-            <div class="faq__toggle" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="faq__answer">
-            <p>Разгледајте ги достапните миленичиња, изберете го она кое ви се допаѓа и поднесете апликација. Сопственикот ќе ве контактира во рок од 1–2 работни дена за да договорите запознавање.</p>
-          </div>
+  <div class="faq__item anim-fade-up delay-1"
+       [class.faq__item--open]="openFaqs.has(0)"
+       (click)="toggleFaq(0)">
+    <div class="faq__question">
+      <div class="faq__question-inner">
+        <div class="faq__question-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
         </div>
-
-        <div class="faq__item anim-fade-up delay-2"
-             [class.faq__item--open]="openFaq === 1"
-             (click)="toggleFaq(1)">
-          <div class="faq__question">
-            <div class="faq__question-inner">
-              <div class="faq__question-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
-                </svg>
-              </div>
-              <span>Дали треба профил за да аплицирам?</span>
-            </div>
-            <div class="faq__toggle" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="faq__answer">
-            <p>За посвојување и разгледување огласи не е потребен профил. Меѓутоа, за да ги следите вашите миленичиња преку Pet Care модулот, потребна е бесплатна регистрација.</p>
-          </div>
-        </div>
-
-        <div class="faq__item anim-fade-up delay-3"
-             [class.faq__item--open]="openFaq === 2"
-             (click)="toggleFaq(2)">
-          <div class="faq__question">
-            <div class="faq__question-inner">
-              <div class="faq__question-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="8" r="7"/>
-                  <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-                </svg>
-              </div>
-              <span>Што се PawPoints и kako ги користам?</span>
-            </div>
-            <div class="faq__toggle" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="faq__answer">
-            <p>PawPoints се награди поени кои ги заработувате при секоја нарачка во продавницата. Секои 100 поени = 50 ден попуст на следната нарачка. Поените се акумулираат и немаат рок на важност.</p>
-          </div>
-        </div>
-
-        <div class="faq__item anim-fade-up delay-4"
-             [class.faq__item--open]="openFaq === 3"
-             (click)="toggleFaq(3)">
-          <div class="faq__question">
-            <div class="faq__question-inner">
-              <div class="faq__question-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="m21 21-4.35-4.35"/>
-                </svg>
-              </div>
-              <span>Kako да пријавам изгубено милениче?</span>
-            </div>
-            <div class="faq__toggle" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="faq__answer">
-            <p>Одете на „Изгубено &amp; Најдено" и кликнете „Додај оглас". Внесете детален опис, слика и контакт информации. Огласот веднаш станува видлив за сите корисници во вашиот град.</p>
-          </div>
-        </div>
-
-        <div class="faq__item anim-fade-up delay-5"
-             [class.faq__item--open]="openFaq === 4"
-             (click)="toggleFaq(4)">
-          <div class="faq__question">
-            <div class="faq__question-inner">
-              <div class="faq__question-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-                </svg>
-              </div>
-              <span>Можам ли да го следам здравјето на моето милениче?</span>
-            </div>
-            <div class="faq__toggle" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="faq__answer">
-            <p>Да! Преку Pet Care модулот можете да ги следите активностите, тежината и да поставувате потсетници за вакцинации и ветеринарни прегледи на вашето милениче.</p>
-          </div>
-        </div>
-
-        <div class="faq__item anim-fade-up delay-6"
-             [class.faq__item--open]="openFaq === 5"
-             (click)="toggleFaq(5)">
-          <div class="faq__question">
-            <div class="faq__question-inner">
-              <div class="faq__question-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                  <circle cx="8.5" cy="7" r="4"/>
-                  <line x1="20" y1="8" x2="20" y2="14"/>
-                  <line x1="23" y1="11" x2="17" y2="11"/>
-                </svg>
-              </div>
-              <span>Kako да се регистрирам?</span>
-            </div>
-            <div class="faq__toggle" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="faq__answer">
-            <p>Кликнете на „Регистрирај се" во горниот десен агол. Внесете вашето име, email и лозинка — тоа е сè! Регистрацијата е целосно бесплатна и трае помалку од 1 минута.</p>
-          </div>
-        </div>
-
+        <span>Како функционира посвојувањето?</span>
       </div>
+      <div class="faq__toggle" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+    <div class="faq__answer">
+      <p>Разгледајте ги достапните миленичиња, изберете го она кое ви се допаѓа и поднесете апликација. Сопственикот ќе ве контактира во рок од 1–2 работни дена за да договорите запознавање.</p>
+    </div>
+  </div>
+
+  <div class="faq__item anim-fade-up delay-2"
+       [class.faq__item--open]="openFaqs.has(1)"
+       (click)="toggleFaq(1)">
+    <div class="faq__question">
+      <div class="faq__question-inner">
+        <div class="faq__question-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <span>Дали треба профил за да аплицирам?</span>
+      </div>
+      <div class="faq__toggle" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+    <div class="faq__answer">
+      <p>За посвојување и разгледување огласи не е потребен профил. Меѓутоа, за да ги следите вашите миленичиња преку Pet Care модулот, потребна е бесплатна регистрација.</p>
+    </div>
+  </div>
+
+  <div class="faq__item anim-fade-up delay-3"
+       [class.faq__item--open]="openFaqs.has(2)"
+       (click)="toggleFaq(2)">
+    <div class="faq__question">
+      <div class="faq__question-inner">
+        <div class="faq__question-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="7"/>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+          </svg>
+        </div>
+        <span>Што се PawPoints и kako ги користам?</span>
+      </div>
+      <div class="faq__toggle" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+    <div class="faq__answer">
+      <p>PawPoints се награди поени кои ги заработувате при секоја нарачка во продавницата. Секои 100 поени = 50 ден попуст на следната нарачка. Поените се акумулираат и немаат рок на важност.</p>
+    </div>
+  </div>
+
+  <div class="faq__item anim-fade-up delay-4"
+       [class.faq__item--open]="openFaqs.has(3)"
+       (click)="toggleFaq(3)">
+    <div class="faq__question">
+      <div class="faq__question-inner">
+        <div class="faq__question-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </div>
+        <span>Kako да пријавам изгубено милениче?</span>
+      </div>
+      <div class="faq__toggle" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+    <div class="faq__answer">
+      <p>Одете на „Изгубено &amp; Најдено" и кликнете „Додај оглас". Внесете детален опис, слика и контакт информации. Огласот веднаш станува видлив за сите корисници во вашиот град.</p>
+    </div>
+  </div>
+
+  <div class="faq__item anim-fade-up delay-5"
+       [class.faq__item--open]="openFaqs.has(4)"
+       (click)="toggleFaq(4)">
+    <div class="faq__question">
+      <div class="faq__question-inner">
+        <div class="faq__question-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </div>
+        <span>Можам ли да го следам здравјето на моето милениче?</span>
+      </div>
+      <div class="faq__toggle" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+    <div class="faq__answer">
+      <p>Да! Преку Pet Care модулот можете да ги следите активностите, тежината и да поставувате потсетници за вакцинации и ветеринарни прегледи на вашето милениче.</p>
+    </div>
+  </div>
+
+  <div class="faq__item anim-fade-up delay-6"
+       [class.faq__item--open]="openFaqs.has(5)"
+       (click)="toggleFaq(5)">
+    <div class="faq__question">
+      <div class="faq__question-inner">
+        <div class="faq__question-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="8.5" cy="7" r="4"/>
+            <line x1="20" y1="8" x2="20" y2="14"/>
+            <line x1="23" y1="11" x2="17" y2="11"/>
+          </svg>
+        </div>
+        <span>Kako да се регистрирам?</span>
+      </div>
+      <div class="faq__toggle" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+    <div class="faq__answer">
+      <p>Кликнете на „Регистрирај се" во горниот десен агол. Внесете вашето ime, email и лозинка и тоа е сè! Регистрацијата е целосно бесплатна и трае помалку од 1 минута.</p>
+    </div>
+  </div>
+
+</div>
 
       <div class="faq__footer">
         <p>Немате одговор на вашето прашање?</p>
@@ -628,32 +614,5 @@
 
     </div>
   </section>
-
-  <!-- FOOTER -->
-  <footer class="footer" role="contentinfo">
-    <div class="footer__inner container">
-      <div class="footer__brand">
-        <div class="footer__logo">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="currentColor" opacity="0.15"/>
-            <circle cx="9" cy="7" r="2" fill="currentColor"/>
-            <circle cx="15" cy="7" r="2" fill="currentColor"/>
-            <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
-            <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
-            <path d="M12 22c2.5 0 4.5-2 4.5-4.5C16.5 15 14.5 13 12 13s-4.5 2-4.5 4.5C7.5 20 9.5 22 12 22z" fill="currentColor"/>
-          </svg>
-          <span>PetHub</span>
-        </div>
-        <p class="footer__tagline">Направено со грижа за миленичињата и нивните сопственици.</p>
-      </div>
-      <nav class="footer__nav" aria-label="Footer навигација">
-        <a routerLink="/adoption">Посвојување</a>
-        <a routerLink="/pet-care">Грижа</a>
-        <a routerLink="/shop">Продавница</a>
-        <a routerLink="/lost-found">Изгубено &amp; Најдено</a>
-      </nav>
-      <p class="footer__copy">© 2025 PetHub. Сите права задржани.</p>
-    </div>
-  </footer>
 
 </div>

@@ -418,6 +418,80 @@
 .auth-back svg { transition: transform var(--duration-fast) var(--ease-out); }
 .auth-back:hover svg { transform: translateX(-3px); }
 
+
+.success-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.success-card {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 0.4s ease;
+}
+
+.icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: #4CAF50;
+  color: white;
+  font-size: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px;
+}
+
+.success-card h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.success-card p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.success-card button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.success-card button:hover {
+  background: #43a047;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ── Responsive ── */
 @media (max-width: 520px) {
   .auth-page { padding: var(--sp-5) var(--sp-4); align-items: flex-start; }

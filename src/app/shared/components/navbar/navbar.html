@@ -28,28 +28,28 @@
     <!-- DESKTOP NAV -->
     <div class="navbar__nav" role="menubar">
       <a class="navbar__link"
-         routerLink="/adoption"
-         routerLinkActive="navbar__link--active"
-         role="menuitem">
-        Посвојување
-      </a>
-      <a class="navbar__link"
          routerLink="/pet-care"
          routerLinkActive="navbar__link--active"
          role="menuitem">
         Грижа
       </a>
       <a class="navbar__link"
-         routerLink="/shop"
+         routerLink="/adoption"
          routerLinkActive="navbar__link--active"
          role="menuitem">
-        Продавница
+        Посвојување
       </a>
       <a class="navbar__link"
          routerLink="/lost-found"
          routerLinkActive="navbar__link--active"
          role="menuitem">
         Изгубено &amp; Најдено
+      </a>
+      <a class="navbar__link"
+         routerLink="/shop"
+         routerLinkActive="navbar__link--active"
+         role="menuitem">
+        Продавница
       </a>
     </div>
 
@@ -103,8 +103,14 @@
 
       <!-- Ne logiran -->
       <ng-container *ngIf="!authService.isLoggedIn()">
-        <a class="btn btn-ghost btn-sm" routerLink="/login">Најава</a>
-        <a class="btn btn-primary btn-sm navbar__cta" routerLink="/login">
+        <a class="btn btn-ghost btn-sm"
+           routerLink="/login"
+           [queryParams]="{tab: 'login'}">
+          Најава
+        </a>
+        <a class="btn btn-primary btn-sm navbar__cta"
+           routerLink="/login"
+           [queryParams]="{tab: 'register'}">
           Регистрирај се
         </a>
       </ng-container>
@@ -134,15 +140,6 @@
 
     <div class="navbar__mobile-links">
       <a class="navbar__mobile-link"
-         routerLink="/adoption"
-         routerLinkActive="navbar__mobile-link--active"
-         (click)="closeMenu()" role="menuitem">
-        <span class="navbar__mobile-link-label">Посвојување</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
-      <a class="navbar__mobile-link"
          routerLink="/pet-care"
          routerLinkActive="navbar__mobile-link--active"
          (click)="closeMenu()" role="menuitem">
@@ -152,10 +149,10 @@
         </svg>
       </a>
       <a class="navbar__mobile-link"
-         routerLink="/shop"
+         routerLink="/adoption"
          routerLinkActive="navbar__mobile-link--active"
          (click)="closeMenu()" role="menuitem">
-        <span class="navbar__mobile-link-label">Продавница</span>
+        <span class="navbar__mobile-link-label">Посвојување</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
@@ -165,6 +162,15 @@
          routerLinkActive="navbar__mobile-link--active"
          (click)="closeMenu()" role="menuitem">
         <span class="navbar__mobile-link-label">Изгубено &amp; Најдено</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a class="navbar__mobile-link"
+         routerLink="/shop"
+         routerLinkActive="navbar__mobile-link--active"
+         (click)="closeMenu()" role="menuitem">
+        <span class="navbar__mobile-link-label">Продавница</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
@@ -200,8 +206,18 @@
       </a>
 
       <ng-container *ngIf="!authService.isLoggedIn()">
-        <a class="btn btn-secondary btn-sm" routerLink="/login" (click)="closeMenu()">Најава</a>
-        <a class="btn btn-primary btn-sm" routerLink="/login" (click)="closeMenu()">Регистрирај се</a>
+        <a class="btn btn-secondary btn-sm"
+           routerLink="/login"
+           [queryParams]="{tab: 'login'}"
+           (click)="closeMenu()">
+          Најава
+        </a>
+        <a class="btn btn-primary btn-sm"
+           routerLink="/login"
+           [queryParams]="{tab: 'register'}"
+           (click)="closeMenu()">
+          Регистрирај се
+        </a>
       </ng-container>
 
       <button class="btn btn-ghost btn-sm navbar__logout"

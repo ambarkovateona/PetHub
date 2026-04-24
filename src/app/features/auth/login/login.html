@@ -79,7 +79,7 @@
               <input class="form-input auth-input"
                      id="login-email"
                      type="email"
-                     placeholder="vasa@email.com"
+                     placeholder="korisnik@email.com"
                      [(ngModel)]="loginForm.email"
                      name="login-email"
                      autocomplete="email"/>
@@ -96,7 +96,7 @@
               <input class="form-input auth-input"
                      id="login-pass"
                      [type]="showLoginPass ? 'text' : 'password'"
-                     placeholder="Минимум 6 карактери"
+                     
                      [(ngModel)]="loginForm.password"
                      name="login-pass"
                      autocomplete="current-password"/>
@@ -216,7 +216,7 @@
               <input class="form-input auth-input"
                      id="reg-email"
                      type="email"
-                     placeholder="vasa@email.com"
+                     placeholder="korisnik@email.com"
                      [(ngModel)]="registerForm.email"
                      name="reg-email"
                      autocomplete="email"/>
@@ -374,9 +374,9 @@
                 </svg>
                 <input class="form-input auth-input"
                        id="reg-avatar"
-                       type="url"
-                       placeholder="https://..."
-                       [(ngModel)]="registerForm.avatar"
+                       type="file"
+                       accept="image/*"
+                      (change)="onAvatarSelected($event)"
                        name="reg-avatar"/>
               </div>
               <div class="auth-avatar-preview" *ngIf="registerForm.avatar">
@@ -413,6 +413,26 @@
       </div>
 
     </div>
+
+  <div class="success-container" *ngIf="showSuccess">
+  <div class="success-card">
+    
+    <div class="icon-wrapper">
+      ✓
+    </div>
+
+    <h2>Успешна регистрација!</h2>
+
+    <p>
+      Твојот профил е креиран успешно. Сега можеш да се најавиш и да започнеш.
+    </p>
+
+    <button (click)="goToLogin()">
+      Најави се
+    </button>
+
+  </div>
+  </div>
 
     <a class="auth-back" routerLink="/" aria-label="Врати се на почетна">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
