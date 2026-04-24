@@ -1,59 +1,86 @@
-# Pethub
+# PetHub
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+PetHub is a full-stack-ready Angular web application for pet care management, built with modern Angular 17+ standalone architecture and server-side rendering support.
 
-## Development server
+---
 
-To start a local development server, run:
+## Tech Stack
+
+- **Angular 17+** — Standalone components, SSR enabled
+- **TypeScript** — Strict typing throughout
+- **Tailwind CSS** — Utility-first styling
+- **RxJS** — Reactive state management with BehaviorSubject
+- **Google Fonts** — Inter (sans-serif) + Lora (display)
+
+---
+
+## Routes
+
+| Route | Component | Protected |
+|-------|-----------|-----------|
+| `/` | HomeComponent | — |
+| `/login` | LoginComponent | — |
+| `/adoption` | AdoptionListComponent | — |
+| `/adoption/add` | AddAdoptionPetComponent | — |
+| `/adoption/:id` | AdoptionDetailsComponent | — |
+| `/adoption/:id/apply` | AdoptionApplyComponent | — |
+| `/favorites` | FavoritesComponent | — |
+| `/pet-care` | PetDashboardComponent | Auth |
+| `/pet-care/profile/add` | PetProfileComponent | Auth |
+| `/pet-care/profile/:id` | PetProfileComponent | Auth |
+| `/pet-care/activities/:id` | PetActivitiesComponent | Auth |
+| `/pet-care/reminders/:id` | PetRemindersComponent | Auth |
+| `/shop` | ShopListComponent | — |
+| `/shop/cart` | CartComponent | — |
+| `/shop/:id` | ShopDetailsComponent | — |
+| `/lost-found` | LostFoundListComponent | — |
+| `/lost-found/add` | LostFoundFormComponent | — |
+
+---
+
+## Features
+
+### Adoption
+Browse available pets with filtering by type, gender, city and health status. Submit adoption applications and save favourites. Authenticated users can list pets for adoption.
+
+### Pet Care
+Protected module for managing personal pet profiles. Track activities, weight history and set reminders for vaccinations and vet appointments.
+
+### Shop
+Product catalogue with smart recommendations based on the user's pet profile. Cart management with real-time badge updates via RxJS BehaviorSubject. PawPoints loyalty system — points earned on every purchase, redeemable for discounts.
+
+### Lost & Found
+Community board for reporting lost or found pets. Three listing statuses: Lost, Found, Successfully Reunited. Listings are filterable by status, pet type and city.
+
+### Authentication
+Local authentication with localStorage persistence. Route protection via `CanActivateFn` guard. After login, users are redirected back to the originally requested route.
+
+---
+
+## Design System
+
+A warm, modern light theme with consistent CSS custom properties across all components.
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--accent` | `#C96442` | Primary actions, links |
+| `--gold` | `#C8902A` | PawPoints, rewards |
+| `--sage` | `#5A8F64` | Health, success states |
+| `--bg-base` | `#FAFAF8` | Page background |
+| `--font-display` | Lora | Headings |
+| `--font-sans` | Inter | Body, UI |
+
+---
+
+## Development
 
 ```bash
+# Start development server
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+# Production build
 ng build
+
+# Generate a new component
+ng generate component features/component-name
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

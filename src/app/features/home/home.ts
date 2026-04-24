@@ -20,7 +20,10 @@ export class HomeComponent implements OnInit {
   reunitedCount: number = 0;
   totalProducts: number = 0;
   lostCount:     number = 0;
-  openFaq:       number | null = null;
+
+  openFaqs = new Set<number>();
+
+  activeTestimonial = 0;
 
   constructor(
     private adoptionService:  AdoptionService,
@@ -37,21 +40,23 @@ export class HomeComponent implements OnInit {
   }
 
   toggleFaq(index: number): void {
-    this.openFaq = this.openFaq === index ? null : index;
+    if (this.openFaqs.has(index)) {
+      this.openFaqs.delete(index);
+    } else {
+      this.openFaqs.add(index);
+    }
   }
 
-  activeTestimonial = 0;
+  nextTestimonial(): void {
+    if (this.activeTestimonial < 2) this.activeTestimonial++;
+  }
 
-nextTestimonial(): void {
-  if (this.activeTestimonial < 2) this.activeTestimonial++;
-}
+  prevTestimonial(): void {
+    if (this.activeTestimonial > 0) this.activeTestimonial--;
+  }
 
-prevTestimonial(): void {
-  if (this.activeTestimonial > 0) this.activeTestimonial--;
-}
-
-setTestimonial(index: number): void {
-  this.activeTestimonial = index;
-}
+  setTestimonial(index: number): void {
+    this.activeTestimonial = index;
+  }
 
 }

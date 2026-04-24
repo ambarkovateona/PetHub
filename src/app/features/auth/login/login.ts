@@ -47,16 +47,21 @@ export class LoginComponent {
 
   private returnUrl: string = '/';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
-    }
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+constructor(
+  private authService: AuthService,
+  private router: Router,
+  private route: ActivatedRoute
+) {
+  if (this.authService.isLoggedIn()) {
+    this.router.navigate(['/']);
   }
+  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+  const tab = this.route.snapshot.queryParams['tab'];
+  if (tab === 'register') {
+    this.activeTab = 'register';
+  }
+}
 
   // ── Tabs ──
   setTab(tab: Tab): void {
